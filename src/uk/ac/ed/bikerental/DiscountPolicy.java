@@ -14,16 +14,18 @@ public class DiscountPolicy implements PricingPolicy {
 
     @Override
     public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
-
+        this.dailyRentalPrice.put(bikeType, dailyPrice);
     }
 
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
         BigDecimal totalPrice = new BigDecimal("0");
         for (Bike bike : bikes) {
-
+            BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
+            totalPrice.add(bikeTypeDailyRentalPrice);
         }
 
+        
         return null;
     }
 }
