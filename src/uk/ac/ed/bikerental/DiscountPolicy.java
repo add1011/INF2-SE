@@ -1,6 +1,7 @@
 package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,13 +20,35 @@ public class DiscountPolicy implements PricingPolicy {
 
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
-        BigDecimal totalPrice = new BigDecimal("0");
+        BigDecimal totalPrice = new BigDecimal(0);
         for (Bike bike : bikes) {
             BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
-            totalPrice.add(bikeTypeDailyRentalPrice);
+            totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
         }
 
-        
-        return null;
+        LocalDate start = duration.getStart();
+        LocalDate end = duration.getEnd();
+
+        Integer startDay = start.getDayOfYear();
+        Integer endDay = end.getDayOfYear();
+
+        Integer rentalLength;
+        if (startDay > endDay) {
+            rentalLength = endDay - startDay + 365;
+        } else {
+            rentalLength = endDay - startDay;
+        }
+
+        if (rentalLength > 0 && rentalLength <= 2) {
+            totalPrice = totalPrice.multiply(new BigDecimal(1));
+        } else if (rentalLength > 2 && rentalLength <= 6) {
+            totalPrice = totalPrice.multiply(new BigDecimal(0.95));
+        } else if (rentalLength > 6 && rentalLength <= 13) {
+            totalPrice = totalPrice.multiply(new BigDecimal(0.9));
+        } else if (rentalLength > 13) {
+            totalPrice = totalPrice.multiply(new BigDecimal(0.85));
+        }
+
+        return totalPrice;
     }
 }
