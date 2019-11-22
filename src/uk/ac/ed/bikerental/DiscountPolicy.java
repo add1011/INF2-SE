@@ -13,6 +13,10 @@ public class DiscountPolicy implements PricingPolicy {
         this.dailyRentalPrice = new HashMap<>();
     }
 
+    public Map<BikeType, BigDecimal> getDailyRentalPrice() {
+        return dailyRentalPrice;
+    }
+
     @Override
     public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
         this.dailyRentalPrice.put(bikeType, dailyPrice);
@@ -29,10 +33,10 @@ public class DiscountPolicy implements PricingPolicy {
         LocalDate start = duration.getStart();
         LocalDate end = duration.getEnd();
 
-        Integer startDay = start.getDayOfYear();
-        Integer endDay = end.getDayOfYear();
+        int startDay = start.getDayOfYear();
+        int endDay = end.getDayOfYear();
 
-        Integer rentalLength;
+        int rentalLength;
         if (startDay > endDay) {
             rentalLength = endDay - startDay + 365;
         } else {

@@ -6,17 +6,15 @@ import java.time.LocalDate;
 public class Quote {
     // initialize attributes
     private Bike[] bikes;
-    private LocalDate pickupDate;
-    private LocalDate returnDate;
+    private DateRange selectedDates;
     private Location providerLocation;
     private BigDecimal totalPrice;
     private BigDecimal totalDeposit;
 
-    public Quote(Bike[] bikes, LocalDate pickupDate, LocalDate returnDate,
+    public Quote(Bike[] bikes, DateRange selectedDates,
                  Location providerLocation) {
         this.bikes = bikes;
-        this.pickupDate = pickupDate;
-        this.returnDate = returnDate;
+        this.selectedDates = selectedDates;
         this.providerLocation = providerLocation;
         this.totalPrice = new BigDecimal("0");
         this.totalDeposit = new BigDecimal("0");
@@ -32,7 +30,7 @@ public class Quote {
         return null;
     }
 
-    // getters and setters
+    // Getters and Setters
     public Bike[] getBikes() {
         return bikes;
     }
@@ -41,21 +39,9 @@ public class Quote {
         this.bikes = bikes;
     }
 
-    public LocalDate getPickupDate() {
-        return pickupDate;
-    }
+    public DateRange getSelectedDates() { return selectedDates; }
 
-    public void setPickupDate(LocalDate pickupDate) {
-        this.pickupDate = pickupDate;
-    }
-
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
-    }
+    public void setSelectedDates(DateRange selectedDates) { this.selectedDates = selectedDates; }
 
     public Location getProviderLocation() {
         return providerLocation;
