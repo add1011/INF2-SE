@@ -22,6 +22,16 @@ public class DiscountPolicy implements PricingPolicy {
         this.dailyRentalPrice.put(bikeType, dailyPrice);
     }
 
+    private int calculateRentalLength(int startDay , int endDay){
+        int rentalLength;
+            if (startDay > endDay) {
+                rentalLength = endDay - startDay + 365;
+            } else {
+                rentalLength = endDay - startDay;
+            }
+            return rentalLength;
+        }
+
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
         BigDecimal totalPrice = new BigDecimal(0);
@@ -36,12 +46,7 @@ public class DiscountPolicy implements PricingPolicy {
         int startDay = start.getDayOfYear();
         int endDay = end.getDayOfYear();
 
-        int rentalLength;
-        if (startDay > endDay) {
-            rentalLength = endDay - startDay + 365;
-        } else {
-            rentalLength = endDay - startDay;
-        }
+        int rentalLength = calculateRentalLength(startDay, endDay);
 
         if (rentalLength > 0 && rentalLength <= 2) {
             totalPrice = totalPrice.multiply(new BigDecimal(1));

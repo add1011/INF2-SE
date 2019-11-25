@@ -7,6 +7,11 @@ public class BikeType {
     private String typeName;
     private BigDecimal replacementValue;
 
+    public BikeType(String typeName, BigDecimal replacementValue){
+        this.typeName= typeName;
+        this.replacementValue = replacementValue;
+    }
+
     public String getTypeName() {
         return typeName;
     }
