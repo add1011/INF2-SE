@@ -17,21 +17,20 @@ import java.util.Collection;
 @DisplayName("Testing Discount Policy Class")
 class TestDiscountPolicy {
     private DiscountPolicy discount1 = new DiscountPolicy();
-    //private DiscountPolicy discount2 = new DiscountPolicy();
-    private Collection<Bike> bikes = new ArrayList<>();
+    private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
 
     @DisplayName("Sets up daily rental prices for each DiscountPolicy object")
     @BeforeEach
     void setup() throws Exception{
+        // Instantiate bikeType and Bike objects to use to test
         BikeType bikeType1 = new BikeType("Mountain Bike", new BigDecimal(205.4));
         BikeType bikeType2 = new BikeType("Tricycle", new BigDecimal(33.3));
         BikeType bikeType3 = new BikeType("BMX", new BigDecimal(79));
-        BikeType bikeType4 = new BikeType("City Bike", new BigDecimal(112));
 
         Bike bike1 = new Bike(
                 new BigDecimal(50) , //Deposit Amount
                 new Location("EH8123", "South Street"), //Location
-                new Integer(1), //ProviderID
+                1, //ProviderID
                 new ArrayList<DateRange>(), //BookedDates
                 bikeType1
         );
@@ -39,7 +38,7 @@ class TestDiscountPolicy {
         Bike bike2 = new Bike(
                 new BigDecimal(10) ,
                 new Location("EH8123", "South Street"),
-                new Integer(1),
+                1,
                 new ArrayList<DateRange>(),
                 bikeType2
         );
@@ -47,41 +46,37 @@ class TestDiscountPolicy {
         Bike bike3 = new Bike(
                 new BigDecimal(22) ,
                 new Location("EH6456", "North Street"),
-                new Integer(1),
+                1,
                 new ArrayList<DateRange>(),
                 bikeType3
         );
         Bike bike4 = new Bike(
                 new BigDecimal(30) ,
                 new Location("EH3987", "West End"),
-                new Integer(1),
+                1,
                 new ArrayList<DateRange>(),
-                bikeType4
+                bikeType3
         );
 
+        // Add new Bike objects to bikes
         bikes.add(bike1);
         bikes.add(bike2);
         bikes.add(bike3);
         bikes.add(bike4);
 
-        //Setting up custom daily rental prices for each DiscountPolicy object
+        //Setting up custom daily rental prices for each bikeType
         BigDecimal dailyPrice1= new BigDecimal(40.0);
         BigDecimal dailyPrice2= new BigDecimal(3);
         BigDecimal dailyPrice3= new BigDecimal(15);
-        BigDecimal dailyPrice4= new BigDecimal(22);
 
         discount1.setDailyRentalPrice(bikeType1, dailyPrice1);
         discount1.setDailyRentalPrice(bikeType2, dailyPrice2);
         discount1.setDailyRentalPrice(bikeType3, dailyPrice3);
-
-        //discount2.setDailyRentalPrice(bikeType1, dailyPrice1);
-        //discount2.setDailyRentalPrice(bikeType2, dailyPrice2);
-        //discount2.setDailyRentalPrice(bikeType3, dailyPrice3);
-        //discount2.setDailyRentalPrice(bikeType4, dailyPrice4);
     }
 
     @Test
     void testCalculatePrice(){
+        // set date ranges to use to test
         DateRange duration1 = new DateRange(LocalDate.of(2019,3,2),
                 LocalDate.of(2019,3,3  )); //1-2 days
 
@@ -98,33 +93,28 @@ class TestDiscountPolicy {
                 LocalDate.of(2020,1,3  )); //dateRange wraps round year
 
 
-        //System.out.println(totalPrice1);
-
-        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration1));
-        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration2));
-        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration3));
-        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration4));
-
-        BigDecimal expectedPrice1 = new BigDecimal((40.0+3+15)*1);
+        // Set expected and actual outputs
+        BigDecimal expectedPrice1 = new BigDecimal((40.0+3+15+15)*1);
         expectedPrice1 = expectedPrice1.setScale(2, RoundingMode.HALF_UP);
         BigDecimal actualPrice1 = discount1.calculatePrice(bikes, duration1);
 
-        BigDecimal expectedPrice2 = new BigDecimal((40.0+3+15)*0.95);
+        BigDecimal expectedPrice2 = new BigDecimal((40.0+3+15+15)*0.95);
         expectedPrice2 = expectedPrice2.setScale(2, RoundingMode.HALF_UP);
         BigDecimal actualPrice2 = discount1.calculatePrice(bikes, duration2);
 
-        BigDecimal expectedPrice3 = new BigDecimal((40.0+3+15)*0.9);
+        BigDecimal expectedPrice3 = new BigDecimal((40.0+3+15+15)*0.9);
         expectedPrice3 = expectedPrice3.setScale(2, RoundingMode.HALF_UP);
         BigDecimal actualPrice3 = discount1.calculatePrice(bikes, duration3);
 
-        BigDecimal expectedPrice4 = new BigDecimal((40.0+3+15)*0.85);
+        BigDecimal expectedPrice4 = new BigDecimal((40.0+3+15+15)*0.85);
         expectedPrice4 = expectedPrice4.setScale(2, RoundingMode.HALF_UP);
         BigDecimal actualPrice4 = discount1.calculatePrice(bikes, duration4);
 
-        BigDecimal expectedPrice5 = new BigDecimal((40.0+3+15)*0.95);
+        BigDecimal expectedPrice5 = new BigDecimal((40.0+3+15+15)*0.95);
         expectedPrice5 = expectedPrice5.setScale(2, RoundingMode.HALF_UP);
         BigDecimal actualPrice5 = discount1.calculatePrice(bikes, duration5);
 
+        // test outputs against each other
         assertEquals(expectedPrice1, actualPrice1);
         assertEquals(expectedPrice2, actualPrice2);
         assertEquals(expectedPrice3, actualPrice3);
