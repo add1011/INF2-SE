@@ -34,10 +34,13 @@ public class DiscountPolicy implements PricingPolicy {
 
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
+
         BigDecimal totalPrice = new BigDecimal(0);
         for (Bike bike : bikes) {
-            BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
-            totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
+            if(dailyRentalPrice.containsKey(bike.getType() ) ) {
+                BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
+                totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
+            }
         }
 
         LocalDate start = duration.getStart();
