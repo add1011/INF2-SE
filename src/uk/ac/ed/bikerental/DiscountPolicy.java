@@ -1,6 +1,7 @@
 package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,15 +12,6 @@ public class DiscountPolicy implements PricingPolicy {
 
     public DiscountPolicy() {
         this.dailyRentalPrice = new HashMap<>();
-    }
-
-    public Map<BikeType, BigDecimal> getDailyRentalPrice() {
-        return dailyRentalPrice;
-    }
-
-    @Override
-    public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
-        this.dailyRentalPrice.put(bikeType, dailyPrice);
     }
 
     private int calculateRentalLength(int startDay , int endDay){
@@ -51,6 +43,7 @@ public class DiscountPolicy implements PricingPolicy {
 
         int rentalLength = calculateRentalLength(startDay, endDay);
 
+        assert(rentalLength > 0);
         if (rentalLength > 0 && rentalLength <= 2) {
             totalPrice = totalPrice.multiply(new BigDecimal(1));
         } else if (rentalLength > 2 && rentalLength <= 6) {
@@ -60,6 +53,17 @@ public class DiscountPolicy implements PricingPolicy {
         } else if (rentalLength > 13) {
             totalPrice = totalPrice.multiply(new BigDecimal(0.85));
         }
+        totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP);
         return totalPrice;
+    }
+
+    // getters and setters
+    public Map<BikeType, BigDecimal> getDailyRentalPrice() {
+        return dailyRentalPrice;
+    }
+
+    @Override
+    public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
+        this.dailyRentalPrice.put(bikeType, dailyPrice);
     }
 }

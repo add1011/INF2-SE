@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 public class Provider {
+    private DiscountPolicy pricingPolicy;
     private int providerID;
     private String providerName;
     private Location shopLocation;
@@ -13,6 +14,7 @@ public class Provider {
 
     public Provider(int providerID, String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
                     BigDecimal depositRate, Collection<Provider> partners) {
+        this.pricingPolicy = new DiscountPolicy();
         this.providerID = providerID;
         this.providerName = providerName;
         this.shopLocation = shopLocation;
