@@ -9,19 +9,20 @@ public class Bike {
     private Location bikeLocation;
     private Integer ProviderID;
     private ArrayList<DateRange> bookedDates;
+    private BikeType type;
 
     // constructor is temporary and likely will have to be changed
-    public Bike(BigDecimal depositAmount, Location bikeLocation, Integer providerID, ArrayList<DateRange> bookedDates) {
+    public Bike(BigDecimal depositAmount, Location bikeLocation, Integer providerID, ArrayList<DateRange> bookedDates, BikeType type) {
         this.depositAmount = depositAmount;
         this.bikeLocation = bikeLocation;
         ProviderID = providerID;
         this.bookedDates = bookedDates;
+        this.type = type;
     }
 
     public BikeType getType() {
+        return type;
 
-
-        return null;
     }
 
     // getters and setters
