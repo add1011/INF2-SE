@@ -60,7 +60,6 @@ public class DiscountPolicy implements PricingPolicy {
         } else if (rentalLength > 13) {
             totalPrice = totalPrice.multiply(new BigDecimal(0.85));
         }
-
         return totalPrice;
     }
 }

@@ -105,9 +105,11 @@ class TestDiscountPolicy {
     private BigDecimal setTotalPrice(@NotNull Collection<Bike> bikes, DiscountPolicy discount) {
         BigDecimal totalPrice = new BigDecimal(0);
         for (Bike bike : bikes) {
-            BigDecimal bikeTypeDailyRentalPrice = discount.getDailyRentalPrice().get(bike.getType());
-            System.out.println(bikeTypeDailyRentalPrice);
-            totalPrice= totalPrice.add(bikeTypeDailyRentalPrice);
+            if(discount.getDailyRentalPrice().containsKey(bike.getType())) {
+                BigDecimal bikeTypeDailyRentalPrice = discount.getDailyRentalPrice().get(bike.getType());
+                totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
+            }
+
         }
         return totalPrice;
     }
@@ -138,15 +140,16 @@ class TestDiscountPolicy {
         totalPrice2 = totalPrice2.add(setTotalPrice(bikes, discount2));
 
 
-        totalPrice1.multiply(discount1.calculatePrice(bikes, duration1));
-        totalPrice1.multiply(discount1.calculatePrice(bikes, duration2));
-        totalPrice1.multiply(discount1.calculatePrice(bikes, duration3));
-        totalPrice1.multiply(discount1.calculatePrice(bikes, duration4));
+        totalPrice1 =  totalPrice1.multiply(discount1.calculatePrice(bikes, duration1));
+        totalPrice1 =  totalPrice1.multiply(discount1.calculatePrice(bikes, duration2));
 
-        totalPrice2.multiply(discount2.calculatePrice(bikes, duration1));
-        totalPrice2.multiply(discount2.calculatePrice(bikes, duration2));
-        totalPrice2.multiply(discount2.calculatePrice(bikes, duration3));
-        totalPrice2.multiply(discount2.calculatePrice(bikes, duration4));
+
+        System.out.println(totalPrice1);
+
+        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration1));
+        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration2));
+        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration3));
+        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration4));
 
 
         assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(1) ) );
