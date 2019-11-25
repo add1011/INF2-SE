@@ -1,6 +1,6 @@
 package uk.ac.ed.bikerental;
 
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ import java.util.Collection;
 @DisplayName("Testing Discount Policy Class")
 class TestDiscountPolicy {
     private DiscountPolicy discount1 = new DiscountPolicy();
-    private DiscountPolicy discount2 = new DiscountPolicy();
+    //private DiscountPolicy discount2 = new DiscountPolicy();
 
     private BigDecimal totalDailyPrice = new BigDecimal(0);
     private Collection<Bike> bikes = new ArrayList<>();
@@ -83,38 +83,24 @@ class TestDiscountPolicy {
 
 
         discount1.setDailyRentalPrice(bikeType1, dailyPrice1);
-        discount1.setDailyRentalPrice(bikeType1, dailyPrice2);
-        discount1.setDailyRentalPrice(bikeType1, dailyPrice3);
+        discount1.setDailyRentalPrice(bikeType2, dailyPrice2);
+        discount1.setDailyRentalPrice(bikeType3, dailyPrice3);
 
-        discount2.setDailyRentalPrice(bikeType1, dailyPrice1);
-        discount2.setDailyRentalPrice(bikeType2, dailyPrice2);
-        discount2.setDailyRentalPrice(bikeType3, dailyPrice3);
-        discount2.setDailyRentalPrice(bikeType4, dailyPrice4);
+        //discount2.setDailyRentalPrice(bikeType1, dailyPrice1);
+        //discount2.setDailyRentalPrice(bikeType2, dailyPrice2);
+        //discount2.setDailyRentalPrice(bikeType3, dailyPrice3);
+        //discount2.setDailyRentalPrice(bikeType4, dailyPrice4);
 
 
 
-        totalDailyPrice.add(dailyPrice1);
-        totalDailyPrice.add(dailyPrice2);
-        totalDailyPrice.add(dailyPrice3);
-        totalDailyPrice.add(dailyPrice4);
+        totalDailyPrice = totalDailyPrice.add(dailyPrice1);
+        totalDailyPrice = totalDailyPrice.add(dailyPrice2);
+        totalDailyPrice = totalDailyPrice.add(dailyPrice3);
+        //totalDailyPrice = totalDailyPrice.add(dailyPrice4);
 
 
 
     }
-
-    private BigDecimal setTotalPrice(@NotNull Collection<Bike> bikes, DiscountPolicy discount) {
-        BigDecimal totalPrice = new BigDecimal(0);
-        for (Bike bike : bikes) {
-            if(discount.getDailyRentalPrice().containsKey(bike.getType())) {
-                BigDecimal bikeTypeDailyRentalPrice = discount.getDailyRentalPrice().get(bike.getType());
-                totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
-            }
-
-        }
-        return totalPrice;
-    }
-
-
 
     @Test
     void testCalculatePrice(){
@@ -133,41 +119,25 @@ class TestDiscountPolicy {
                 LocalDate.of(2019,3,3  )); //0 days
 
 
-        BigDecimal totalPrice1 = new BigDecimal(0);
-        BigDecimal totalPrice2 = new BigDecimal(0);
+        //System.out.println(totalPrice1);
 
-        totalPrice1 = totalPrice1.add(setTotalPrice(bikes, discount1));
-        totalPrice2 = totalPrice2.add(setTotalPrice(bikes, discount2));
+        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration1));
+        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration2));
+        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration3));
+        //totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration4));
 
+        BigDecimal expectedPrice1 = new BigDecimal((40.0+3+15)*1);
+        BigDecimal actualPrice1 = discount1.calculatePrice(bikes, duration1);
 
-        totalPrice1 =  totalPrice1.multiply(discount1.calculatePrice(bikes, duration1));
-        totalPrice1 =  totalPrice1.multiply(discount1.calculatePrice(bikes, duration2));
-
-
-        System.out.println(totalPrice1);
-
-        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration1));
-        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration2));
-        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration3));
-        totalPrice2 =  totalPrice2.multiply(discount2.calculatePrice(bikes, duration4));
-
-
-        assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(1) ) );
-        assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(0.95) ) );
-        assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(0.90) ) );
+        assertEquals(expectedPrice1, actualPrice1);
+        //assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(0.95) ) );
+        /**assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(0.90) ) );
         assertEquals(totalPrice1,totalDailyPrice.multiply(new BigDecimal(0.85) ) );
 
         assertEquals(totalPrice2,totalDailyPrice.multiply(new BigDecimal(1) ) );
         assertEquals(totalPrice2,totalDailyPrice.multiply(new BigDecimal(0.95) ) );
         assertEquals(totalPrice2,totalDailyPrice.multiply(new BigDecimal(0.90) ) );
         assertEquals(totalPrice2,totalDailyPrice.multiply(new BigDecimal(0.85) ) );
-
-
-
-
-
-
+         **/
     }
-
-
 }
