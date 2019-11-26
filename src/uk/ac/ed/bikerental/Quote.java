@@ -38,6 +38,10 @@ public class Quote {
     }
 
     // Getters and Setters
+    public Provider getProvider() { return provider; }
+
+    public void setProvider(Provider provider) { this.provider = provider; }
+
     public Collection<Bike> getBikes() {
         return bikes;
     }

@@ -1,21 +1,37 @@
 package uk.ac.ed.bikerental;
 
 public class Booking {
+    private Customer customer;
     private int orderNumber;
     private collectionMethod pickupMethod;
-    private String bikesStatus;
+    private bikeStatuses bikesStatus;
     private Boolean isPaid;
     private Quote order;
 
-    public Booking(int orderNumber, collectionMethod pickupMethod, String bikesStatus, Boolean isPaid, Quote order) {
+    // constructors //
+    public Booking(int orderNumber, collectionMethod pickupMethod, Quote order) {
         this.orderNumber = orderNumber;
         this.pickupMethod = pickupMethod;
-        this.bikesStatus = bikesStatus;
-        this.isPaid = isPaid;
+        this.bikesStatus = bikeStatuses.withProvider;
+        this.isPaid = false;
         this.order = order;
     }
 
-    // Getters and Setters
+    // methods //
+    public void checkout() {
+        System.out.println("Customer checking out and paying.");
+        this.isPaid = true;
+    }
+
+    public void sendBookingInfo() {
+        System.out.println("Booking Information sent to Customer's phone number: " + this.getCustomer().getPhoneNumber());
+    }
+
+    // Getters and Setters //
+    public Customer getCustomer() {
+        return customer;
+    }
+
     public int getOrderNumber() {
         return orderNumber;
     }
@@ -32,11 +48,11 @@ public class Booking {
         this.pickupMethod = pickupMethod;
     }
 
-    public String getBikesStatus() {
+    public bikeStatuses getBikesStatus() {
         return bikesStatus;
     }
 
-    public void setBikesStatus(String bikesStatus) {
+    public void setBikesStatus(bikeStatuses bikesStatus) {
         this.bikesStatus = bikesStatus;
     }
 
@@ -54,14 +70,5 @@ public class Booking {
 
     public void setOrder(Quote order) {
         this.order = order;
-    }
-
-    public void checkout() {
-        System.out.println("Customer checking out and paying.");
-        this.isPaid = true;
-    }
-
-    public void sendBookingInfo(Customer customer) {
-        System.out.println("Booking Information sent to Customer's phone number: " + customer.getPhoneNumber());
     }
 }
