@@ -22,8 +22,8 @@ public class Provider {
         this.partners = new ArrayList<>();
     }
 
-    public Bike addBike(ArrayList<DateRange> bookedDates, BikeType type) {
-        return new Bike(this, this.getShopLocation(), bookedDates, type);
+    public Bike addBike(BikeType type) {
+        return new Bike(this, this.getShopLocation(), type);
     }
 
     public void addPartner(Provider partner) {

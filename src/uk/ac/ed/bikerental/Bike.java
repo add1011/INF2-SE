@@ -22,11 +22,10 @@ public class Bike {
     }
 
     // actual Bike constructor
-    public Bike(Provider provider, Location bikeLocation,
-                ArrayList<DateRange> bookedDates, BikeType type) {
+    public Bike(Provider provider, Location bikeLocation, BikeType type) {
         this.provider = provider;
         this.bikeLocation = bikeLocation;
-        this.bookedDates = bookedDates;
+        this.bookedDates = new ArrayList<>();
         this.type = type;
         calcDepositAmount();
     }
