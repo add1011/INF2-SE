@@ -32,7 +32,6 @@ public class Booking {
     public void sendBookingInfo() {
         if(isPaid){
             System.out.println("Booking Information sent to "+ customer.getFirstName()+"'s phone number: " + this.getCustomer().getPhoneNumber());
-            customer.addOrderNumber();
         }
     }
 
