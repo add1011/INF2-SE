@@ -21,24 +21,13 @@ public class Location {
 
 
     /**
-     *Check that the two locations are near each other if the first two digits of the two postcodes
-     * including the characters before them are equal
+     *Check that the two locations are near each other
+     * if the first two characters of the two postcode are equal
      * @param other the location to check the stated condition
-     * @return True if the first two digits from the postcodes are equal. Return False otherwise
+     * @return True if the first two characters from the postcodes are equal. Return False otherwise
      */
     public boolean isNearTo(Location other) {
-        int indexOfFirstDigit = 0;
-        for(int i =0 ; i< postcode.length() ; i++){
-           Character currentCharacter = postcode.substring(i,i+1).charAt(0);
-            if (Character.isDigit(currentCharacter) ) {
-                indexOfFirstDigit = i;
-                break;
-            }
-        }
-
-       String postcodeFirstTwoDigits = postcode.substring(0, indexOfFirstDigit+2);
-       String otherPostcodeFirstTwoDigits = other.getPostcode().substring(0, indexOfFirstDigit+2);
-       return postcodeFirstTwoDigits.equals(otherPostcodeFirstTwoDigits);
+       return postcode.substring(0,2).equals( other.getPostcode().substring(0,2) );
     }
 
     /**
