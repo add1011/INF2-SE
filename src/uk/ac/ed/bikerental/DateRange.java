@@ -60,12 +60,7 @@ public class DateRange {
         if (other.getEnd().equals(start) || other.getStart().equals(end)){
             return true;
         }
-        else if(start.compareTo(other.getEnd()) < 0 && other.getStart().compareTo(end) <0 ){
-            return true;
-        }
-        else{
-            return false;
-        }
+        else return start.compareTo(other.getEnd()) < 0 && other.getStart().compareTo(end) < 0;
     }
 
     /**

@@ -1,7 +1,7 @@
 package uk.ac.ed.bikerental;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 
@@ -25,9 +25,9 @@ public class BookingSystem {
      * Helper function for getQuotes() -> returns providers in that location
      * In case we have more providers in the same location, return an array of providers
      */
-    private ArrayList<Provider> providerInLocation(Location location){
-        ArrayList matchingProviders = new ArrayList<>();
-        for (Provider prov:listOfExistingProviders){
+    private List<Provider> providerInLocation(Location location){
+        List<Provider> matchingProviders = new ArrayList<>();
+        for (Provider prov : listOfExistingProviders){
             if (prov.getShopLocation().isNearTo(location)){
                 matchingProviders.add(prov);
             }
@@ -35,17 +35,16 @@ public class BookingSystem {
         return matchingProviders;
     }
 
-    public ArrayList<Quote> getQuotes(Map<BikeType,Integer> noOfTypes, DateRange selectedDates, Location location){
-       ArrayList<Provider> matchingProviders = providerInLocation(location);
+    public List<Quote> getQuotes(Map<BikeType,Integer> noOfTypes, DateRange selectedDates, Location location){
+       List<Provider> matchingProviders = providerInLocation(location);
        return null;
     }
 
-    public bookQuote(Quote quote, collectionMethod collectMethod,
+    public Booking bookQuote(Quote quote, collectionMethod collectMethod,
                      String firstName, String surName, String address,
-                     String postcode, int phoneNumber ){
+                     String postcode, int phoneNumber ) {
         Customer customer = new Customer(firstName,surName,address,postcode,phoneNumber);
-        Booking newBooking = new Booking()
-
+        return null;
     }
 
 
