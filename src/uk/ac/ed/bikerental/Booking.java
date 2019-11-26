@@ -15,15 +15,6 @@ public class Booking {
         this.order = order;
     }
 
-    public void checkout() {
-        System.out.println("Customer checking out and paying.");
-        this.isPaid = true;
-    }
-
-    public void sendBookingInfo() {
-        System.out.println("Booking Information send to Customer");
-    }
-
     // Getters and Setters
     public int getOrderNumber() {
         return orderNumber;
@@ -63,5 +54,14 @@ public class Booking {
 
     public void setOrder(Quote order) {
         this.order = order;
+    }
+
+    public void checkout() {
+        System.out.println("Customer checking out and paying.");
+        this.isPaid = true;
+    }
+
+    public void sendBookingInfo(Customer customer) {
+        System.out.println("Booking Information sent to Customer's phone number: " + customer.getPhoneNumber());
     }
 }
