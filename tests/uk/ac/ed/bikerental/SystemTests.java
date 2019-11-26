@@ -27,22 +27,22 @@ public class SystemTests {
             new BigDecimal(0.8));
     private Provider providerB = new Provider("The Bike Station", EdinburghB, new BigDecimal(34.7),
             new BigDecimal(1.1));
-    private Provider providerC = new Provider("Date Bike Place", GlasgowA, new BigDecimal(12.50),
+    private Provider providerC = new Provider("Dat Bike Place", GlasgowA, new BigDecimal(12.50),
             new BigDecimal(1));
 
-    Bike bikeA1 = providerA.addBike(mountainBike);
-    Bike bikeA2 = providerA.addBike(mountainBike);
-    Bike bikeA3 = providerA.addBike(Tricycle);
-    Bike bikeA4 = providerA.addBike(roadBike);
+    private Bike bikeA1 = providerA.addBike(mountainBike);
+    private Bike bikeA2 = providerA.addBike(mountainBike);
+    private Bike bikeA3 = providerA.addBike(Tricycle);
+    private Bike bikeA4 = providerA.addBike(roadBike);
 
-    Bike bikeB1 = providerB.addBike(mountainBike);
-    Bike bikeB2 = providerB.addBike(BMX);
-    Bike bikeB3 = providerB.addBike(roadBike);
+    private Bike bikeB1 = providerB.addBike(mountainBike);
+    private Bike bikeB2 = providerB.addBike(BMX);
+    private Bike bikeB3 = providerB.addBike(roadBike);
 
-    Bike bikeC1 = providerC.addBike(Tricycle);
-    Bike bikeC2 = providerC.addBike(Tricycle);
-    Bike bikeC3 = providerC.addBike(roadBike);
-    Bike bikeC4 = providerC.addBike(roadBike);
+    private Bike bikeC1 = providerC.addBike(Tricycle);
+    private Bike bikeC2 = providerC.addBike(Tricycle);
+    private Bike bikeC3 = providerC.addBike(roadBike);
+    private Bike bikeC4 = providerC.addBike(roadBike);
 
 
     @BeforeEach
@@ -70,7 +70,7 @@ public class SystemTests {
         // book bikes with providerA
         bikeA1.book(new DateRange(LocalDate.of(2019,3,2),
                 LocalDate.of(2019,3,6  )));
-        bikeA1.book(new DateRange(LocalDate.of(2019,3,10),
+        bikeA1.book(new DateRange(LocalDate.of(2019,3,11),
                 LocalDate.of(2019,3,12  )));
 
         bikeA2.book(new DateRange(LocalDate.of(2019,3,5),
@@ -115,27 +115,63 @@ public class SystemTests {
                 LocalDate.of(2019,12,6  )));
         bikeC4.book(new DateRange(LocalDate.of(2019,12,10),
                 LocalDate.of(2019,12,12  )));
-
     }
     
     // TODO: Write system tests covering the three main use cases
     // use case: finding quotes
     @Test
     void findQuotesTest1() {
-        Map<String, Integer> noOfeachType = new HashMap<>();
+        Map<BikeType, Integer> noOfeachType = new HashMap<>();
+        noOfeachType.put(Tricycle, 2);
+        DateRange dates = new DateRange(LocalDate.of(2019,12,25),
+            LocalDate.of(2019,12,25  ));
+        Location area = new Location("G588YE", "Downy Street");
 
+        List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
 
-        Collection<Bike> outputBikes = new ArrayList<>();
-        Collection<Quote> expectedOutput = new ArrayList<>();
-        DateRange outputDates = new DateRange(LocalDate.of(2019,3,8),
-                LocalDate.of(2019,3,9));
+        List<Bike> expectedBikes = new ArrayList<>();
+        expectedBikes.add(bikeC1);
+        expectedBikes.add(bikeC2);
 
-        expectedOutput.add(new Quote(providerA, outputBikes, outputDates, EdinburghA));
+        List<Quote> expectedOutput = new ArrayList<>();
+        expectedOutput.add(new Quote(providerC, expectedBikes,
+                new DateRange(LocalDate.of(2019,12,26),
+                        LocalDate.of(2019,12,26  )), GlasgowA));
+        expectedOutput.add(new Quote(providerC, expectedBikes,
+                new DateRange(LocalDate.of(2019,12,27),
+                        LocalDate.of(2019,12,27  )), GlasgowA));
+        expectedOutput.add(new Quote(providerC, expectedBikes,
+                new DateRange(LocalDate.of(2019,12,28),
+                        LocalDate.of(2019,12,28  )), GlasgowA));
+        expectedOutput.add(new Quote(providerC, expectedBikes,
+                new DateRange(LocalDate.of(2019,12,24),
+                        LocalDate.of(2019,12,24  )), GlasgowA));
+        expectedOutput.add(new Quote(providerC, expectedBikes,
+                new DateRange(LocalDate.of(2019,12,23),
+                        LocalDate.of(2019,12,23  )), GlasgowA));
+        expectedOutput.add(new Quote(providerC, expectedBikes,
+                new DateRange(LocalDate.of(2019,12,22),
+                        LocalDate.of(2019,12,22  )), GlasgowA));
 
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    void findQuotes2() {
+        Map<BikeType, Integer> noOfeachType = new HashMap<>();
+        noOfeachType.put(mountainBike, 1);
+        noOfeachType.put(roadBike, 1);
         DateRange dates = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,8  ));
-        Location area = new Location("EH69 8YE", "Downy Street");
-        Collection<Quote> actualOutput = new BookingSystem(noOfeachType, dates, area);
+                LocalDate.of(2019,3,10  ));
+        Location area = new Location("EH6942", "Earth");
+
+        List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
+
+        List<Bike> expectedBikes = new ArrayList<>();
+        expectedBikes.add(bikeA1);
+        expectedBikes.add(bikeA4);
+
+        List<Quote> expectedOutput = new ArrayList<>();
+        expectedOutput.add(new Quote(providerA, expectedBikes, dates, EdinburghA));
 
         assertEquals(expectedOutput, actualOutput);
     }

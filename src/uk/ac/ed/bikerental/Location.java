@@ -14,11 +14,10 @@ public class Location {
      * @param address String value that specifies the street address of the location
      */
     public Location(String postcode, String address) {
-        assert postcode.length() >= 6;
+        assert postcode.length() <= 6;
         this.postcode = postcode;
         this.address = address;
     }
-
 
     /**
      *Check that the two locations are near each other if the first two digits of the two postcodes are equal
