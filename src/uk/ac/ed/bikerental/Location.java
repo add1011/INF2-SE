@@ -9,17 +9,10 @@ public class Location {
         this.postcode = postcode;
         this.address = address;
     }
-    
+    //Assuming that a location is near to another if the first two digits are equal
     public boolean isNearTo(Location other) {
-        int startingDigitIndex= 0;
-       for (int i =0; i< postcode.length(); i++){
-           if ( postcode.substring(i,i+1).contains("0123456789") ){
-               startingDigitIndex = i;
-               break;
-           }
-       }
-       String postcodeFirstTwoDigits = postcode.substring(startingDigitIndex, startingDigitIndex +2);
-       String otherPostcodeFirstTwoDigits = other.getPostcode().substring(startingDigitIndex, startingDigitIndex +2);
+       String postcodeFirstTwoDigits = postcode.substring(2,4);
+       String otherPostcodeFirstTwoDigits = other.getPostcode().substring(2,4);
        return postcodeFirstTwoDigits.equals(otherPostcodeFirstTwoDigits);
     }
 
