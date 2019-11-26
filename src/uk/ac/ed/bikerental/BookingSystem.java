@@ -64,14 +64,17 @@ public class BookingSystem {
            List<Bike> bikesFromOneProvider = (provider.getBikes());
            for(Bike bike: bikesFromOneProvider){
                List<DateRange> dates = bike.getBookedDates();
-               if(noOfTypes.containsKey(bike.getType())) {
-                   int numberofTypesNeeded = noOfTypes.get(bike.getType());
+               if(noOfTypes.containsKey(bike.getType()) && noOfTypes.get(bike.getType()) != 0) {
                    for (DateRange date : dates) {
-                       int count= 0;
                        if (!(date.overlaps(selectedDates))){
-                           count++;
+                           Integer amountNeeded = noOfTypes.get(bike.getType());
+                           noOfTypes.put(bike.getType(), amountNeeded-1);
+                       } else if (trySurroundingDates()){
+                           Integer amountNeeded = noOfTypes.get(bike.getType());
+                           noOfTypes.put(bike.getType(), amountNeeded-1);
+                       } else {
+                           bikesFromOneProvider.remove(bike);
                        }
-                       if(count>=numberofTypesNeeded) break;
                    }
                }
            }
