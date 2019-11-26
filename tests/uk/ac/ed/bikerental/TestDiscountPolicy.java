@@ -148,6 +148,5 @@ class TestDiscountPolicy {
 
             discount.calculatePrice(bikes, duration);
         });
-
     }
 }
