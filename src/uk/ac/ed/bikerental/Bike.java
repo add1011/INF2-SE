@@ -65,8 +65,4 @@ public class Bike {
     public ArrayList<DateRange> getBookedDates() {
         return bookedDates;
     }
-
-    public void setBookedDates(ArrayList<DateRange> bookedDates) {
-        this.bookedDates = bookedDates;
-    }
 }
