@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Provider {
     private List<Booking> bookings = new ArrayList<>();
+    private List<Bike> bikes = new ArrayList<>();
     private DiscountPolicy pricingPolicy;
     private String providerName;
     private Location shopLocation;
@@ -26,7 +27,9 @@ public class Provider {
 
     // methods //
     public Bike addBike(BikeType type) {
-        return new Bike(this, this.getShopLocation(), type);
+        Bike bike = new Bike(this, this.getShopLocation(), type);
+        this.bikes.add(bike);
+        return bike;
     }
 
     // adds the partners to each other's partners attribute
