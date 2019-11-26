@@ -2,10 +2,11 @@ package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class DiscountPolicy implements PricingPolicy {
     private Map<BikeType, BigDecimal> dailyRentalPrice;
@@ -14,19 +15,8 @@ public class DiscountPolicy implements PricingPolicy {
         this.dailyRentalPrice = new HashMap<>();
     }
 
-    private int calculateRentalLength(int startDay , int endDay){
-        int rentalLength;
-            if (startDay > endDay) {
-                rentalLength = endDay - startDay + 365;
-            } else {
-                rentalLength = endDay - startDay;
-            }
-            return rentalLength;
-        }
-
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
-
         BigDecimal totalPrice = new BigDecimal(0);
         for (Bike bike : bikes) {
             if(dailyRentalPrice.containsKey(bike.getType() ) ) {
@@ -35,16 +25,10 @@ public class DiscountPolicy implements PricingPolicy {
             }
         }
 
-        LocalDate start = duration.getStart();
-        LocalDate end = duration.getEnd();
-
-        int startDay = start.getDayOfYear();
-        int endDay = end.getDayOfYear();
-
-        int rentalLength = calculateRentalLength(startDay, endDay);
+        int rentalLength = (int) DAYS.between(duration.getStart(), duration.getEnd());
 
         if (rentalLength < 1 ) {
-            throw new IllegalArgumentException("Rental length should be greater than 0!");
+            throw new IllegalArgumentException("You can only rent a bike forward in time...");
         }
 
         if (rentalLength > 0 && rentalLength <= 2) {
