@@ -1,5 +1,8 @@
 package uk.ac.ed.bikerental;
 
+import com.sun.xml.internal.ws.server.sei.EndpointResponseMessageBuilder;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +54,27 @@ public class BookingSystem {
         return orderNumberTrack;
     }
 
+    private List<Bike> areBikesAvailable(Map<BikeType, Integer> wantedAmount, DateRange wantedDates, Provider provider) {
+        List<Bike> bikes = provider.getBikes();
+        List<Bike> availableBikes = new ArrayList<>();
+        for (Bike bike : bikes) {
+            for (DateRange bookedDate : bike.getBookedDates()) {
+                if (wantedAmount.containsKey(bike.getType()) && wantedAmount.get(bike.getType()) != 0
+                        && !bookedDate.overlaps(wantedDates)) {
+                    Integer amountNeeded = wantedAmount.get(bike.getType());
+                    wantedAmount.put(bike.getType(), amountNeeded-1);
+                    availableBikes.add(bike);
+                }
+            }
+        }
+        for (Map.Entry<BikeType, Integer> entry : wantedAmount.entrySet()) {
+            if (entry.getValue() != 0) {
+                return null;
+            }
+        }
+        return availableBikes;
+    }
+
     /*
      * noOfTypes denotes how much of each bikeType does the customer need
      * as they might require 2 bikes of a particular BikeType
@@ -61,8 +85,11 @@ public class BookingSystem {
 
        //adds bikes that are available on the selected dates from the matching provides to the list bikesFromProviders
        for (Provider provider : matchingProviders){
-           List<Bike> bikesFromOneProvider = (provider.getBikes());
-           for(Bike bike: bikesFromOneProvider){
+           List<Bike> availableBikes = areBikesAvailable(noOfTypes, selectedDates, provider);
+           if (availableBikes != null) {
+               quotes.add(new Quote(provider,availableBikes,selectedDates, location));
+           }
+           /**for(Bike bike: bikesFromOneProvider){
                List<DateRange> dates = bike.getBookedDates();
                if(noOfTypes.containsKey(bike.getType()) && noOfTypes.get(bike.getType()) != 0) {
                    for (DateRange date : dates) {
@@ -78,7 +105,7 @@ public class BookingSystem {
                    }
                }
            }
-           quotes.add(new Quote(provider,bikesFromOneProvider,selectedDates, location));
+           quotes.add(new Quote(provider,bikesFromOneProvider,selectedDates, location));**/
        }
        return quotes;
     }
