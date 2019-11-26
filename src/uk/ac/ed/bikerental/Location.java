@@ -21,7 +21,8 @@ public class Location {
 
 
     /**
-     *Check that the two locations are near each other if the first two digits of the two postcodes are equal
+     *Check that the two locations are near each other if the first two digits of the two postcodes
+     * including the characters before them are equal
      * @param other the location to check the stated condition
      * @return True if the first two digits from the postcodes are equal. Return False otherwise
      */
@@ -35,8 +36,8 @@ public class Location {
             }
         }
 
-       String postcodeFirstTwoDigits = postcode.substring(indexOfFirstDigit, indexOfFirstDigit+2);
-       String otherPostcodeFirstTwoDigits = other.getPostcode().substring(indexOfFirstDigit, indexOfFirstDigit+2);
+       String postcodeFirstTwoDigits = postcode.substring(0, indexOfFirstDigit+2);
+       String otherPostcodeFirstTwoDigits = other.getPostcode().substring(0, indexOfFirstDigit+2);
        return postcodeFirstTwoDigits.equals(otherPostcodeFirstTwoDigits);
     }
 

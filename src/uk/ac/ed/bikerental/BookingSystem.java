@@ -35,7 +35,7 @@ public class BookingSystem {
         return matchingProviders;
     }
 
-    public Collection<Quote> getQuotes(Map<BikeType,Integer> noOfTypes, DateRange selectedDates, Location location){
+    public ArrayList<Quote> getQuotes(Map<BikeType,Integer> noOfTypes, DateRange selectedDates, Location location){
        ArrayList<Provider> matchingProviders = providerInLocation(location);
        return null;
     }
@@ -44,6 +44,7 @@ public class BookingSystem {
                      String firstName, String surName, String address,
                      String postcode, int phoneNumber ){
         Customer customer = new Customer(firstName,surName,address,postcode,phoneNumber);
+        Booking newBooking = new Booking()
 
     }
 
