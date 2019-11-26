@@ -13,13 +13,13 @@ public class Provider {
     private Collection<Provider> partners;
 
     public Provider(String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
-                    BigDecimal depositRate, Collection<Provider> partners) {
+                    BigDecimal depositRate) {
         this.pricingPolicy = new DiscountPolicy();
         this.providerName = providerName;
         this.shopLocation = shopLocation;
         this.dailyRentalPrice = dailyRentalPrice;
         this.depositRate = depositRate;
-        this.partners = partners;
+        this.partners = new ArrayList<>();
     }
 
     public Bike addBike(BigDecimal depositAmount, Location bikeLocation, Integer providerID,
@@ -27,6 +27,10 @@ public class Provider {
         return new Bike(this, bikeLocation, bookedDates, type);
     }
 
+    public void addPartner(Provider partner) {
+        this.setPartner(partner);
+        partner.setPartner(this);
+    }
     // Getters and Setters
     public DiscountPolicy getPricingPolicy() { return pricingPolicy; }
 
@@ -68,8 +72,8 @@ public class Provider {
         return partners;
     }
 
-    public void setPartners(Collection<Provider> partners) {
-        this.partners = partners;
+    public void setPartner(Provider partner) {
+        this.partners.add(partner);
     }
 
     public Boolean compareLocation(Location location) {
