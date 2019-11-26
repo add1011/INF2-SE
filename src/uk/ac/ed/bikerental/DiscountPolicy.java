@@ -43,7 +43,10 @@ public class DiscountPolicy implements PricingPolicy {
 
         int rentalLength = calculateRentalLength(startDay, endDay);
 
-        assert(rentalLength > 0);
+        if (rentalLength < 1 ) {
+            throw new IllegalArgumentException("Rental length should be greater than 0!");
+        }
+
         if (rentalLength > 0 && rentalLength <= 2) {
             totalPrice = totalPrice.multiply(new BigDecimal(1));
         } else if (rentalLength > 2 && rentalLength <= 6) {

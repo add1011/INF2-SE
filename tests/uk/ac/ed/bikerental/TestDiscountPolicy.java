@@ -16,7 +16,7 @@ import java.util.Collection;
 
 @DisplayName("Testing Discount Policy Class")
 class TestDiscountPolicy {
-    private DiscountPolicy discount1 = new DiscountPolicy();
+    private DiscountPolicy discount = new DiscountPolicy();
     private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
 
     @DisplayName("Sets up daily rental prices for each DiscountPolicy object")
@@ -66,76 +66,88 @@ class TestDiscountPolicy {
         BigDecimal dailyPrice2= new BigDecimal(3);
         BigDecimal dailyPrice3= new BigDecimal(15);
 
-        discount1.setDailyRentalPrice(bikeType1, dailyPrice1);
-        discount1.setDailyRentalPrice(bikeType2, dailyPrice2);
-        discount1.setDailyRentalPrice(bikeType3, dailyPrice3);
+        discount.setDailyRentalPrice(bikeType1, dailyPrice1);
+        discount.setDailyRentalPrice(bikeType2, dailyPrice2);
+        discount.setDailyRentalPrice(bikeType3, dailyPrice3);
     }
 
     // test hiring duration of 1-2 days
     @Test
     void test1(){
         // set date ranges to use to test
-        DateRange duration1 = new DateRange(LocalDate.of(2019,3,2),
+        DateRange duration = new DateRange(LocalDate.of(2019,3,2),
                 LocalDate.of(2019,3,3  )); //1-2 days
 
         // Set expected and actual outputs
-        BigDecimal expectedPrice1 = new BigDecimal((40.0+3+15+15)*1);
-        expectedPrice1 = expectedPrice1.setScale(2, RoundingMode.HALF_UP);
-        BigDecimal actualPrice1 = discount1.calculatePrice(bikes, duration1);
+        BigDecimal expectedPrice = new BigDecimal((40.0+3+15+15)*1);
+        expectedPrice = expectedPrice.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actualPrice = discount.calculatePrice(bikes, duration);
 
         // test outputs against each other
-        assertEquals(expectedPrice1, actualPrice1);
+        assertEquals(expectedPrice, actualPrice);
     }
 
     // test hiring duration of 3-6 days
     @Test
     void test2() {
-        DateRange duration2 = new DateRange(LocalDate.of(2019,3,3),
+        DateRange duration = new DateRange(LocalDate.of(2019,3,3),
                 LocalDate.of(2019,3,6  )); //3-6 days
 
-        BigDecimal expectedPrice2 = new BigDecimal((40.0+3+15+15)*0.95);
-        expectedPrice2 = expectedPrice2.setScale(2, RoundingMode.HALF_UP);
-        BigDecimal actualPrice2 = discount1.calculatePrice(bikes, duration2);
+        BigDecimal expectedPrice = new BigDecimal((40.0+3+15+15)*0.95);
+        expectedPrice = expectedPrice.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actualPrice = discount.calculatePrice(bikes, duration);
 
-        assertEquals(expectedPrice2, actualPrice2);
+        assertEquals(expectedPrice, actualPrice);
     }
 
     // test hiring duration of 7-13 days
     @Test
     void test3() {
-        DateRange duration3 = new DateRange(LocalDate.of(2019,3,3),
+        DateRange duration = new DateRange(LocalDate.of(2019,3,3),
                 LocalDate.of(2019,3,11  )); //7-13 days
 
-        BigDecimal expectedPrice3 = new BigDecimal((40.0+3+15+15)*0.9);
-        expectedPrice3 = expectedPrice3.setScale(2, RoundingMode.HALF_UP);
-        BigDecimal actualPrice3 = discount1.calculatePrice(bikes, duration3);
+        BigDecimal expectedPrice = new BigDecimal((40.0+3+15+15)*0.9);
+        expectedPrice = expectedPrice.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actualPrice = discount.calculatePrice(bikes, duration);
 
-        assertEquals(expectedPrice3, actualPrice3);
+        assertEquals(expectedPrice, actualPrice);
     }
 
     // test hiring duration of 14+ days
     @Test
     void test4() {
-        DateRange duration4 = new DateRange(LocalDate.of(2019,3,3),
+        DateRange duration = new DateRange(LocalDate.of(2019,3,3),
                 LocalDate.of(2019,5,4  )); // 14+ days
 
-        BigDecimal expectedPrice4 = new BigDecimal((40.0+3+15+15)*0.85);
-        expectedPrice4 = expectedPrice4.setScale(2, RoundingMode.HALF_UP);
-        BigDecimal actualPrice4 = discount1.calculatePrice(bikes, duration4);
+        BigDecimal expectedPrice = new BigDecimal((40.0+3+15+15)*0.85);
+        expectedPrice = expectedPrice.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actualPrice = discount.calculatePrice(bikes, duration);
 
-        assertEquals(expectedPrice4, actualPrice4);
+        assertEquals(expectedPrice, actualPrice);
     }
 
     // test hiring duration with dates that wrap to a new year
     @Test
     void test5() {
-        DateRange duration5 = new DateRange(LocalDate.of(2019,12,30),
+        DateRange duration = new DateRange(LocalDate.of(2019,12,30),
                 LocalDate.of(2020,1,3  )); //dateRange wraps round year
 
-        BigDecimal expectedPrice5 = new BigDecimal((40.0+3+15+15)*0.95);
-        expectedPrice5 = expectedPrice5.setScale(2, RoundingMode.HALF_UP);
-        BigDecimal actualPrice5 = discount1.calculatePrice(bikes, duration5);
+        BigDecimal expectedPrice = new BigDecimal((40.0+3+15+15)*0.95);
+        expectedPrice = expectedPrice.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal actualPrice = discount.calculatePrice(bikes, duration);
 
-        assertEquals(expectedPrice5, actualPrice5);
+        assertEquals(expectedPrice, actualPrice);
+    }
+
+    @Test
+    void testExpectedException() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            DateRange duration = new DateRange(LocalDate.of(2019,3,3),
+                    LocalDate.of(2019,3,3  )); // 0 days
+
+            discount.calculatePrice(bikes, duration);
+        });
+
     }
 }
