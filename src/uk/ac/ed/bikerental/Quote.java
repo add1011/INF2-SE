@@ -13,8 +13,9 @@ public class Quote {
     private BigDecimal totalPrice;
     private BigDecimal totalDeposit;
 
-    public Quote(Collection<Bike> bikes, DateRange selectedDates,
+    public Quote(Provider provider, Collection<Bike> bikes, DateRange selectedDates,
                  Location providerLocation) {
+        this.provider = provider;
         this.bikes = bikes;
         this.selectedDates = selectedDates;
         this.providerLocation = providerLocation;
