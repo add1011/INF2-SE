@@ -11,9 +11,16 @@ public class Location {
     }
     
     public boolean isNearTo(Location other) {
-        // TODO: Implement Location.isNearTo
-        assert false;
-        return true;
+        int startingDigitIndex= 0;
+       for (int i =0; i< postcode.length(); i++){
+           if ( postcode.substring(i,i+1).contains("0123456789") ){
+               startingDigitIndex = i;
+               break;
+           }
+       }
+       String postcodeFirstTwoDigits = postcode.substring(startingDigitIndex, startingDigitIndex +2);
+       String otherPostcodeFirstTwoDigits = other.getPostcode().substring(startingDigitIndex, startingDigitIndex +2);
+       return postcodeFirstTwoDigits.equals(otherPostcodeFirstTwoDigits);
     }
 
     public String getPostcode() {
