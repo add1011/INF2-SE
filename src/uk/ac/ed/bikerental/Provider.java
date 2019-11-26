@@ -2,16 +2,18 @@ package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class Provider {
+    private List<Booking> bookings = new ArrayList<>();
     private DiscountPolicy pricingPolicy;
     private String providerName;
     private Location shopLocation;
     private BigDecimal dailyRentalPrice;
     private BigDecimal depositRate;
-    private Collection<Provider> partners;
+    private List<Provider> partners;
 
+    // constructors //
     public Provider(String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
                     BigDecimal depositRate) {
         this.pricingPolicy = new DiscountPolicy();
@@ -22,15 +24,43 @@ public class Provider {
         this.partners = new ArrayList<>();
     }
 
+    // methods //
     public Bike addBike(BikeType type) {
         return new Bike(this, this.getShopLocation(), type);
     }
 
+    // adds the partners to each other's partners attribute
     public void addPartner(Provider partner) {
         this.setPartner(partner);
         partner.setPartner(this);
     }
-    // Getters and Setters
+
+    public void recordReturn(int orderNumber) {
+        for (int i = 0; i< bookings.size(); i++) {
+            if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
+                Booking booking = this.getBookings().get(i);
+                if (booking.getOrder().getProviderLocation() != this.getShopLocation()) {
+                    notifyProvider(booking);
+                }
+                for (Bike bike : booking.getOrder().getBikes()) {
+                    bike.setBikeLocation(this.getShopLocation());
+                }
+                this.getBookings().remove(i);
+                break;
+            }
+        }
+    }
+
+    private void notifyProvider(Booking booking) {
+        System.out.println(booking.getOrder().getProvider().getProviderName()
+                + " has been notified of the bike return.");
+    }
+
+    // Getters and Setters //
+    public List<Booking> getBookings() { return bookings; }
+
+    public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
+
     public DiscountPolicy getPricingPolicy() { return pricingPolicy; }
 
     public void setPricingPolicy(DiscountPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
@@ -67,23 +97,11 @@ public class Provider {
         this.depositRate = depositRate;
     }
 
-    public Collection<Provider> getPartners() {
+    public List<Provider> getPartners() {
         return partners;
     }
 
     public void setPartner(Provider partner) {
         this.partners.add(partner);
-    }
-
-    public Boolean compareLocation(Location location) {
-        return location == this.shopLocation;
-    }
-
-    public void recordReturn(int orderNumber) {
-
-    }
-
-    private void notifyProvider(Booking booking) {
-
     }
 }
