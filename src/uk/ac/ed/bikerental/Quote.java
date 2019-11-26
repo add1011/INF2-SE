@@ -3,17 +3,18 @@ package uk.ac.ed.bikerental;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 public class Quote {
     // initialize attributes
     private Provider provider;
-    private Collection<Bike> bikes;
+    private List<Bike> bikes;
     private DateRange selectedDates;
     private Location providerLocation;
     private BigDecimal totalPrice;
     private BigDecimal totalDeposit;
 
-    public Quote(Provider provider, Collection<Bike> bikes, DateRange selectedDates,
+    public Quote(Provider provider, List<Bike> bikes, DateRange selectedDates,
                  Location providerLocation) {
         this.provider = provider;
         this.bikes = bikes;
@@ -42,11 +43,11 @@ public class Quote {
 
     public void setProvider(Provider provider) { this.provider = provider; }
 
-    public Collection<Bike> getBikes() {
+    public List<Bike> getBikes() {
         return bikes;
     }
 
-    public void setBikes(Collection bikes) {
+    public void setBikes(List bikes) {
         this.bikes = bikes;
     }
 

@@ -34,8 +34,13 @@ public class Provider {
 
     // adds the partners to each other's partners attribute
     public void addPartner(Provider partner) {
-        this.setPartner(partner);
-        partner.setPartner(this);
+        this.getPartners().add(partner);
+        partner.getPartners().add(partner);
+    }
+
+    public void removePartner(Provider partner) {
+        this.getPartners().remove(partner);
+        partner.getPartners().remove(this);
     }
 
     public void recordReturn(int orderNumber) {
@@ -102,9 +107,5 @@ public class Provider {
 
     public List<Provider> getPartners() {
         return partners;
-    }
-
-    public void setPartner(Provider partner) {
-        this.partners.add(partner);
     }
 }
