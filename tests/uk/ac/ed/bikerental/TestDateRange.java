@@ -32,16 +32,21 @@ class TestDateRange {
         assertEquals(3, this.dateRange3.toYears());
     }
 
+    //check we can see when two date ranges overlap
     @Test
     void testOverlapsTrue() {
-        // TODO: check we can see when two date ranges overlap
-        fail();
+        // TODO:
+        assertTrue(dateRange1.overlaps(dateRange2));
+        assertTrue(dateRange2.overlaps(dateRange1));
     }
 
+    //check we can see when two date ranges don't overlap
     @Test
     void testOverlapsFalse() {
-        // TODO: check we can see when two date ranges  don't overlap
-        fail();
+        assertFalse(dateRange1.overlaps(dateRange3));
+        assertFalse(dateRange3.overlaps(dateRange1));
+        assertFalse(dateRange2.overlaps(dateRange3));
+        assertFalse(dateRange3.overlaps(dateRange2));
     }
 
     // TODO: put some of your own unit tests here

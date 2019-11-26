@@ -34,12 +34,7 @@ public class DateRange {
         if (other.getEnd().equals(start) || other.getStart().equals(end)){
             return true;
         }
-        //If end date of current object is within DateRange other
-        else if(other.getStart().compareTo(end)<0 && other.getEnd().compareTo(end) > 0){
-            return true;
-        }
-        //If start date of current object is within DateRange other
-        else if(other.getStart().compareTo(start)<0 && other.getEnd().compareTo(start)>0){
+        else if(start.compareTo(other.getEnd()) < 0 && other.getStart().compareTo(end) <0 ){
             return true;
         }
         else{

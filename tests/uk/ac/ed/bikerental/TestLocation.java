@@ -23,7 +23,7 @@ class TestLocation {
     @Test
     void testNearToFail(){
         assertFalse(location1.isNearTo(location3));
-        assertFalse(this.location2.isNearTo(location3));
+        assertFalse(location2.isNearTo(location3));
     }
 
 
