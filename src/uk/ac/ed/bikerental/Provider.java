@@ -108,4 +108,6 @@ public class Provider {
     public List<Provider> getPartners() {
         return partners;
     }
+
+    public List<Bike> getBikes() { return bikes; }
 }
