@@ -30,7 +30,6 @@ class TestDiscountPolicy {
         Bike bike1 = new Bike(
                 new BigDecimal(50) , //Deposit Amount
                 new Location("EH8123", "South Street"), //Location
-                1, //ProviderID
                 new ArrayList<DateRange>(), //BookedDates
                 bikeType1
         );
@@ -38,7 +37,6 @@ class TestDiscountPolicy {
         Bike bike2 = new Bike(
                 new BigDecimal(10) ,
                 new Location("EH8123", "South Street"),
-                1,
                 new ArrayList<DateRange>(),
                 bikeType2
         );
@@ -46,14 +44,12 @@ class TestDiscountPolicy {
         Bike bike3 = new Bike(
                 new BigDecimal(22) ,
                 new Location("EH6456", "North Street"),
-                1,
                 new ArrayList<DateRange>(),
                 bikeType3
         );
         Bike bike4 = new Bike(
                 new BigDecimal(30) ,
                 new Location("EH3987", "West End"),
-                1,
                 new ArrayList<DateRange>(),
                 bikeType3
         );

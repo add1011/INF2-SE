@@ -1,21 +1,20 @@
 package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Provider {
     private DiscountPolicy pricingPolicy;
-    private int providerID;
     private String providerName;
     private Location shopLocation;
     private BigDecimal dailyRentalPrice;
     private BigDecimal depositRate;
     private Collection<Provider> partners;
 
-    public Provider(int providerID, String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
+    public Provider(String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
                     BigDecimal depositRate, Collection<Provider> partners) {
         this.pricingPolicy = new DiscountPolicy();
-        this.providerID = providerID;
         this.providerName = providerName;
         this.shopLocation = shopLocation;
         this.dailyRentalPrice = dailyRentalPrice;
@@ -23,14 +22,15 @@ public class Provider {
         this.partners = partners;
     }
 
-    // Getters and Setters
-    public int getProviderID() {
-        return providerID;
+    public Bike addBike(BigDecimal depositAmount, Location bikeLocation, Integer providerID,
+                        ArrayList<DateRange> bookedDates, BikeType type) {
+        return new Bike(this, bikeLocation, bookedDates, type);
     }
 
-    /**public void setProviderID(int providerID) {
-        this.providerID = providerID;
-    } not needed**/
+    // Getters and Setters
+    public DiscountPolicy getPricingPolicy() { return pricingPolicy; }
+
+    public void setPricingPolicy(DiscountPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
 
     public String getProviderName() {
         return providerName;

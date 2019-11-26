@@ -2,16 +2,18 @@ package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
 
 public class Quote {
     // initialize attributes
-    private Bike[] bikes;
+    private Provider provider;
+    private Collection<Bike> bikes;
     private DateRange selectedDates;
     private Location providerLocation;
     private BigDecimal totalPrice;
     private BigDecimal totalDeposit;
 
-    public Quote(Bike[] bikes, DateRange selectedDates,
+    public Quote(Collection<Bike> bikes, DateRange selectedDates,
                  Location providerLocation) {
         this.bikes = bikes;
         this.selectedDates = selectedDates;
@@ -20,22 +22,26 @@ public class Quote {
         this.totalDeposit = new BigDecimal("0");
     }
 
-    // TODO: needs to be implemented
-    private BigDecimal calcTotalPrice() {
-        return null;
+    // calculate the total price using the provider's pricing policy
+    private void calcTotalPrice() {
+        this.totalPrice = provider.getPricingPolicy().calculatePrice(bikes, selectedDates);
     }
 
-    // TODO: needs to be implemented
-    private BigDecimal calcTotalDeposit() {
-        return null;
+    // calculate the sum of deposits of each bike
+    private void calcTotalDeposit() {
+        BigDecimal totalDeposit = new BigDecimal(0);
+        for (Bike bike : this.bikes) {
+            totalDeposit = totalDeposit.add(bike.getDepositAmount());
+        }
+        this.totalDeposit = totalDeposit;
     }
 
     // Getters and Setters
-    public Bike[] getBikes() {
+    public Collection<Bike> getBikes() {
         return bikes;
     }
 
-    public void setBikes(Bike[] bikes) {
+    public void setBikes(Collection bikes) {
         this.bikes = bikes;
     }
 

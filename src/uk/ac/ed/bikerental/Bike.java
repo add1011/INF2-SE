@@ -5,30 +5,51 @@ import java.util.ArrayList;
 
 public class Bike {
     // initialize attributes
+    private Provider provider;
+    private BikeType type;
     private BigDecimal depositAmount;
     private Location bikeLocation;
-    private Integer ProviderID;
     private ArrayList<DateRange> bookedDates;
-    private BikeType type;
 
-    // constructor is temporary and likely will have to be changed
-    public Bike(BigDecimal depositAmount, Location bikeLocation, Integer providerID, ArrayList<DateRange> bookedDates, BikeType type) {
+
+    // constructor to allow Bike to be initialized without provider for testing
+    public Bike(BigDecimal depositAmount, Location bikeLocation,
+                ArrayList<DateRange> bookedDates, BikeType type) {
         this.depositAmount = depositAmount;
         this.bikeLocation = bikeLocation;
-        ProviderID = providerID;
         this.bookedDates = bookedDates;
         this.type = type;
     }
 
-    public BikeType getType() {
-        return type;
+    // actual Bike constructor
+    public Bike(Provider provider, Location bikeLocation,
+                ArrayList<DateRange> bookedDates, BikeType type) {
+        this.provider = provider;
+        this.bikeLocation = bikeLocation;
+        this.bookedDates = bookedDates;
+        this.type = type;
+        calcDepositAmount();
+    }
 
+    public void calcDepositAmount() {
+        BigDecimal deposit = new BigDecimal(0);
+        deposit = this.type.getReplacementValue();
+        deposit = deposit.multiply(this.provider.getDepositRate());
+        this.depositAmount = deposit;
+    }
+
+    public void book(DateRange bookDates) {
+        bookedDates.add(bookDates);
     }
 
     // getters and setters
-    public BigDecimal getDepositAmount() {
-        return depositAmount;
+    public BikeType getType() { return type; }
+
+    public void setType(BikeType type) {
+        this.type = type;
     }
+
+    public BigDecimal getDepositAmount() { return depositAmount; }
 
     public void setDepositAmount(BigDecimal depositAmount) {
         this.depositAmount = depositAmount;
@@ -40,14 +61,6 @@ public class Bike {
 
     public void setBikeLocation(Location bikeLocation) {
         this.bikeLocation = bikeLocation;
-    }
-
-    public Integer getProviderID() {
-        return ProviderID;
-    }
-
-    public void setProviderID(Integer providerID) {
-        ProviderID = providerID;
     }
 
     public ArrayList<DateRange> getBookedDates() {
