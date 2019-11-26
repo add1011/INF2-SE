@@ -9,7 +9,7 @@ class TestLocation {
     void setUp() throws Exception {
         location1 = new Location("EH28AA", "Any Address");
         location2 = new Location("EH28BB", "Any address");
-        location3 = new Location("EH20AA", "Any address");
+        location3 = new Location("GO20AA", "Any address");
     }
 
     //Check that locations with the same two first digits returns true, in which ever order it is presented in
