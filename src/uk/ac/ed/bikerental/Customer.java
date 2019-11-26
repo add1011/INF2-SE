@@ -5,6 +5,7 @@ public class Customer {
     private String surName;
     private String address;
     private String postCode;
+    private int phoneNumber;
 
     public Customer(String firstName, String surName, String address, String postCode, int phoneNumber) {
         this.firstName = firstName;
@@ -55,5 +56,4 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    private int phoneNumber;
 }
