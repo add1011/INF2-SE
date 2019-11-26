@@ -9,22 +9,31 @@ public class Booking {
     private Quote order;
 
     // constructors //
-    public Booking(int orderNumber, collectionMethod pickupMethod, Quote order) {
+    public Booking(int orderNumber, collectionMethod pickupMethod, Quote order, Customer customer) {
         this.orderNumber = orderNumber;
         this.pickupMethod = pickupMethod;
         this.bikesStatus = bikeStatuses.withProvider;
         this.isPaid = false;
         this.order = order;
+        this.customer = customer;
     }
 
     // methods //
     public void checkout() {
         System.out.println("Customer checking out and paying.");
         this.isPaid = true;
+
+        //Assigns the order number to the information registered about the Customer
+        customer.addOrderNumber(this);
     }
 
+
+
     public void sendBookingInfo() {
-        System.out.println("Booking Information sent to Customer's phone number: " + this.getCustomer().getPhoneNumber());
+        if(isPaid){
+            System.out.println("Booking Information sent to "+ customer.getFirstName()+"'s phone number: " + this.getCustomer().getPhoneNumber());
+            customer.addOrderNumber();
+        }
     }
 
     // Getters and Setters //
@@ -56,11 +65,11 @@ public class Booking {
         this.bikesStatus = bikesStatus;
     }
 
-    public Boolean getPaid() {
+    public Boolean getIsPaid() {
         return isPaid;
     }
 
-    public void setPaid(Boolean paid) {
+    public void setIsPaid(Boolean paid) {
         isPaid = paid;
     }
 

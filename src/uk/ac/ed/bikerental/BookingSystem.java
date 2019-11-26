@@ -6,8 +6,9 @@ import java.util.Map;
 
 
 public class BookingSystem {
-    //Map<String,Integer>noOfTypes : the amount of each bikes
-    ArrayList<Provider> listOfExistingProviders;
+    //maintains a list of all the existing providers in our system
+    private ArrayList<Provider> listOfExistingProviders;
+
     public BookingSystem(){
         listOfExistingProviders = new ArrayList<>();
     }
@@ -38,4 +39,13 @@ public class BookingSystem {
        ArrayList<Provider> matchingProviders = providerInLocation(location);
        return null;
     }
+
+    public bookQuote(Quote quote, collectionMethod collectMethod,
+                     String firstName, String surName, String address,
+                     String postcode, int phoneNumber ){
+        Customer customer = new Customer(firstName,surName,address,postcode,phoneNumber);
+
+    }
+
+
 }
