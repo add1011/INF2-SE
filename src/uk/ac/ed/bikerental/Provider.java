@@ -76,14 +76,14 @@ public class Provider {
     }
 
     public Boolean compareLocation(Location location) {
-        return location == this.shopLocation;
+        return location.isNearTo(this.shopLocation);
     }
 
     public void recordReturn(int orderNumber) {
-
+    //TODO: finish
     }
 
     private void notifyProvider(Booking booking) {
-
+    //TODO: finish
     }
 }

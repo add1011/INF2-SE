@@ -6,8 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 public class DiscountPolicy implements PricingPolicy {
     private Map<BikeType, BigDecimal> dailyRentalPrice;
 
@@ -25,7 +23,7 @@ public class DiscountPolicy implements PricingPolicy {
             }
         }
 
-        int rentalLength = (int) DAYS.between(duration.getStart(), duration.getEnd());
+        int rentalLength = (int) duration.toDays();
 
         if (rentalLength < 1 ) {
             throw new IllegalArgumentException("You can only rent a bike forward in time...");
