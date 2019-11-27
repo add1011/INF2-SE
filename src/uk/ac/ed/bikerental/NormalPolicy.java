@@ -6,23 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NormalPolicy implements PricingPolicy{
-
+    // attributes //
     private Map<BikeType, BigDecimal> dailyRentalPrice;
 
-    public NormalPolicy() {
-        this.dailyRentalPrice = new HashMap<>();
-    }
+    // constructors //
+    public NormalPolicy() { this.dailyRentalPrice = new HashMap<>(); }
 
-    // getters and setters
-    public Map<BikeType, BigDecimal> getDailyRentalPrice() {
-        return dailyRentalPrice;
-    }
-
-    @Override
-    public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
-        this.dailyRentalPrice.put(bikeType, dailyPrice);
-    }
-
+    // methods //
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration){
         BigDecimal totalPrice = new BigDecimal(0);
@@ -34,4 +24,15 @@ public class NormalPolicy implements PricingPolicy{
         }
         return totalPrice;
     }
+    // getters and setters //
+    public Map<BikeType, BigDecimal> getDailyRentalPrice() {
+        return dailyRentalPrice;
+    }
+
+    @Override
+    public void setDailyRentalPrice(BikeType bikeType, BigDecimal dailyPrice) {
+        this.dailyRentalPrice.put(bikeType, dailyPrice);
+    }
+
+
 }
