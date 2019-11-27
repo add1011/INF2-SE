@@ -45,8 +45,10 @@ public class Provider {
 
     public void recordReturn(int orderNumber) {
         for (int i = 0; i< this.getBookings().size(); i++) {
+            //Check if we have an orderNumber == one of the orderNumbers in the list of bookings stored with the Provider
             if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
                 Booking booking = this.getBookings().get(i);
+                //If the providerLocation in order
                 if (booking.getOrder().getProviderLocation() != this.getShopLocation()) {
                     notifyProvider(booking);
                     DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),

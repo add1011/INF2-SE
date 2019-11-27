@@ -45,6 +45,9 @@ public class SystemTests {
     private Bike bikeC3 = providerC.addBike(roadBike);
     private Bike bikeC4 = providerC.addBike(roadBike);
 
+    CustomerDetails customer1 = new CustomerDetails("Imaginary", "John", "Somewhere in Scotland", "EH10BB", "02385738743");
+    CustomerDetails customer2 = new CustomerDetails("Santa", "Clause", "Somewhere in Highlands", "XM00AS", "02385738743");
+
 
     @BeforeEach
     void setUp() throws Exception {
@@ -247,8 +250,85 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    //Current test is about the customer returning one bike themselves, so collectionMethod is Pickup
     @Test
-    void testRecordReturn() {
+    void customerReturnsBikeToProvider(){
+        //Select pickUp as collectionMethod
+        collectionMethod pickup = collectionMethod.PickUp;
+        //Set this customer's order number for our testing purposes
+        int currentCustomerOrderNumber= 1;
 
+        //Generate a mock Quote object
+        List<Bike> bikes = new ArrayList<>();
+        bikes.add(bikeA1);
+        bikes.add(bikeA4);
+        DateRange dates1 = new DateRange(LocalDate.of(2019,3,7),
+                LocalDate.of(2019,3,10  ));
+        DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
+                LocalDate.of(2019,3,15  ));
+        Quote quoteA1 = new Quote(providerA, bikes, dates1, EdinburghA); //quote1 for dates1
+        Quote quoteA2 = new Quote(providerA, bikes, dates2, EdinburghA); //quote2 for dates2
+
+        Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
+        Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
+        List<Booking> listOfBookingswithProviderA = new ArrayList<>();
+        listOfBookingswithProviderA.add(bookingA1);
+        listOfBookingswithProviderA.add(bookingA2);
+        providerA.setBookings(listOfBookingswithProviderA);
+
+        //Implementing test case
+        //If customer hands in the bike, provider should record return
+        providerA.recordReturn(currentCustomerOrderNumber);
+        for( Booking booking:providerA.getBookings()){
+            assertNotEquals(bookingA1, booking);
+        }
+    }
+
+    //Current test is about the customer returning several bikes themselves, so collectionMethod is Pickup
+    @Test
+    void customerReturnsSeveralBikesToProvider(){
+        //Select pickUp as collectionMethod
+        collectionMethod pickup = collectionMethod.PickUp;
+
+        //Generate a mock Quote object
+        List<Bike> bikes = new ArrayList<>();
+        bikes.add(bikeA1);
+        bikes.add(bikeA4);
+        DateRange dates1 = new DateRange(LocalDate.of(2019,3,7),
+                LocalDate.of(2019,3,10  ));
+        DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
+                LocalDate.of(2019,3,15  ));
+        DateRange dates3 = new DateRange(LocalDate.of(2019,3,19),
+                LocalDate.of(2019,3,22  ));
+        Quote quoteA1 = new Quote(providerA, bikes, dates1, EdinburghA); //quote1 for dates1
+        Quote quoteA3 = new Quote(providerA, bikes, dates3, EdinburghA); //quote3 for dates3
+
+        //bookings made by customer1
+        Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
+        Booking bookingA2 = new Booking(2,pickup,quoteA1, customer1);
+        List<Booking>customer1Bookings = new ArrayList<>();
+        customer1Bookings.add(bookingA1);
+        customer1Bookings.add(bookingA2);
+
+        Booking bookingA3 = new Booking(3,pickup,quoteA3,customer2);
+        List<Booking> listOfBookingswithProviderA = new ArrayList<>();
+        listOfBookingswithProviderA.add(bookingA1);
+        listOfBookingswithProviderA.add(bookingA2);
+        listOfBookingswithProviderA.add(bookingA3);
+        //we will now set all made bookings to a provider for testing purposes
+        providerA.setBookings(listOfBookingswithProviderA);
+
+        //Implementing test case
+        //If customer hands in the bike, provider should record return
+        for(Booking EachCustomer1booking : customer1Bookings) {
+            providerA.recordReturn(EachCustomer1booking.getOrderNumber());
+        }
+        for( Booking booking:providerA.getBookings()){
+            assertNotEquals(bookingA1, booking);
+        }
+    }
+    @Test
+    void customerReturnsBikeToPartneredProvider(){
+        
     }
 }
