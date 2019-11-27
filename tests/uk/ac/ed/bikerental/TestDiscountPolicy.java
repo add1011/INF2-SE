@@ -27,7 +27,7 @@ class TestDiscountPolicy {
         BikeType bikeType2 = new BikeType("Tricycle", new BigDecimal(33.3));
         BikeType bikeType3 = new BikeType("BMX", new BigDecimal(79));
 
-        // create bikes to test with
+        // Create bikes to test with
         Bike bike1 = new Bike(
                 new BigDecimal(50) , //Deposit Amount
                 new Location("EH8123", "South Street"), //Location

@@ -12,14 +12,14 @@ public class DiscountPolicy implements PricingPolicy {
     public DiscountPolicy() {
         this.dailyRentalPrice = new HashMap<>();
     }
-
+    
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
-        BigDecimal totalPrice = new BigDecimal(0);
+        BigDecimal totalDailyPrice = new BigDecimal(0);
         for (Bike bike : bikes) {
             if(dailyRentalPrice.containsKey(bike.getType() ) ) {
                 BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
-                totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
+                totalDailyPrice = totalDailyPrice.add(bikeTypeDailyRentalPrice);
             }
         }
 
@@ -30,16 +30,16 @@ public class DiscountPolicy implements PricingPolicy {
         }
 
         if (rentalLength > 0 && rentalLength <= 2) {
-            totalPrice = totalPrice.multiply(new BigDecimal(1));
+            totalDailyPrice = totalDailyPrice.multiply(new BigDecimal(1));
         } else if (rentalLength > 2 && rentalLength <= 6) {
-            totalPrice = totalPrice.multiply(new BigDecimal(0.95));
+            totalDailyPrice = totalDailyPrice.multiply(new BigDecimal(0.95));
         } else if (rentalLength > 6 && rentalLength <= 13) {
-            totalPrice = totalPrice.multiply(new BigDecimal(0.9));
+            totalDailyPrice = totalDailyPrice.multiply(new BigDecimal(0.9));
         } else if (rentalLength > 13) {
-            totalPrice = totalPrice.multiply(new BigDecimal(0.85));
+            totalDailyPrice = totalDailyPrice.multiply(new BigDecimal(0.85));
         }
-        totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP);
-        return totalPrice;
+        totalDailyPrice = totalDailyPrice.setScale(2, RoundingMode.HALF_UP);
+        return totalDailyPrice;
     }
 
     // getters and setters

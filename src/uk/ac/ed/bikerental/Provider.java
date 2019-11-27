@@ -7,7 +7,7 @@ import java.util.List;
 public class Provider {
     private List<Booking> bookings = new ArrayList<>();
     private List<Bike> bikes = new ArrayList<>();
-    private DiscountPolicy pricingPolicy;
+    private PricingPolicy pricingPolicy;
     private String providerName;
     private Location shopLocation;
     private BigDecimal dailyRentalPrice;
@@ -16,13 +16,13 @@ public class Provider {
 
     // constructors //
     public Provider(String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
-                    BigDecimal depositRate) {
-        this.pricingPolicy = new DiscountPolicy();
+                    BigDecimal depositRate, PricingPolicy policy) {
         this.providerName = providerName;
         this.shopLocation = shopLocation;
         this.dailyRentalPrice = dailyRentalPrice;
         this.depositRate = depositRate;
         this.partners = new ArrayList<>();
+        this.pricingPolicy = policy;
     }
 
     // methods //
@@ -72,9 +72,11 @@ public class Provider {
 
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
 
-    public DiscountPolicy getPricingPolicy() { return pricingPolicy; }
+    public PricingPolicy getPricingPolicy() { return pricingPolicy; }
 
-    public void setPricingPolicy(DiscountPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
+    public void setPolicyToDiscount(DiscountPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
+
+    public void setPolicyToNormal(NormalPricingPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy;}
 
     public String getProviderName() {
         return providerName;

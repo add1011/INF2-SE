@@ -14,17 +14,19 @@ public class NormalPricingPolicy implements PricingPolicy{
     public NormalPricingPolicy() { this.dailyRentalPrice = new HashMap<>(); }
 
     // methods //
+    
+    //Returns the 
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration){
-        BigDecimal totalPrice = new BigDecimal(0);
+        BigDecimal totalDailyPrice = new BigDecimal(0);
         for (Bike bike: bikes){
             if(dailyRentalPrice.containsKey(bike.getType() ) ) {
                 BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
-                totalPrice = totalPrice.add(bikeTypeDailyRentalPrice);
+                totalDailyPrice = totalDailyPrice.add(bikeTypeDailyRentalPrice);
             }
         }
-        totalPrice = totalPrice.setScale(2, RoundingMode.HALF_UP);
-        return totalPrice;
+        totalDailyPrice = totalDailyPrice.setScale(2, RoundingMode.HALF_UP);
+        return totalDailyPrice;
     }
     // getters and setters //
     public Map<BikeType, BigDecimal> getDailyRentalPrice() {

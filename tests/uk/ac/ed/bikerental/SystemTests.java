@@ -24,11 +24,11 @@ public class SystemTests {
 
     // instantiate providers
     private Provider providerA = new Provider("Bikes'R'Us", EdinburghA, new BigDecimal(50),
-            new BigDecimal(0.8));
+            new BigDecimal(0.8), new DiscountPolicy());
     private Provider providerB = new Provider("The Bike Station", EdinburghB, new BigDecimal(34.7),
-            new BigDecimal(1.1));
+            new BigDecimal(1.1), new DiscountPolicy());
     private Provider providerC = new Provider("Dat Bike Place", GlasgowA, new BigDecimal(12.50),
-            new BigDecimal(1));
+            new BigDecimal(1), new NormalPricingPolicy());
 
     //addBike method adds bike to the list of bikes stored with a provider and returns that bike
     private Bike bikeA1 = providerA.addBike(mountainBike);

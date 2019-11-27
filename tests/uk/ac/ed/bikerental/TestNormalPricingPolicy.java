@@ -70,11 +70,11 @@ class TestNormalPricingPolicy {
     }
 
     @Test
-    void testCalculatePrice(){
-        DateRange duration = new DateRange(LocalDate.of(2019,3,3),
-                LocalDate.of(2019,3,6  ));
+    void testCalculatePrice() {
+        DateRange duration = new DateRange(LocalDate.of(2019, 3, 3),
+                LocalDate.of(2019, 3, 6));
         // Set expected and actual outputs
-        BigDecimal expectedPrice = new BigDecimal((40.0+3+15+15));
+        BigDecimal expectedPrice = new BigDecimal((40.0 + 3 + 15 + 15));
         expectedPrice = expectedPrice.setScale(2, RoundingMode.HALF_UP);
         BigDecimal actualPrice = normalPricingPolicy.calculatePrice(bikes, duration);
         // test outputs against each other

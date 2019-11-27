@@ -18,7 +18,7 @@ public class PricingPolicyTests {
         DiscountPolicy discountPolicy1 = new DiscountPolicy();
     }
     @Test
-    void testNormalPolicy(){
+    void testNormalPricingPolicy(){
 
     }
     
