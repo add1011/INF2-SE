@@ -58,12 +58,18 @@ public class BookingSystem {
         List<Bike> bikes = provider.getBikes();
         List<Bike> availableBikes = new ArrayList<>();
         for (Bike bike : bikes) {
-            for (DateRange bookedDate : bike.getBookedDates()) {
-                if (wantedAmount.containsKey(bike.getType()) && wantedAmount.get(bike.getType()) != 0
-                        && !bookedDate.overlaps(wantedDates)) {
-                    Integer amountNeeded = wantedAmount.get(bike.getType());
-                    wantedAmount.put(bike.getType(), amountNeeded-1);
-                    availableBikes.add(bike);
+            if (bike.getBookedDates().size() == 0) {
+                Integer amountNeeded = wantedAmount.get(bike.getType());
+                wantedAmount.put(bike.getType(), amountNeeded-1);
+                availableBikes.add(bike);
+            } else {
+                for (DateRange bookedDate : bike.getBookedDates()) {
+                    if (wantedAmount.containsKey(bike.getType()) && wantedAmount.get(bike.getType()) != 0
+                            && !bookedDate.overlaps(wantedDates)) {
+                        Integer amountNeeded = wantedAmount.get(bike.getType());
+                        wantedAmount.put(bike.getType(), amountNeeded-1);
+                        availableBikes.add(bike);
+                    }
                 }
             }
         }
