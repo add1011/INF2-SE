@@ -125,7 +125,7 @@ public class SystemTests {
     // TODO: Write system tests covering the three main use cases
     // use case: finding quotes
     @Test
-    void findQuotesTest1() {
+    void findQuotesDayisBooked() {
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(Tricycle, 2);
         DateRange dates = new DateRange(LocalDate.of(2019,12,25),
@@ -142,7 +142,7 @@ public class SystemTests {
     }
 
     @Test
-    void findQuotes2() {
+    void findQuotesNormalCase() {
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
         noOfeachType.put(roadBike, 1);

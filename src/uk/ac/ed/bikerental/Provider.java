@@ -44,11 +44,14 @@ public class Provider {
     }
 
     public void recordReturn(int orderNumber) {
-        for (int i = 0; i< bookings.size(); i++) {
+        for (int i = 0; i< this.getBookings().size(); i++) {
             if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
                 Booking booking = this.getBookings().get(i);
                 if (booking.getOrder().getProviderLocation() != this.getShopLocation()) {
                     notifyProvider(booking);
+                    DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
+                            this.getShopLocation(), booking.getOrder().getProviderLocation(),
+                            booking.getOrder().getSelectedDates().getEnd());
                 }
                 for (Bike bike : booking.getOrder().getBikes()) {
                     bike.setBikeLocation(this.getShopLocation());
