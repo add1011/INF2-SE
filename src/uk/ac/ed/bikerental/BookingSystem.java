@@ -102,7 +102,7 @@ public class BookingSystem {
        for (Provider provider : matchingProviders){
            List<Bike> availableBikes = areBikesAvailable(noOfTypes, selectedDates, provider);
            if (availableBikes != null) {
-               quotes.add(new Quote(provider,availableBikes,selectedDates, location));
+               quotes.add(new Quote(provider,availableBikes,selectedDates, provider.getShopLocation()));
            }
            /**for(Bike bike: bikesFromOneProvider){
                List<DateRange> dates = bike.getBookedDates();
