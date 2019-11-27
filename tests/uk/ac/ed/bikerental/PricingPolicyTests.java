@@ -9,7 +9,13 @@ public class PricingPolicyTests {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Put setup here
+        NormalPolicy normalpolicy1 = new NormalPolicy();
+        DiscountPolicy discountPolicy1 = new DiscountPolicy();
+
+    }
+    @Test
+    void testNormalPolicy(){
+
     }
     
     // TODO: Write tests for pricing policies
