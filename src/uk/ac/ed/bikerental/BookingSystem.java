@@ -135,7 +135,7 @@ public class BookingSystem {
             DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(),
                     quote.getProviderLocation(), deliveryTarget, quote.getSelectedDates().getStart());
         }
-        
+
         return booking;
     }
 
