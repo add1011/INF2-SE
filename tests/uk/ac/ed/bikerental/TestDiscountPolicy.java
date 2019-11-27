@@ -48,6 +48,7 @@ class TestDiscountPolicy {
                 new ArrayList<DateRange>(),
                 bikeType3
         );
+        //add another bike with the same biketype, but is in a different location
         Bike bike4 = new Bike(
                 new BigDecimal(30) ,
                 new Location("EH3987", "West End"),
