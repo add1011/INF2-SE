@@ -30,6 +30,7 @@ public class SystemTests {
     private Provider providerC = new Provider("Dat Bike Place", GlasgowA, new BigDecimal(12.50),
             new BigDecimal(1));
 
+    //addBike method adds bike to the list of bikes stored with a provider and returns that bike
     private Bike bikeA1 = providerA.addBike(mountainBike);
     private Bike bikeA2 = providerA.addBike(mountainBike);
     private Bike bikeA3 = providerA.addBike(Tricycle);

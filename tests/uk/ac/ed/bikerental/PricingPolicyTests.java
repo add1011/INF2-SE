@@ -1,17 +1,21 @@
 package uk.ac.ed.bikerental;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 public class PricingPolicyTests {
     // You can add attributes here
+    NormalPricingPolicy normalPricingPolicy1;
+    DiscountPolicy discountPolicy1;
+    private Collection<Bike> bikes = new ArrayList<>();
 
     @BeforeEach
     void setUp() throws Exception {
-        NormalPolicy normalpolicy1 = new NormalPolicy();
+        NormalPricingPolicy normalpolicy1 = new NormalPricingPolicy();
         DiscountPolicy discountPolicy1 = new DiscountPolicy();
-
     }
     @Test
     void testNormalPolicy(){

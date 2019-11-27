@@ -38,7 +38,7 @@ public class Location {
         return postcode;
     }
 
-    
+
     /**
      *Getter method that returns the address of current Location object
      *
