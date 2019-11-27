@@ -1,8 +1,6 @@
 package uk.ac.ed.bikerental;
 
 
-import com.sun.org.apache.regexp.internal.CharacterArrayCharacterIterator;
-
 public class Location {
     private String postcode;
     private String address;
@@ -10,6 +8,7 @@ public class Location {
     /**
      * Constructs a new Location object to reflect a duration by specifying
      * a start and an end date in the constructor call
+     *
      * @param postcode String value that specifies the postcode of the location. Postcode
      * @param address String value that specifies the street address of the location
      */
@@ -22,6 +21,7 @@ public class Location {
     /**
      *Check that the two locations are near each other
      * if the first two characters of the two postcode are equal
+     *
      * @param other the location to check the stated condition
      * @return True if the first two characters from the postcodes are equal. Return False otherwise
      */
@@ -31,13 +31,17 @@ public class Location {
 
     /**
      *Getter method that returns the postcode of current Location object
+     *
      * @return Returns postcode
      */
     public String getPostcode() {
         return postcode;
     }
+
+    
     /**
      *Getter method that returns the address of current Location object
+     *
      * @return Returns address
      */
     public String getAddress() {
