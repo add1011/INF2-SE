@@ -124,8 +124,36 @@ public class SystemTests {
     
     // TODO: Write system tests covering the three main use cases
     // use case: finding quotes
+    // test when customer wants to book bikes on a single day that is not available
+    @Test
+    void findQuotesforOneDay() {
+        // create inputs that the user would select
+        Map<BikeType, Integer> noOfeachType = new HashMap<>();
+        noOfeachType.put(Tricycle, 2);
+        DateRange dates = new DateRange(LocalDate.of(2019,12,26),
+                LocalDate.of(2019,12,26  ));
+        Location area = new Location("G588YE", "Downy Street");
+
+        // get the output the system gives
+        List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
+
+        // create a list of Bike and add the expected ones. List will be used to instantiate a Quote
+        List<Bike> expectedBikes = new ArrayList<>();
+        expectedBikes.add(bikeC1);
+        expectedBikes.add(bikeC2);
+
+        // create the expected list of Quotes
+        List<Quote> expectedOutput = new ArrayList<>();
+        expectedOutput.add(new Quote(providerC, expectedBikes, dates, GlasgowA));
+
+        // compare the outputs using the equals function with is overridden in Quote
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    // test when customer wants to book bikes on a single day that is available
     @Test
     void findQuotesDayisBooked() {
+        // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(Tricycle, 2);
         DateRange dates = new DateRange(LocalDate.of(2019,12,25),
@@ -134,15 +162,16 @@ public class SystemTests {
 
         List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
 
-        List<Bike> expectedBikes = new ArrayList<>();
-
+        // create the expected output which is empty as no Quotes are expected
         List<Quote> expectedOutput = new ArrayList<>();
 
         assertEquals(expectedOutput, actualOutput);
     }
 
+    // test for a 3 day date range which is available for multiple providers
     @Test
     void findQuotesNormalCase() {
+        // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
         noOfeachType.put(roadBike, 1);
@@ -150,8 +179,10 @@ public class SystemTests {
                 LocalDate.of(2019,3,10  ));
         Location area = new Location("EH6942", "Earth");
 
+        // get the output the system gives
         List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
 
+        // create a list of bikes for each Quote we expect to be returned
         List<Bike> expectedBikes1 = new ArrayList<>();
         expectedBikes1.add(bikeA1);
         expectedBikes1.add(bikeA4);
@@ -163,6 +194,25 @@ public class SystemTests {
         List<Quote> expectedOutput = new ArrayList<>();
         expectedOutput.add(new Quote(providerA, expectedBikes1, dates, EdinburghA));
         expectedOutput.add(new Quote(providerB, expectedBikes2, dates, EdinburghB));
+
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    // test for a 3 day date range which is not available
+    @Test
+    void findQuotesNormalCaseisBooked() {
+        // create inputs that the user would select
+        Map<BikeType, Integer> noOfeachType = new HashMap<>();
+        noOfeachType.put(mountainBike, 1);
+        noOfeachType.put(roadBike, 1);
+        DateRange dates = new DateRange(LocalDate.of(2019,3,3),
+                LocalDate.of(2019,3,6  ));
+        Location area = new Location("EH6942", "Earth");
+
+        // get the output the system gives
+        List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
+
+        List<Quote> expectedOutput = new ArrayList<>();
 
         assertEquals(expectedOutput, actualOutput);
     }

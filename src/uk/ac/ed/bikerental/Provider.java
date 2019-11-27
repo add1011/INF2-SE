@@ -54,6 +54,7 @@ public class Provider {
                             booking.getOrder().getSelectedDates().getEnd());
                 }
                 for (Bike bike : booking.getOrder().getBikes()) {
+                    bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
                     bike.setBikeLocation(this.getShopLocation());
                 }
                 this.getBookings().remove(i);
