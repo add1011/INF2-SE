@@ -48,7 +48,7 @@ public class BookingSystem {
         if(orderNumberTrack >= 99999999){
             throw new IndexOutOfBoundsException("Exceeded amount of order numbers!");
         }
-            orderNumberTrack += 1;
+        orderNumberTrack = new Integer(orderNumberTrack.intValue()+1);
         return orderNumberTrack;
     }
 
@@ -130,7 +130,7 @@ public class BookingSystem {
         Booking booking = new Booking(newOrderNumber, pickupMethod, quote, customer);
         booking.checkout();
 
-        if (pickupMethod == collectionMethod.PickUp) {
+        if (pickupMethod == collectionMethod.Delivery) {
             Location deliveryTarget = new Location(customer.getAddress(), customer.getPostCode());
             DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
                     quote.getProviderLocation(), deliveryTarget, quote.getSelectedDates().getStart());
