@@ -217,4 +217,38 @@ public class SystemTests {
 
         assertEquals(expectedOutput, actualOutput);
     }
+
+    @Test
+    void testBookQuote() {
+        // create objects to initialise quote with
+        List<Bike> bikes = new ArrayList<>();
+        bikes.add(bikeA1);
+        bikes.add(bikeA4);
+        DateRange dates = new DateRange(LocalDate.of(2019,3,7),
+                LocalDate.of(2019,3,10  ));
+
+        Quote quote = new Quote(providerA, bikes, dates, EdinburghA);
+
+        collectionMethod pickupMethod = collectionMethod.PickUp;
+        String firstName = "Robbie";
+        String surName = "Beedy";
+        String address = "5 dat street";
+        String postcode = "EH588UH";
+        String phoneNumber = "03534624976";
+
+        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, firstName,
+                surName, address, postcode, phoneNumber);
+
+        CustomerDetails customer = new CustomerDetails(firstName, surName, address, postcode, phoneNumber);
+        Booking expectedOutput = new Booking(1, pickupMethod, quote, customer);
+        expectedOutput.setIsPaid(true);
+        expectedOutput.getCustomer().getOrderNumbersList().add(1);
+
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void testRecordReturn() {
+
+    }
 }
