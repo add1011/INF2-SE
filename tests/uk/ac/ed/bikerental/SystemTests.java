@@ -244,6 +244,8 @@ public class SystemTests {
         expectedOutput.setIsPaid(true);
         expectedOutput.getCustomer().getOrderNumbersList().add(1);
 
+        DeliveryServiceFactory.getDeliveryService().
+
         assertEquals(expectedOutput, actualOutput);
     }
 

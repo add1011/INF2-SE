@@ -1,6 +1,8 @@
 package uk.ac.ed.bikerental;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CustomerDetails {
     private String firstName;
@@ -16,6 +18,7 @@ public class CustomerDetails {
         this.address = address;
         this.postCode = postCode;
         this.phoneNumber = phoneNumber;
+        this.orderNumbersList = new ArrayList<>();
     }
 
     //Assigns the order number to the information registered about the Customer
@@ -27,6 +30,24 @@ public class CustomerDetails {
             System.out.println("This customer has not paid yet");
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CustomerDetails c = (CustomerDetails) o;
+
+        return Objects.equals(firstName, c.firstName) &&
+                Objects.equals(surName, c.surName) &&
+                Objects.equals(address, c.address) &&
+                Objects.equals(postCode, c.postCode) &&
+                Objects.equals(phoneNumber, c.phoneNumber) &&
+                Objects.equals(orderNumbersList, c.orderNumbersList);
+
+    }
+
     // Getters and Setters
     public String getFirstName() {
         return firstName;
