@@ -50,6 +50,11 @@ public class SystemTests {
         // Setup mock delivery service before each tests
         DeliveryServiceFactory.setupMockDeliveryService();
 
+        bookingSystem.addProvider(providerA);
+        bookingSystem.addProvider(providerB);
+        bookingSystem.addProvider(providerC);
+
+
         // set up the pricing policies for each provider
         providerA.getPricingPolicy().setDailyRentalPrice(mountainBike, new BigDecimal(50));
         providerA.getPricingPolicy().setDailyRentalPrice(Tricycle, new BigDecimal(5));
@@ -130,32 +135,13 @@ public class SystemTests {
         List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
 
         List<Bike> expectedBikes = new ArrayList<>();
-        expectedBikes.add(bikeC1);
-        expectedBikes.add(bikeC2);
 
         List<Quote> expectedOutput = new ArrayList<>();
-        expectedOutput.add(new Quote(providerC, expectedBikes,
-                new DateRange(LocalDate.of(2019,12,26),
-                        LocalDate.of(2019,12,26  )), GlasgowA));
-        expectedOutput.add(new Quote(providerC, expectedBikes,
-                new DateRange(LocalDate.of(2019,12,27),
-                        LocalDate.of(2019,12,27  )), GlasgowA));
-        expectedOutput.add(new Quote(providerC, expectedBikes,
-                new DateRange(LocalDate.of(2019,12,28),
-                        LocalDate.of(2019,12,28  )), GlasgowA));
-        expectedOutput.add(new Quote(providerC, expectedBikes,
-                new DateRange(LocalDate.of(2019,12,24),
-                        LocalDate.of(2019,12,24  )), GlasgowA));
-        expectedOutput.add(new Quote(providerC, expectedBikes,
-                new DateRange(LocalDate.of(2019,12,23),
-                        LocalDate.of(2019,12,23  )), GlasgowA));
-        expectedOutput.add(new Quote(providerC, expectedBikes,
-                new DateRange(LocalDate.of(2019,12,22),
-                        LocalDate.of(2019,12,22  )), GlasgowA));
 
         assertEquals(expectedOutput, actualOutput);
     }
 
+    @Test
     void findQuotes2() {
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
@@ -166,12 +152,17 @@ public class SystemTests {
 
         List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
 
-        List<Bike> expectedBikes = new ArrayList<>();
-        expectedBikes.add(bikeA1);
-        expectedBikes.add(bikeA4);
+        List<Bike> expectedBikes1 = new ArrayList<>();
+        expectedBikes1.add(bikeA1);
+        expectedBikes1.add(bikeA4);
+
+        List<Bike> expectedBikes2 = new ArrayList<>();
+        expectedBikes2.add(bikeB1);
+        expectedBikes2.add(bikeB3);
 
         List<Quote> expectedOutput = new ArrayList<>();
-        expectedOutput.add(new Quote(providerA, expectedBikes, dates, EdinburghA));
+        expectedOutput.add(new Quote(providerA, expectedBikes1, dates, EdinburghA));
+        expectedOutput.add(new Quote(providerB, expectedBikes2, dates, EdinburghB));
 
         assertEquals(expectedOutput, actualOutput);
     }

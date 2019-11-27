@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class Quote {
     // initialize attributes
@@ -36,6 +37,21 @@ public class Quote {
             totalDeposit = totalDeposit.add(bike.getDepositAmount());
         }
         this.totalDeposit = totalDeposit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Quote q = (Quote) o;
+
+        return Objects.equals(bikes, q.bikes) &&
+                Objects.equals(provider, q.provider) &&
+                Objects.equals(providerLocation, q.providerLocation) &&
+                Objects.equals(totalPrice, q.totalPrice) &&
+                Objects.equals(totalDeposit, q.totalDeposit);
     }
 
     // Getters and Setters

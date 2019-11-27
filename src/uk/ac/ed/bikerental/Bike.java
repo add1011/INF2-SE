@@ -39,14 +39,15 @@ public class Bike {
 
     //adds a new booking date to bike - checker for overlap
     public void book(DateRange bookDates) {
-        for(DateRange date: bookedDates){
+        this.bookedDates.add(bookDates);
+        /**for(DateRange date: this.bookedDates){
             if (date.overlaps(bookDates)){
-                System.out.println("Current bike is booked for this date: " + bookDates.toString());
+                //System.out.println("Current bike is booked for this date: " + bookDates.toString());
             }
             else{
                 bookedDates.add(bookDates);
             }
-        }
+        }**/
     }
 
     // getters and setters

@@ -4,6 +4,7 @@ import com.sun.xml.internal.ws.server.sei.EndpointResponseMessageBuilder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,27 +55,38 @@ public class BookingSystem {
         return orderNumberTrack;
     }
 
-    private List<Bike> areBikesAvailable(Map<BikeType, Integer> wantedAmount, DateRange wantedDates, Provider provider) {
+    private List<Bike> areBikesAvailable(Map<BikeType, Integer> noOfTypes, DateRange wantedDates, Provider provider) {
+        Map<BikeType, Integer> wantedAmount = new HashMap<>();
+        for (Map.Entry entry : noOfTypes.entrySet()) {
+            wantedAmount.put((BikeType) entry.getKey(), 0);
+        }
+
         List<Bike> bikes = provider.getBikes();
         List<Bike> availableBikes = new ArrayList<>();
         for (Bike bike : bikes) {
-            if (bike.getBookedDates().size() == 0) {
+            if (bike.getBookedDates().size() == 0 && wantedAmount.containsKey(bike.getType()) &&
+                    wantedAmount.get(bike.getType()) != noOfTypes.get(bike.getType())) {
                 Integer amountNeeded = wantedAmount.get(bike.getType());
-                wantedAmount.put(bike.getType(), amountNeeded-1);
+                wantedAmount.put(bike.getType(), amountNeeded+1);
                 availableBikes.add(bike);
             } else {
+                Boolean overlaps = false;
                 for (DateRange bookedDate : bike.getBookedDates()) {
-                    if (wantedAmount.containsKey(bike.getType()) && wantedAmount.get(bike.getType()) != 0
-                            && !bookedDate.overlaps(wantedDates)) {
-                        Integer amountNeeded = wantedAmount.get(bike.getType());
-                        wantedAmount.put(bike.getType(), amountNeeded-1);
-                        availableBikes.add(bike);
+                    if (bookedDate.overlaps(wantedDates)) {
+                        overlaps = true;
+                        break;
                     }
+                }
+                if (wantedAmount.containsKey(bike.getType()) &&
+                        wantedAmount.get(bike.getType()) != noOfTypes.get(bike.getType()) && !overlaps) {
+                    Integer amountNeeded = wantedAmount.get(bike.getType());
+                    wantedAmount.put(bike.getType(), amountNeeded+1);
+                    availableBikes.add(bike);;
                 }
             }
         }
         for (Map.Entry<BikeType, Integer> entry : wantedAmount.entrySet()) {
-            if (entry.getValue() != 0) {
+            if (entry.getValue() != noOfTypes.get(entry.getKey())) {
                 return null;
             }
         }
