@@ -132,7 +132,7 @@ public class BookingSystem {
 
         if (pickupMethod == collectionMethod.PickUp) {
             Location deliveryTarget = new Location(customer.getAddress(), customer.getPostCode());
-            DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(),
+            DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
                     quote.getProviderLocation(), deliveryTarget, quote.getSelectedDates().getStart());
         }
 

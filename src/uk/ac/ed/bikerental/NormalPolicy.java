@@ -7,11 +7,11 @@ import java.util.Map;
 
 public class NormalPolicy implements PricingPolicy{
 
-        private Map<BikeType, BigDecimal> dailyRentalPrice;
+    private Map<BikeType, BigDecimal> dailyRentalPrice;
 
-        public NormalPolicy() {
-            this.dailyRentalPrice = new HashMap<>();
-        }
+    public NormalPolicy() {
+        this.dailyRentalPrice = new HashMap<>();
+    }
 
     // getters and setters
     public Map<BikeType, BigDecimal> getDailyRentalPrice() {

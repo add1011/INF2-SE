@@ -22,7 +22,6 @@ public class Booking {
     public void checkout() {
         System.out.println("Customer checking out and paying.");
         this.isPaid = true;
-
         //Assigns the order number to the information registered about the Customer
         customer.addOrderNumber(this);
     }
@@ -33,6 +32,8 @@ public class Booking {
         if(isPaid){
             System.out.println("Booking Information sent to "+ customer.getFirstName()+"'s phone number: "
                                + this.getCustomer().getPhoneNumber());
+            System.out.println("Total Rental Price: " + order.getTotalPrice());
+            System.out.println("Total Deposit: "+ order.getTotalDeposit());
         }
     }
 
