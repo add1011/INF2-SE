@@ -1,15 +1,15 @@
 package uk.ac.ed.bikerental;
 
 public class Booking {
-    private Customer customer;
     private int orderNumber;
     private collectionMethod pickupMethod;
+    private Quote order;
+    private CustomerDetails customer;
     private bikeStatuses bikesStatus;
     private Boolean isPaid;
-    private Quote order;
 
     // constructors //
-    public Booking(int orderNumber, collectionMethod pickupMethod, Quote order, Customer customer) {
+    public Booking(int orderNumber, collectionMethod pickupMethod, Quote order, CustomerDetails customer) {
         this.orderNumber = orderNumber;
         this.pickupMethod = pickupMethod;
         this.bikesStatus = bikeStatuses.withProvider;
@@ -37,16 +37,12 @@ public class Booking {
     }
 
     // Getters and Setters //
-    public Customer getCustomer() {
+    public CustomerDetails getCustomer() {
         return customer;
     }
 
     public int getOrderNumber() {
         return orderNumber;
-    }
-
-    public void setOrderNumber(int orderNumber) {
-        this.orderNumber = orderNumber;
     }
 
     public collectionMethod getPickupMethod() {

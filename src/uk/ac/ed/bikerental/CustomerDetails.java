@@ -2,7 +2,7 @@ package uk.ac.ed.bikerental;
 
 import java.util.ArrayList;
 
-public class Customer {
+public class CustomerDetails {
     private String firstName;
     private String surName;
     private String address;
@@ -10,7 +10,7 @@ public class Customer {
     private int phoneNumber;
     private ArrayList<Integer> orderNumbersList;
 
-    public Customer(String firstName, String surName, String address, String postCode, int phoneNumber) {
+    public CustomerDetails(String firstName, String surName, String address, String postCode, int phoneNumber) {
         this.firstName = firstName;
         this.surName = surName;
         this.address = address;

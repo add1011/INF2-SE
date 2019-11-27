@@ -60,28 +60,35 @@ public class BookingSystem {
 
         List<Bike> bikes = provider.getBikes();
         List<Bike> availableBikes = new ArrayList<>();
+        // for each bike the provider owns
         for (Bike bike : bikes) {
+            // if the bike matches the type wanted, the number needed is not fulfilled and the bike has no booked dates
             if (bike.getBookedDates().size() == 0 && wantedAmount.containsKey(bike.getType()) &&
                     wantedAmount.get(bike.getType()) != noOfTypes.get(bike.getType())) {
+                // increment the amount of the type that are available by 1 and add the bike
                 Integer amountNeeded = wantedAmount.get(bike.getType());
                 wantedAmount.put(bike.getType(), amountNeeded+1);
                 availableBikes.add(bike);
             } else {
                 Boolean overlaps = false;
+                // if the selected dates do not overlap with any of the booked dates
                 for (DateRange bookedDate : bike.getBookedDates()) {
                     if (bookedDate.overlaps(wantedDates)) {
                         overlaps = true;
                         break;
                     }
                 }
+                // and if the bike is the type wanted and the number needed of that type is not fulfilled
                 if (wantedAmount.containsKey(bike.getType()) &&
                         wantedAmount.get(bike.getType()) != noOfTypes.get(bike.getType()) && !overlaps) {
+                    // increment the amount of the type that are available by 1 and add the bike
                     Integer amountNeeded = wantedAmount.get(bike.getType());
                     wantedAmount.put(bike.getType(), amountNeeded+1);
                     availableBikes.add(bike);;
                 }
             }
         }
+        // if the available bikes fulfill the requested amount of types, return the list of bikes else return null
         for (Map.Entry<BikeType, Integer> entry : wantedAmount.entrySet()) {
             if (entry.getValue() != noOfTypes.get(entry.getKey())) {
                 return null;
@@ -102,25 +109,8 @@ public class BookingSystem {
        for (Provider provider : matchingProviders){
            List<Bike> availableBikes = areBikesAvailable(noOfTypes, selectedDates, provider);
            if (availableBikes != null) {
-               quotes.add(new Quote(provider,availableBikes,selectedDates, location));
+               quotes.add(new Quote(provider,availableBikes,selectedDates, provider.getShopLocation()));
            }
-           /**for(Bike bike: bikesFromOneProvider){
-               List<DateRange> dates = bike.getBookedDates();
-               if(noOfTypes.containsKey(bike.getType()) && noOfTypes.get(bike.getType()) != 0) {
-                   for (DateRange date : dates) {
-                       if (!(date.overlaps(selectedDates))){
-                           Integer amountNeeded = noOfTypes.get(bike.getType());
-                           noOfTypes.put(bike.getType(), amountNeeded-1);
-                       } else if (trySurroundingDates()){
-                           Integer amountNeeded = noOfTypes.get(bike.getType());
-                           noOfTypes.put(bike.getType(), amountNeeded-1);
-                       } else {
-                           bikesFromOneProvider.remove(bike);
-                       }
-                   }
-               }
-           }
-           quotes.add(new Quote(provider,bikesFromOneProvider,selectedDates, location));**/
        }
        return quotes;
     }
@@ -128,15 +118,25 @@ public class BookingSystem {
     public Booking bookQuote(Quote quote, collectionMethod pickupMethod,
                      String firstName, String surName, String address,
                      String postcode, int phoneNumber ) {
-        Customer customer = new Customer(firstName,surName,address,postcode,phoneNumber);
+        // create a customerDetails object
+        CustomerDetails customer = new CustomerDetails(firstName,surName,address,postcode,phoneNumber);
 
         int newOrderNumber = generateOrderNumber();
         List<Bike>listOfBikes = quote.getBikes();
-        //ensures all bikes are booked for the selected dates
+        // adds the booking dates to all the bikes in the order
         for(Bike bike : listOfBikes){
             bike.book(quote.getSelectedDates());
         }
-        return new Booking(newOrderNumber, pickupMethod,quote,customer);
+        Booking booking = new Booking(newOrderNumber, pickupMethod, quote, customer);
+        booking.checkout();
+
+        if (pickupMethod == collectionMethod.PickUp) {
+            Location deliveryTarget = new Location(customer.getAddress(), customer.getPostCode());
+            DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(),
+                    quote.getProviderLocation(), deliveryTarget, quote.getSelectedDates().getStart());
+        }
+
+        return booking;
     }
 
 
