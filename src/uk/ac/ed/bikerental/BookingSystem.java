@@ -9,7 +9,7 @@ import java.util.Map;
 public class BookingSystem {
     //maintains a list of all the existing providers in our system
     private List<Provider> listOfExistingProviders = new ArrayList<>();
-    private int orderNumberTrack =0;
+    private Integer orderNumberTrack =0;
 
 
 
@@ -42,7 +42,7 @@ public class BookingSystem {
      *to include Alphanumeric characters. This was to detailed-level, so we assumed we can use integer for the purposes
      * of this coursework
      */
-    private int generateOrderNumber(){
+    private Integer generateOrderNumber(){
         //As a small checker, we added this to avoid huge number problems. The system notifies the user
         // that we are running
         if(orderNumberTrack >= 99999999){
@@ -117,11 +117,11 @@ public class BookingSystem {
 
     public Booking bookQuote(Quote quote, collectionMethod pickupMethod,
                      String firstName, String surName, String address,
-                     String postcode, int phoneNumber ) {
+                     String postcode, String phoneNumber ) {
         // create a customerDetails object
         CustomerDetails customer = new CustomerDetails(firstName,surName,address,postcode,phoneNumber);
 
-        int newOrderNumber = generateOrderNumber();
+        Integer newOrderNumber = generateOrderNumber();
         List<Bike>listOfBikes = quote.getBikes();
         // adds the booking dates to all the bikes in the order
         for(Bike bike : listOfBikes){

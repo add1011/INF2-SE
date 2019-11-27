@@ -1,7 +1,9 @@
 package uk.ac.ed.bikerental;
 
+import java.util.Objects;
+
 public class Booking {
-    private int orderNumber;
+    private Integer orderNumber;
     private collectionMethod pickupMethod;
     private Quote order;
     private CustomerDetails customer;
@@ -9,7 +11,7 @@ public class Booking {
     private Boolean isPaid;
 
     // constructors //
-    public Booking(int orderNumber, collectionMethod pickupMethod, Quote order, CustomerDetails customer) {
+    public Booking(Integer orderNumber, collectionMethod pickupMethod, Quote order, CustomerDetails customer) {
         this.orderNumber = orderNumber;
         this.pickupMethod = pickupMethod;
         this.bikesStatus = bikeStatuses.withProvider;
@@ -26,8 +28,6 @@ public class Booking {
         customer.addOrderNumber(this);
     }
 
-
-
     public void sendBookingInfo() {
         if(isPaid){
             System.out.println("Booking Information sent to "+ customer.getFirstName()+"'s phone number: "
@@ -37,12 +37,29 @@ public class Booking {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Booking b = (Booking) o;
+
+        return Objects.equals(orderNumber, b.orderNumber) &&
+                Objects.equals(pickupMethod, b.pickupMethod) &&
+                Objects.equals(order, b.order) &&
+                Objects.equals(customer, b.customer) &&
+                Objects.equals(bikesStatus, b.bikesStatus) &&
+                Objects.equals(isPaid, b.isPaid);
+
+    }
+
     // Getters and Setters //
     public CustomerDetails getCustomer() {
         return customer;
     }
 
-    public int getOrderNumber() {
+    public Integer getOrderNumber() {
         return orderNumber;
     }
 

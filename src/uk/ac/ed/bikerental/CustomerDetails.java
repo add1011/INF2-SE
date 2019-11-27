@@ -1,16 +1,16 @@
 package uk.ac.ed.bikerental;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDetails {
     private String firstName;
     private String surName;
     private String address;
     private String postCode;
-    private int phoneNumber;
-    private ArrayList<Integer> orderNumbersList;
+    private String phoneNumber;
+    private List<Integer> orderNumbersList;
 
-    public CustomerDetails(String firstName, String surName, String address, String postCode, int phoneNumber) {
+    public CustomerDetails(String firstName, String surName, String address, String postCode, String phoneNumber) {
         this.firstName = firstName;
         this.surName = surName;
         this.address = address;
@@ -21,7 +21,7 @@ public class CustomerDetails {
     //Assigns the order number to the information registered about the Customer
     public void addOrderNumber(Booking booking){
         if(booking.getIsPaid()){
-            orderNumbersList.add(booking.getOrderNumber());
+            this.getOrderNumbersList().add(booking.getOrderNumber());
         }
         else{
             System.out.println("This customer has not paid yet");
@@ -60,12 +60,19 @@ public class CustomerDetails {
         this.postCode = postCode;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<Integer> getOrderNumbersList() {
+        return orderNumbersList;
+    }
+
+    public void setOrderNumbersList(List<Integer> orderNumbersList) {
+        this.orderNumbersList = orderNumbersList;
+    }
 }
