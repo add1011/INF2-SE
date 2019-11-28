@@ -20,7 +20,6 @@ public class Booking {
         this.order = order;
         this.customer = customer;
         // add this booking to the customer who registered with it
-        this.customer.addOrderNumber(this);
     }
 
     // methods //
@@ -29,7 +28,7 @@ public class Booking {
         System.out.println("Customer checking out and paying.");
         this.isPaid = true;
         //Assigns the order number to the information registered about the Customer
-        this.customer.getOrderNumbersList().add(this.orderNumber);
+        this.customer.addOrderNumber(this);
     }
 
     // method would send the details to the phone number in reality
