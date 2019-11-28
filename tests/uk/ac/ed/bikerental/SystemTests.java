@@ -417,7 +417,6 @@ public class SystemTests {
         //this means that the driver should have successfully dropped off the bikes to the provider
         deliveryService.carryOutDropoffs();
         assertEquals(bookingA1.getBikesStatus(),bikeStatuses.withProvider);
-
         //make sure that all bikes are now with providerA by checking the locations of bikes
         List<Bike>customerBikesThatAreReturned= bookingA1.getOrder().getBikes();
         for(Bike bike: customerBikesThatAreReturned){

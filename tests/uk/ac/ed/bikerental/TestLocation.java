@@ -26,5 +26,14 @@ class TestLocation {
         assertFalse(location2.isNearTo(location3));
     }
 
+    //ifPostCode length > 6 , we will have an AssertionError thrown
+    //This tests check if that happens
+    @Test
+    void testPostCodeLengthThrowsError(){
+        assertThrows(AssertionError.class, ()-> {
+            Location location = new Location("EH00OHNOTOOBIG", "Any Address");
+        });
+    }
+
 
 }
