@@ -256,7 +256,8 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
-    //Current test is about the customer returning one bike themselves, so collectionMethod is Pickup
+    //Current test is about the customer returning the bikes in their booking
+    // themselves, and collectionMethod is Pickup
     @Test
     void customerReturnsBikeToProvider(){
         //Select pickUp as collectionMethod
@@ -320,9 +321,22 @@ public class SystemTests {
         //partnered provider will now attempt to get it back to original provider and records return
         //Hence, assume that customer has returned the bike already now to the PARTNERED provider, then:
         MockDeliveryService deliveryService = new MockDeliveryService();
-        Deliverable bikeInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
-        deliveryService.scheduleDelivery();
+        Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
+        deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
+                providerAA.getShopLocation(),providerA.getShopLocation(),dates1.getEnd()); //dates1 for customer1 Booking
+        deliveryService.carryOutPickups(dates1.getEnd());
+        deliveryService.carryOutDropoffs();
 
-
+        List<Bike>customerBikesThatAreReturned= bookingA1.getOrder().getBikes();
+        for(Bike bike: customerBikesThatAreReturned){
+            //make sure that all bikes are now with providerA by checking the locations of bikes
+            assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
+        }
+        providerA.recordReturn(currentCustomerOrderNumber);
+        //If customer hands in the bike, provider should record return
+        providerA.recordReturn(currentCustomerOrderNumber);
+        for( Booking booking:providerA.getBookings()){
+            assertNotEquals(bookingA1, booking);
+        }
     }
 }
