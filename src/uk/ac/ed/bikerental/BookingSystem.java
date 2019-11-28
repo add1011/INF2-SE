@@ -135,6 +135,7 @@ public class BookingSystem {
         // create a new Booking with the given details, then checkout with it
         Booking booking = new Booking(newOrderNumber, pickupMethod, quote, customer);
         booking.checkout();
+        booking.sendBookingInfo();
 
         /*
          * if the customer is picking the bike up then the method is done, otherwise
