@@ -23,7 +23,7 @@ public class DateRange {
     /**
      *Getter method that returns start date of current DateRange object
      *
-     * @return Returns the starting date of DateRange
+     * @return Returns the starting date of DateRange which is of type LocalDate
      */
     public LocalDate getStart() {
         return this.start;
@@ -33,7 +33,7 @@ public class DateRange {
     /**
      *Getter method that returns end date of current DateRange object
      *
-     * @return Returns the end date of DateRange
+     * @return Returns the end date of DateRange which is of type LocalDate
      */
     public LocalDate getEnd() {
         return this.end;
@@ -84,10 +84,14 @@ public class DateRange {
     }
 
     /**
-     * Equals method for testing equality in tests
+     * Equals method for testing equality in tests. We will be using it to check if the two
+     * date ranges to be compared have the same starting LocalDate and the same LocalDate end
      *
-     * @param obj object to be tested
-     * @return Returns true if they contain the same value, false if otherwise
+     * @param obj object to be tested, which should be a DateRange
+     * @return Returns true if the obj argument passed has the same reference as the current DateRange object, false
+     * if the the obj argument is null, false if the obj returned is not of type DateRange, and true if the starting
+     * LocalDate and the ending LocalDate of current DateRage object have the same value as the object passed in the
+     * argument respectively. Otherwise, if either start or end date values are not the same, return false.
      */
     @Override
     public boolean equals(Object obj) {

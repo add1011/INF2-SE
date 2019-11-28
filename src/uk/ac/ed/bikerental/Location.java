@@ -9,7 +9,7 @@ public class Location {
      * Constructs a new Location object to reflect a duration by specifying
      * a start and an end date in the constructor call
      *
-     * @param postcode String value that specifies the postcode of the location. Postcode
+     * @param postcode String value that specifies the postcode of the location. Postcode must be of length<=6
      * @param address String value that specifies the street address of the location
      */
     public Location(String postcode, String address) {
@@ -19,10 +19,9 @@ public class Location {
     }
 
     /**
-     *Check that the two locations are near each other
-     * if the first two characters of the two postcode are equal
+     *Check that the two locations are near each other if the first two characters of the two postcode are equal
      *
-     * @param other the location to check the stated condition
+     * @param other the location to be compared with
      * @return True if the first two characters from the postcodes are equal. Return False otherwise
      */
     public boolean isNearTo(Location other) {
