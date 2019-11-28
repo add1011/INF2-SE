@@ -25,8 +25,6 @@ public class SystemTests {
     // instantiate providers
     private Provider providerA = new Provider("Bikes'R'Us", EdinburghA,
             new BigDecimal(0.8), new DiscountPolicy());
-    private Provider providerAA = new Provider("Bikes'4'Everybody", EdinburghA,
-            new BigDecimal(0.43), new NormalPricingPolicy());
     private Provider providerB = new Provider("The Bike Station", EdinburghB,
             new BigDecimal(1.1), new DiscountPolicy());
     private Provider providerC = new Provider("Dat Bike Place", GlasgowA,
@@ -369,7 +367,7 @@ public class SystemTests {
         MockDeliveryService deliveryService = new MockDeliveryService();
         Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
         deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
-                providerAA.getShopLocation(),providerA.getShopLocation(),dates1.getEnd()); //dates1 for customer1 Booking
+                providerB.getShopLocation(),providerA.getShopLocation(),dates1.getEnd()); //dates1 for customer1 Booking
         deliveryService.carryOutPickups(dates1.getEnd());
         deliveryService.carryOutDropoffs();
 
