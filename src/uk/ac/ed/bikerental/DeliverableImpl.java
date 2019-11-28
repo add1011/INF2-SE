@@ -1,5 +1,6 @@
 package uk.ac.ed.bikerental;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 public class DeliverableImpl implements Deliverable{
@@ -22,9 +23,40 @@ public class DeliverableImpl implements Deliverable{
     }
 
     // when called, changed the status of the booking of the deliverable being dropped off
+    //Depending on where the bikeLocation is, it will be set to be Withcustomer or to be Withprovider
     @Override
     public void onDropoff() {
-        this.booking.setBikesStatus(bikeStatuses.withCustomer);
+        Iterator bikesBookingIterator = booking.getOrder().getBikes().iterator();
+        boolean isStillWithProvider= false;
+
+        while(bikesBookingIterator.hasNext()){
+        if(bikesBookingIterator.next().equals(booking.getOrder().getProviderLocation()))
+            isStillWithProvider = true;
+        }
+        //if all bikes in booking are still with provider
+        if (isStillWithProvider){
+            //if Collection method is pickup by customer themselves,
+            //then we will change the bikes' locations to be the same as
+            //the location provided by customer
+            //Note: if collectionMethod is delivery, then scheduleDelivery and other functions
+            //in DeliveryServiceFactor and other relevant classes takes care of setting bikes' locations
+            if (booking.getPickupMethod() == collectionMethod.PickUp){
+                while(bikesBookingIterator.hasNext()){
+                    Bike bike = (Bike)bikesBookingIterator.next();
+                    //We will be assuming that if the bike location is not providers and happens to
+                    //be similar to customer's location, then bike must be with customer during that period
+                    bike.setBikeLocation(new Location(
+                            booking.getCustomer().getPostCode(),
+                            booking.getCustomer().getAddress()
+                            )
+                    );
+                }
+            }
+            this.booking.setBikesStatus(bikeStatuses.withCustomer);
+        }
+        else{
+            this.booking.setBikesStatus(bikeStatuses.withProvider);
+        }
     }
 
     // override the equals method for this class to use in testing

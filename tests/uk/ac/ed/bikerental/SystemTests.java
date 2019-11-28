@@ -164,7 +164,7 @@ public class SystemTests {
     }
     
     // TODO: Write system tests covering the three main use cases
-    // use case: finding quotes
+    // use case: finding quotes//
     // test when customer wants to book bikes on a single day that is not available
     @Test
     void findQuotesforOneDay() {
@@ -258,6 +258,7 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    //use case: customer books a quote //
     @Test
     void testBookQuotePickUp() {
         // create objects to initialise quote with
@@ -323,6 +324,7 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    //use case: customer returns the bike//
     //Current test is about the customer returning the bikes in their booking
     // themselves, and collectionMethod is Pickup
     @Test
@@ -351,13 +353,15 @@ public class SystemTests {
         providerA.setBookings(listOfBookingswithProviderA);
 
         //Implementing test case
-        //If customer hands in the bike, provider should record return
+        //If customer hands in the bike, provider should record return.
+        //bikeLocation will then be the same as the provider.
         providerA.recordReturn(currentCustomerOrderNumber);
 
         // test to see if the booking is removed from the Provider
         for (Booking booking:providerA.getBookings()){
             assertNotEquals(bookingA1, booking);
         }
+        System.out.println();
         // test to see if the booked dates are removed from each bike
         for (Bike bike : bookingA1.getOrder().getBikes()) {
             for (DateRange bookedDates : bike.getBookedDates())
@@ -393,22 +397,35 @@ public class SystemTests {
         providerA.setBookings(listOfBookingsWithProviderA);
         //Since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
         bookingA1.setBikesStatus(bikeStatuses.withCustomer);
+        //Customer is now with the partner and has returned the bikes in the booking.
+        //partnered provider will now attempt to get it back to original provider to record the return
 
-        //partnered provider will now attempt to get it back to original provider and records return
-        //Hence, assume that customer has returned the bike already now to the PARTNERED provider, then:
-        MockDeliveryService deliveryService = new MockDeliveryService();
+        //First ensure that bikeStatuses has changed to be inTransit instead of with customer
         Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
+        bikesInBookingtoBeDelivered.onPickup();
+        assertEquals(bookingA1.getBikesStatus(),bikeStatuses.inTransit);
+        //Then, with the bikes in the booking now being with the PARTNERED provider, then:
+        MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
         deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
                 providerB.getShopLocation(),providerA.getShopLocation(),dates1.getEnd()); //dates1 for customer1 Booking
-        deliveryService.carryOutPickups(dates1.getEnd());
-        deliveryService.carryOutDropoffs();
 
+        //check if bikes are now in transit once we carryOutPickups
+        //this means that the driver should have successfully picked them up for transit
+        deliveryService.carryOutPickups(dates1.getEnd());
+        assertEquals(bookingA1.getBikesStatus(),bikeStatuses.inTransit);
+        //check if bikes are now with Provider once we carryOutDropoffs
+        //this means that the driver should have successfully dropped off the bikes to the provider
+        deliveryService.carryOutDropoffs();
+        assertEquals(bookingA1.getBikesStatus(),bikeStatuses.withProvider);
+
+        //make sure that all bikes are now with providerA by checking the locations of bikes
         List<Bike>customerBikesThatAreReturned= bookingA1.getOrder().getBikes();
         for(Bike bike: customerBikesThatAreReturned){
-            //make sure that all bikes are now with providerA by checking the locations of bikes
             assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
         }
         //If customer hands in the bike, provider should record return
+        //Make sure that the current customer bookings with providerA is destroyed
+        //and is no longer in the system
         providerA.recordReturn(currentCustomerOrderNumber);
         for( Booking booking:providerA.getBookings()){
             assertNotEquals(bookingA1, booking);
