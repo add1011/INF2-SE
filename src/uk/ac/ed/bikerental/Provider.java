@@ -10,7 +10,6 @@ public class Provider {
     private PricingPolicy pricingPolicy;
     private String providerName;
     private Location shopLocation;
-    private BigDecimal dailyRentalPrice;
     private BigDecimal depositRate;
     private List<Provider> partners;
 
@@ -19,7 +18,6 @@ public class Provider {
                     BigDecimal depositRate, PricingPolicy policy) {
         this.providerName = providerName;
         this.shopLocation = shopLocation;
-        this.dailyRentalPrice = dailyRentalPrice;
         this.depositRate = depositRate;
         this.partners = new ArrayList<>();
         this.pricingPolicy = policy;
@@ -77,9 +75,7 @@ public class Provider {
 
     public PricingPolicy getPricingPolicy() { return pricingPolicy; }
 
-    public void setPolicyToDiscount(DiscountPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
-
-    public void setPolicyToNormal(NormalPricingPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy;}
+    public void setPricingPolicy(PricingPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
 
     public String getProviderName() {
         return providerName;
@@ -95,14 +91,6 @@ public class Provider {
 
     public void setShopLocation(Location shopLocation) {
         this.shopLocation = shopLocation;
-    }
-
-    public BigDecimal getDailyRentalPrice() {
-        return dailyRentalPrice;
-    }
-
-    public void setDailyRentalPrice(BigDecimal dailyRentalPrice) {
-        this.dailyRentalPrice = dailyRentalPrice;
     }
 
     public BigDecimal getDepositRate() {

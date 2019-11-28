@@ -7,7 +7,7 @@ public class Bike {
     // initialize attributes
     private Provider provider;
     private BikeType type;
-    private BigDecimal depositAmount;
+    private NormalValuationPolicy depositAmount;
     private Location bikeLocation;
     private ArrayList<DateRange> bookedDates;
 
@@ -15,7 +15,8 @@ public class Bike {
     // constructor to allow Bike to be initialized without provider for testing
     public Bike(BigDecimal depositAmount, Location bikeLocation,
                 ArrayList<DateRange> bookedDates, BikeType type) {
-        this.depositAmount = depositAmount;
+        this.depositAmount = new NormalValuationPolicy();
+        this.depositAmount.setDepositAmount(depositAmount);
         this.bikeLocation = bikeLocation;
         this.bookedDates = bookedDates;
         this.type = type;
@@ -27,6 +28,7 @@ public class Bike {
         this.bikeLocation = bikeLocation;
         this.bookedDates = new ArrayList<>();
         this.type = type;
+        this.depositAmount = new NormalValuationPolicy();
         calcDepositAmount();
     }
 
@@ -34,7 +36,7 @@ public class Bike {
         BigDecimal deposit = new BigDecimal(0);
         deposit = this.type.getReplacementValue();
         deposit = deposit.multiply(this.provider.getDepositRate());
-        this.depositAmount = deposit;
+        this.depositAmount.setDepositAmount(deposit);
     }
 
     //adds a new booking date to bike - checker for overlap
@@ -57,9 +59,9 @@ public class Bike {
         this.type = type;
     }
 
-    public BigDecimal getDepositAmount() { return depositAmount; }
+    public BigDecimal getDepositAmount() { return this.depositAmount.getDepositAmount(); }
 
-    public void setDepositAmount(BigDecimal depositAmount) {
+    public void setDepositAmount(NormalValuationPolicy depositAmount) {
         this.depositAmount = depositAmount;
     }
 

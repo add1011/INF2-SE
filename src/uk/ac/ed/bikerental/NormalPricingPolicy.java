@@ -23,6 +23,8 @@ public class NormalPricingPolicy implements PricingPolicy{
             if(dailyRentalPrice.containsKey(bike.getType() ) ) {
                 BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
                 totalDailyPrice = totalDailyPrice.add(bikeTypeDailyRentalPrice);
+            } else {
+                assert false;
             }
         }
         totalDailyPrice = totalDailyPrice.setScale(2, RoundingMode.HALF_UP);

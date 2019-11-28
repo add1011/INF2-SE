@@ -47,9 +47,11 @@ public class SystemTests {
     private Bike bikeC3 = providerC.addBike(roadBike);
     private Bike bikeC4 = providerC.addBike(roadBike);
 
+    // create customer details that would be given by the customer
     private CustomerDetails customer1 = new CustomerDetails("Imaginary", "John", "Somewhere in Scotland", "EH10BB", "02385738743");
     private CustomerDetails customer2 = new CustomerDetails("Santa", "Clause", "Somewhere in Highlands", "XM00AS", "02385738743");
 
+    // we created the quotes in each test instead of before so it's easier to see which one belongs to which test
 
     @BeforeEach
     void setUp() throws Exception {
@@ -61,7 +63,6 @@ public class SystemTests {
         bookingSystem.addProvider(providerC);
 
         providerA.addPartner(providerAA);
-
 
         // set up the pricing policies for each provider
         providerA.getPricingPolicy().setDailyRentalPrice(mountainBike, new BigDecimal(50));
@@ -239,19 +240,13 @@ public class SystemTests {
 
         // create values that the customer would input
         collectionMethod pickupMethod = collectionMethod.PickUp;
-        String firstName = "Robbie";
-        String surName = "Beedy";
-        String address = "5 dat street";
-        String postcode = "EH588UH";
-        String phoneNumber = "03534624976";
 
         // call bookQuote() and save output to actualOutput
-        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, firstName,
-                surName, address, postcode, phoneNumber);
+        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, customer1.getFirstName(),
+                customer1.getSurName(), customer1.getAddress(), customer1.getPostCode(), customer1.getPhoneNumber());
 
         // create the expected output
-        CustomerDetails customer = new CustomerDetails(firstName, surName, address, postcode, phoneNumber);
-        Booking expectedOutput = new Booking(1, pickupMethod, quote, customer);
+        Booking expectedOutput = new Booking(1, pickupMethod, quote, customer1);
         expectedOutput.setIsPaid(true);
         expectedOutput.getCustomer().getOrderNumbersList().add(1);
 
@@ -273,19 +268,13 @@ public class SystemTests {
 
         // create values that the customer would input
         collectionMethod pickupMethod = collectionMethod.Delivery;
-        String firstName = "Robbie";
-        String surName = "Beedy";
-        String address = "5 dat street";
-        String postcode = "EH588U";
-        String phoneNumber = "03534624976";
 
         // call bookQuote() and save output to actualOutput
-        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, firstName,
-                surName, address, postcode, phoneNumber);
+        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, customer2.getFirstName(),
+                customer2.getSurName(), customer2.getAddress(), customer2.getPostCode(), customer2.getPhoneNumber());
 
         // create the expected output
-        CustomerDetails customer = new CustomerDetails(firstName, surName, address, postcode, phoneNumber);
-        Booking expectedOutput = new Booking(1, pickupMethod, quote, customer);
+        Booking expectedOutput = new Booking(1, pickupMethod, quote, customer2);
         expectedOutput.setIsPaid(true);
         expectedOutput.getCustomer().getOrderNumbersList().add(1);
 
@@ -332,8 +321,15 @@ public class SystemTests {
         //Implementing test case
         //If customer hands in the bike, provider should record return
         providerA.recordReturn(currentCustomerOrderNumber);
-        for( Booking booking:providerA.getBookings()){
+
+        // test to see if the booking is removed from the Provider
+        for (Booking booking:providerA.getBookings()){
             assertNotEquals(bookingA1, booking);
+        }
+        // test to see if the booked dates are removed from each bike
+        for (Bike bike : bookingA1.getOrder().getBikes()) {
+            for (DateRange bookedDates : bike.getBookedDates())
+                assertNotEquals(dates1, bookedDates);
         }
     }
     @Test
@@ -360,10 +356,12 @@ public class SystemTests {
         List<Booking> listOfBookingsWithProviderA = new ArrayList<>();
         listOfBookingsWithProviderA.add(bookingA1);
         listOfBookingsWithProviderA.add(bookingA2);
+
         //we will now set all made bookings to a provider for testing purposes
-        providerA.setBookings(listOfBookingsithProviderA);
+        providerA.setBookings(listOfBookingsWithProviderA);
         //Since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
         bookingA1.setBikesStatus(bikeStatuses.withCustomer);
+
         //partnered provider will now attempt to get it back to original provider and records return
         //Hence, assume that customer has returned the bike already now to the PARTNERED provider, then:
         MockDeliveryService deliveryService = new MockDeliveryService();
