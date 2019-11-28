@@ -1,9 +1,6 @@
 package uk.ac.ed.bikerental;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class BookingSystem {
@@ -82,7 +79,7 @@ public class BookingSystem {
                 }
                 // and if the bike is the type wanted and the number needed of that type is not fulfilled
                 if (wantedAmount.containsKey(bike.getType()) &&
-                        wantedAmount.get(bike.getType()) != noOfTypes.get(bike.getType()) && !overlaps) {
+                        ! (wantedAmount.get(bike.getType()).equals(noOfTypes.get(bike.getType()) ) ) && !overlaps) {
                     // increment the amount of the type that are available by 1 and add the bike
                     Integer amountNeeded = wantedAmount.get(bike.getType());
                     wantedAmount.put(bike.getType(), amountNeeded+1);
@@ -92,7 +89,7 @@ public class BookingSystem {
         }
         // if the available bikes fulfill the requested amount of types, return the list of bikes else return null
         for (Map.Entry<BikeType, Integer> entry : wantedAmount.entrySet()) {
-            if (entry.getValue() != noOfTypes.get(entry.getKey())) {
+            if (!entry.getValue().equals(noOfTypes.get(entry.getKey()))) {
                 return null;
             }
         }
