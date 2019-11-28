@@ -357,11 +357,11 @@ public class SystemTests {
 
         Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
         Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
-        List<Booking> listOfBookingswithProviderA = new ArrayList<>();
-        listOfBookingswithProviderA.add(bookingA1);
-        listOfBookingswithProviderA.add(bookingA2);
+        List<Booking> listOfBookingsWithProviderA = new ArrayList<>();
+        listOfBookingsWithProviderA.add(bookingA1);
+        listOfBookingsWithProviderA.add(bookingA2);
         //we will now set all made bookings to a provider for testing purposes
-        providerA.setBookings(listOfBookingswithProviderA);
+        providerA.setBookings(listOfBookingsithProviderA);
         //Since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
         bookingA1.setBikesStatus(bikeStatuses.withCustomer);
         //partnered provider will now attempt to get it back to original provider and records return
@@ -378,7 +378,6 @@ public class SystemTests {
             //make sure that all bikes are now with providerA by checking the locations of bikes
             assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
         }
-        providerA.recordReturn(currentCustomerOrderNumber);
         //If customer hands in the bike, provider should record return
         providerA.recordReturn(currentCustomerOrderNumber);
         for( Booking booking:providerA.getBookings()){
