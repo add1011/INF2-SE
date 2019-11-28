@@ -18,25 +18,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Testing Quote Class")
 class TestQuote {
-    private DiscountPolicy discount = new DiscountPolicy();
-    private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
-
-    private Location Edinburgh = new Location("EH12NG", "CastleHill");
+    private Location Edinburgh;
 
     // create bike types to use
-    private BikeType mountainBike = new BikeType("Mountain Bike", new BigDecimal(205.4));
-    private BikeType roadBike = new BikeType("Road Bike", new BigDecimal(100));
+    private BikeType mountainBike;
+    private BikeType roadBike;
 
-    private Provider provider = new Provider("Bikes'R'Us", Edinburgh,
-            new BigDecimal(0.8), new DiscountPolicy());
+    private Provider provider;
 
     //addBike method adds bike to the list of bikes stored with a provider and returns that bike
-    private Bike bike1 = provider.addBike(mountainBike);
-    private Bike bike2 = provider.addBike(roadBike);
+    private Bike bike1;
+    private Bike bike2;
 
     @DisplayName("Sets up things needed to initialise Quote with")
     @BeforeEach
     void setup() throws Exception{
+        Edinburgh = new Location("EH12NG", "CastleHill");
+
+        // create bike types to use
+        mountainBike = new BikeType("Mountain Bike", new BigDecimal(205.4));
+        roadBike = new BikeType("Road Bike", new BigDecimal(100));
+
+        provider = new Provider("Bikes'R'Us", Edinburgh,
+                new BigDecimal(0.8), new DiscountPolicy());
+
+        //addBike method adds bike to the list of bikes stored with a provider and returns that bike
+        bike1 = provider.addBike(mountainBike);
+        bike2 = provider.addBike(roadBike);
+
         // set up the pricing policies
         provider.getPricingPolicy().setDailyRentalPrice(mountainBike, new BigDecimal(50));
         provider.getPricingPolicy().setDailyRentalPrice(roadBike, new BigDecimal(45.50));

@@ -10,55 +10,88 @@ import java.util.*;
 
 public class SystemTests {
     // You can add attributes here
-    private BookingSystem bookingSystem = new BookingSystem();
+    private BookingSystem bookingSystem;
     // add locations for providers
-    private Location EdinburghA = new Location("EH12NG", "CastleHill");
-    private Location EdinburghB = new Location("EH91UU", "Causewayside");
-    private Location GlasgowA = new Location("G58SG", "Houston Place");
+    private Location EdinburghA;
+    private Location EdinburghB;
+    private Location GlasgowA;
 
     // create bike types to use
-    private BikeType mountainBike = new BikeType("Mountain Bike", new BigDecimal(205.4));
-    private BikeType Tricycle = new BikeType("Tricycle", new BigDecimal(33.3));
-    private BikeType BMX = new BikeType("BMX", new BigDecimal(79));
-    private BikeType roadBike = new BikeType("Road Bike", new BigDecimal(100));
+    private BikeType mountainBike;
+    private BikeType Tricycle;
+    private BikeType BMX;
+    private BikeType roadBike;
 
     // instantiate providers
-    private Provider providerA = new Provider("Bikes'R'Us", EdinburghA,
-            new BigDecimal(0.8), new DiscountPolicy());
-    private Provider providerAA = new Provider("Bikes'4'Everybody", EdinburghA,
-            new BigDecimal(0.43), new NormalPricingPolicy());
-    private Provider providerB = new Provider("The Bike Station", EdinburghB,
-            new BigDecimal(1.1), new DiscountPolicy());
-    private Provider providerC = new Provider("Dat Bike Place", GlasgowA,
-            new BigDecimal(1), new NormalPricingPolicy());
+    private Provider providerA;
+    private Provider providerAA;
+    private Provider providerB;
+    private Provider providerC;
 
     //addBike method adds bike to the list of bikes stored with a provider and returns that bike
-    private Bike bikeA1 = providerA.addBike(mountainBike);
-    private Bike bikeA2 = providerA.addBike(mountainBike);
-    private Bike bikeA3 = providerA.addBike(Tricycle);
-    private Bike bikeA4 = providerA.addBike(roadBike);
+    private Bike bikeA1;
+    private Bike bikeA2;
+    private Bike bikeA3;
+    private Bike bikeA4;
 
-    private Bike bikeB1 = providerB.addBike(mountainBike);
-    private Bike bikeB2 = providerB.addBike(BMX);
-    private Bike bikeB3 = providerB.addBike(roadBike);
+    private Bike bikeB1;
+    private Bike bikeB2;
+    private Bike bikeB3;
 
-    private Bike bikeC1 = providerC.addBike(Tricycle);
-    private Bike bikeC2 = providerC.addBike(Tricycle);
-    private Bike bikeC3 = providerC.addBike(roadBike);
-    private Bike bikeC4 = providerC.addBike(roadBike);
+    private Bike bikeC1;
+    private Bike bikeC2;
+    private Bike bikeC3;
+    private Bike bikeC4;
 
     // create customer details that would be given by the customer
-    private CustomerDetails customer1 = new CustomerDetails("Imaginary", "John",
-            "Somewhere in Scotland", "EH10BB", "02385738743");
-    private CustomerDetails customer2 = new CustomerDetails("Santa", "Clause",
-            "Somewhere in Highlands", "XM00AS", "0295373879");
+    private CustomerDetails customer1;
+    private CustomerDetails customer2;
 
     // we created the quotes in each test instead of before so it's easier to see which one belongs to which test
 
     @BeforeEach
     void setUp() throws Exception {
-        // Setup mock delivery service before each tests
         DeliveryServiceFactory.setupMockDeliveryService();
+
+        // give all object values before each tests
+        bookingSystem = new BookingSystem();
+
+        EdinburghA = new Location("EH12NG", "CastleHill");
+        EdinburghB = new Location("EH91UU", "Causewayside");
+        GlasgowA = new Location("G58SG", "Houston Place");
+
+        mountainBike = new BikeType("Mountain Bike", new BigDecimal(205.4));
+        Tricycle = new BikeType("Tricycle", new BigDecimal(33.3));
+        BMX = new BikeType("BMX", new BigDecimal(79));
+        roadBike = new BikeType("Road Bike", new BigDecimal(100));
+
+        providerA = new Provider("Bikes'R'Us", EdinburghA,
+                new BigDecimal(0.8), new DiscountPolicy());
+        providerAA = new Provider("Bikes'4'Everybody", EdinburghA,
+                new BigDecimal(0.43), new NormalPricingPolicy());
+        providerB = new Provider("The Bike Station", EdinburghB,
+                new BigDecimal(1.1), new DiscountPolicy());
+        providerC = new Provider("Dat Bike Place", GlasgowA,
+                new BigDecimal(1), new NormalPricingPolicy());
+
+        bikeA1 = providerA.addBike(mountainBike);
+        bikeA2 = providerA.addBike(mountainBike);
+        bikeA3 = providerA.addBike(Tricycle);
+        bikeA4 = providerA.addBike(roadBike);
+
+        bikeB1 = providerB.addBike(mountainBike);
+        bikeB2 = providerB.addBike(BMX);
+        bikeB3 = providerB.addBike(roadBike);
+
+        bikeC1 = providerC.addBike(Tricycle);
+        bikeC2 = providerC.addBike(Tricycle);
+        bikeC3 = providerC.addBike(roadBike);
+        providerC.addBike(roadBike);
+
+        customer1 = new CustomerDetails("Imaginary", "John",
+                "Somewhere in Scotland", "EH10BB", "02385738743");
+        customer2 = new CustomerDetails("Santa", "Clause",
+                "Somewhere in Highlands", "XM00AS", "0295373879");
 
         bookingSystem.addProvider(providerA);
         bookingSystem.addProvider(providerB);
