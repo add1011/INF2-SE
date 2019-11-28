@@ -18,8 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Testing Quote Class")
 class TestQuote {
-    private DiscountPolicy discount = new DiscountPolicy();
-    private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
 
     private Location Edinburgh = new Location("EH12NG", "CastleHill");
 

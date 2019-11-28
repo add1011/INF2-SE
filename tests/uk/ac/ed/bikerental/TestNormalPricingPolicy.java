@@ -16,7 +16,7 @@ import java.util.Collection;
 
 @DisplayName("Testing Normal Pricing Policy Class")
 class TestNormalPricingPolicy {
-    private NormalPricingPolicy normalPricingPolicy = new NormalPricingPolicy();
+    private PricingPolicy normalPricingPolicy = new NormalPricingPolicy();
     private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
 
     @DisplayName("Sets up daily rental prices for each normalPricingPolicy object")

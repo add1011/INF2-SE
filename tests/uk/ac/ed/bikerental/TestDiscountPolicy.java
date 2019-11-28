@@ -16,7 +16,7 @@ import java.util.Collection;
 
 @DisplayName("Testing Discount Policy Class")
 class TestDiscountPolicy {
-    private DiscountPolicy discount = new DiscountPolicy();
+    private PricingPolicy discount = new DiscountPolicy();
     private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
 
     @DisplayName("Sets up daily rental prices for each DiscountPolicy object")
