@@ -219,7 +219,7 @@ public class SystemTests {
     }
 
     @Test
-    void testBookQuote() {
+    void testBookQuotePickUp() {
         // create objects to initialise quote with
         List<Bike> bikes = new ArrayList<>();
         bikes.add(bikeA1);
@@ -227,8 +227,10 @@ public class SystemTests {
         DateRange dates = new DateRange(LocalDate.of(2019,3,7),
                 LocalDate.of(2019,3,10  ));
 
+        // create Quote to book
         Quote quote = new Quote(providerA, bikes, dates, EdinburghA);
 
+        // create values that the customer would input
         collectionMethod pickupMethod = collectionMethod.PickUp;
         String firstName = "Robbie";
         String surName = "Beedy";
@@ -236,16 +238,60 @@ public class SystemTests {
         String postcode = "EH588UH";
         String phoneNumber = "03534624976";
 
+        // call bookQuote() and save output to actualOutput
         Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, firstName,
                 surName, address, postcode, phoneNumber);
 
+        // create the expected output
         CustomerDetails customer = new CustomerDetails(firstName, surName, address, postcode, phoneNumber);
         Booking expectedOutput = new Booking(1, pickupMethod, quote, customer);
         expectedOutput.setIsPaid(true);
         expectedOutput.getCustomer().getOrderNumbersList().add(1);
 
-        DeliveryServiceFactory.getDeliveryService();
+        // compare the expected output with the actual output
+        assertEquals(expectedOutput, actualOutput);
+    }
 
+    @Test
+    void testBookQuoteDelivery() {
+        // create objects to initialise quote with
+        List<Bike> bikes = new ArrayList<>();
+        bikes.add(bikeA1);
+        bikes.add(bikeA4);
+        DateRange dates = new DateRange(LocalDate.of(2019,3,7),
+                LocalDate.of(2019,3,10  ));
+
+        // create Quote to book
+        Quote quote = new Quote(providerA, bikes, dates, EdinburghA);
+
+        // create values that the customer would input
+        collectionMethod pickupMethod = collectionMethod.Delivery;
+        String firstName = "Robbie";
+        String surName = "Beedy";
+        String address = "5 dat street";
+        String postcode = "EH588U";
+        String phoneNumber = "03534624976";
+
+        // call bookQuote() and save output to actualOutput
+        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, firstName,
+                surName, address, postcode, phoneNumber);
+
+        // create the expected output
+        CustomerDetails customer = new CustomerDetails(firstName, surName, address, postcode, phoneNumber);
+        Booking expectedOutput = new Booking(1, pickupMethod, quote, customer);
+        expectedOutput.setIsPaid(true);
+        expectedOutput.getCustomer().getOrderNumbersList().add(1);
+
+        // get the deliverable that bookQuote() adds to MockDeliveryService at the selected date
+        MockDeliveryService testService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
+        Deliverable actualDeliverable =  testService.getPickupsOn(dates.getStart()).iterator().next();
+
+        // create a deliverable that the actual one should match
+        Deliverable expectedDeliverable = new DeliverableImpl(expectedOutput);
+
+        // compare the expected deliverable to the actual one
+        assertEquals(expectedDeliverable, actualDeliverable);
+        // compare the expected output to the actual output
         assertEquals(expectedOutput, actualOutput);
     }
 
