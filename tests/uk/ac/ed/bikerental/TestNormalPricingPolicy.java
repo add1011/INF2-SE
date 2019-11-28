@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.*;
 
@@ -79,5 +80,27 @@ class TestNormalPricingPolicy {
         BigDecimal actualPrice = normalPricingPolicy.calculatePrice(bikes, duration);
         // test outputs against each other
         assertEquals(expectedPrice, actualPrice);
+    }
+
+    //If information about the rental price of a requested bike is not found
+    // The system should return an error. We now test if that error occurs in such a scenario
+    @Test
+    void throwErrorIfBikeTypeNotFound(){
+        DateRange duration = new DateRange(LocalDate.of(2019, 3, 3),
+                LocalDate.of(2019, 3, 6));
+        //Create a bikeType that has not been assigned information about daily rental price
+        BikeType nonExistantBikeType = new BikeType("BikeType with No Rental Price", new BigDecimal(3));
+        Bike nonExistantBike = new Bike(
+                new BigDecimal(30) ,
+                new Location("EH00NO", "South East Exit Street"),
+                new ArrayList<DateRange>(),
+                nonExistantBikeType
+        );
+
+        Collection<Bike> bikesCopy = bikes;
+        bikesCopy.add(nonExistantBike);
+        assertThrows(IllegalArgumentException.class, () -> {
+            normalPricingPolicy.calculatePrice(bikesCopy,duration);
+        });
     }
 }

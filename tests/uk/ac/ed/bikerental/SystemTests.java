@@ -48,8 +48,10 @@ public class SystemTests {
     private Bike bikeC4 = providerC.addBike(roadBike);
 
     // create customer details that would be given by the customer
-    private CustomerDetails customer1 = new CustomerDetails("Imaginary", "John", "Somewhere in Scotland", "EH10BB", "02385738743");
-    private CustomerDetails customer2 = new CustomerDetails("Santa", "Clause", "Somewhere in Highlands", "XM00AS", "02385738743");
+    private CustomerDetails customer1 = new CustomerDetails("Imaginary", "John",
+            "Somewhere in Scotland", "EH10BB", "02385738743");
+    private CustomerDetails customer2 = new CustomerDetails("Santa", "Clause",
+            "Somewhere in Highlands", "XM00AS", "0295373879");
 
     // we created the quotes in each test instead of before so it's easier to see which one belongs to which test
 

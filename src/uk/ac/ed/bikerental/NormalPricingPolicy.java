@@ -15,7 +15,9 @@ public class NormalPricingPolicy implements PricingPolicy{
 
     // methods //
     
-    //Returns the 
+    //Returns the total daily price by adding up all the rental prices.
+    //Note that DateRange duration is unimportant here as it does not influence the total daily rental pricing for normal
+    //policies.
     @Override
     public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration){
         BigDecimal totalDailyPrice = new BigDecimal(0);
@@ -24,7 +26,7 @@ public class NormalPricingPolicy implements PricingPolicy{
                 BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
                 totalDailyPrice = totalDailyPrice.add(bikeTypeDailyRentalPrice);
             } else {
-                assert false;
+                throw new IllegalArgumentException("Requested bikeType not found in the system!");
             }
         }
         totalDailyPrice = totalDailyPrice.setScale(2, RoundingMode.HALF_UP);
