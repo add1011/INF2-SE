@@ -19,7 +19,6 @@ public class PricingPolicyTests {
     }
     @Test
     void testNormalPricingPolicy(){
-
     }
     
     // TODO: Write tests for pricing policies

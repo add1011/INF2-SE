@@ -25,6 +25,8 @@ public class SystemTests {
     // instantiate providers
     private Provider providerA = new Provider("Bikes'R'Us", EdinburghA, new BigDecimal(50),
             new BigDecimal(0.8), new DiscountPolicy());
+    private Provider providerAA = new Provider("Bikes'4'Everybody", EdinburghA, new BigDecimal(45),
+            new BigDecimal(0.43), new NormalPricingPolicy());
     private Provider providerB = new Provider("The Bike Station", EdinburghB, new BigDecimal(34.7),
             new BigDecimal(1.1), new DiscountPolicy());
     private Provider providerC = new Provider("Dat Bike Place", GlasgowA, new BigDecimal(12.50),
@@ -45,6 +47,9 @@ public class SystemTests {
     private Bike bikeC3 = providerC.addBike(roadBike);
     private Bike bikeC4 = providerC.addBike(roadBike);
 
+    private CustomerDetails customer1 = new CustomerDetails("Imaginary", "John", "Somewhere in Scotland", "EH10BB", "02385738743");
+    private CustomerDetails customer2 = new CustomerDetails("Santa", "Clause", "Somewhere in Highlands", "XM00AS", "02385738743");
+
 
     @BeforeEach
     void setUp() throws Exception {
@@ -54,6 +59,8 @@ public class SystemTests {
         bookingSystem.addProvider(providerA);
         bookingSystem.addProvider(providerB);
         bookingSystem.addProvider(providerC);
+
+        providerA.addPartner(providerAA);
 
 
         // set up the pricing policies for each provider
@@ -295,8 +302,73 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    //Current test is about the customer returning one bike themselves, so collectionMethod is Pickup
     @Test
-    void testRecordReturn() {
+    void customerReturnsBikeToProvider(){
+        //Select pickUp as collectionMethod
+        collectionMethod pickup = collectionMethod.PickUp;
+        //Set this customer's order number for our testing purposes
+        int currentCustomerOrderNumber= 1;
+
+        //Generate a mock Quote object
+        List<Bike> bikes = new ArrayList<>();
+        bikes.add(bikeA1);
+        bikes.add(bikeA4);
+        DateRange dates1 = new DateRange(LocalDate.of(2019,3,7),
+                LocalDate.of(2019,3,10  ));
+        DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
+                LocalDate.of(2019,3,15  ));
+        Quote quoteA1 = new Quote(providerA, bikes, dates1, EdinburghA); //quote1 for dates1
+        Quote quoteA2 = new Quote(providerA, bikes, dates2, EdinburghA); //quote2 for dates2
+
+        Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
+        Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
+        List<Booking> listOfBookingswithProviderA = new ArrayList<>();
+        listOfBookingswithProviderA.add(bookingA1);
+        listOfBookingswithProviderA.add(bookingA2);
+        providerA.setBookings(listOfBookingswithProviderA);
+
+        //Implementing test case
+        //If customer hands in the bike, provider should record return
+        providerA.recordReturn(currentCustomerOrderNumber);
+        for( Booking booking:providerA.getBookings()){
+            assertNotEquals(bookingA1, booking);
+        }
+    }
+    @Test
+    void customerReturnsBikeToPartneredProvider(){
+        //Select pickUp as collectionMethod
+        collectionMethod pickup = collectionMethod.PickUp;
+        //Set this customer's order number for our testing purposes
+        //Assuming that Customer1 is the customer returning the bikes
+        int currentCustomerOrderNumber= 1;
+
+        //Generate a mock Quote object
+        List<Bike> bikes = new ArrayList<>();
+        bikes.add(bikeA1);
+        bikes.add(bikeA4);
+        DateRange dates1 = new DateRange(LocalDate.of(2019,3,7),
+                LocalDate.of(2019,3,10  ));
+        DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
+                LocalDate.of(2019,3,15  ));
+        Quote quoteA1 = new Quote(providerA, bikes, dates1, EdinburghA); //quote1 for dates1
+        Quote quoteA2 = new Quote(providerA, bikes, dates2, EdinburghA); //quote2 for dates2
+
+        Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
+        Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
+        List<Booking> listOfBookingswithProviderA = new ArrayList<>();
+        listOfBookingswithProviderA.add(bookingA1);
+        listOfBookingswithProviderA.add(bookingA2);
+        //we will now set all made bookings to a provider for testing purposes
+        providerA.setBookings(listOfBookingswithProviderA);
+        //Since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
+        bookingA1.setBikesStatus(bikeStatuses.withCustomer);
+        //partnered provider will now attempt to get it back to original provider and records return
+        //Hence, assume that customer has returned the bike already now to the PARTNERED provider, then:
+        MockDeliveryService deliveryService = new MockDeliveryService();
+        Deliverable bikeInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
+        deliveryService.scheduleDelivery();
+
 
     }
 }
