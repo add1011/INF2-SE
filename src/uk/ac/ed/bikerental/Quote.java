@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Quote {
-    // initialize attributes
+    // attributes //
     private Provider provider;
     private List<Bike> bikes;
     private DateRange selectedDates;
@@ -15,16 +15,18 @@ public class Quote {
     private BigDecimal totalPrice;
     private BigDecimal totalDeposit;
 
+    // constructors //
     public Quote(Provider provider, List<Bike> bikes, DateRange selectedDates,
                  Location providerLocation) {
         this.provider = provider;
         this.bikes = bikes;
         this.selectedDates = selectedDates;
         this.providerLocation = providerLocation;
-        this.totalPrice = new BigDecimal("0");
-        this.totalDeposit = new BigDecimal("0");
+        calcTotalPrice();
+        calcTotalDeposit();
     }
 
+    // methods //
     // calculate the total price using the provider's pricing policy
     private void calcTotalPrice() {
         this.totalPrice = provider.getPricingPolicy().calculatePrice(bikes, selectedDates);
@@ -39,6 +41,7 @@ public class Quote {
         this.totalDeposit = totalDeposit;
     }
 
+    // override the equals method for this class to use in testing
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,7 +57,7 @@ public class Quote {
                 Objects.equals(totalDeposit, q.totalDeposit);
     }
 
-    // Getters and Setters
+    // getters and setters //
     public Provider getProvider() { return provider; }
 
     public void setProvider(Provider provider) { this.provider = provider; }

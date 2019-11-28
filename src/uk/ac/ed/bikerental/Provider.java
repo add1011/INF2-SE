@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Provider {
+    // attributes //
     private List<Booking> bookings = new ArrayList<>();
     private List<Bike> bikes = new ArrayList<>();
     private PricingPolicy pricingPolicy;
@@ -14,8 +15,7 @@ public class Provider {
     private List<Provider> partners;
 
     // constructors //
-    public Provider(String providerName, Location shopLocation, BigDecimal dailyRentalPrice,
-                    BigDecimal depositRate, PricingPolicy policy) {
+    public Provider(String providerName, Location shopLocation, BigDecimal depositRate, PricingPolicy policy) {
         this.providerName = providerName;
         this.shopLocation = shopLocation;
         this.depositRate = depositRate;
@@ -24,6 +24,7 @@ public class Provider {
     }
 
     // methods //
+    // creates a new Bike object and adds it to bikes
     public Bike addBike(BikeType type) {
         Bike bike = new Bike(this, this.getShopLocation(), type);
         this.bikes.add(bike);
@@ -36,6 +37,7 @@ public class Provider {
         partner.getPartners().add(partner);
     }
 
+    // removes providers from each others partners list
     public void removePartner(Provider partner) {
         this.getPartners().remove(partner);
         partner.getPartners().remove(this);
@@ -63,12 +65,13 @@ public class Provider {
         }
     }
 
+    // would in practice send an actual message to the original provider
     private void notifyProvider(Booking booking) {
         System.out.println(booking.getOrder().getProvider().getProviderName()
                 + " has been notified of the bike return.");
     }
 
-    // Getters and Setters //
+    // getters and setters //
     public List<Booking> getBookings() { return bookings; }
 
     public void setBookings(List<Booking> bookings) { this.bookings = bookings; }

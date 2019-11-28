@@ -1,6 +1,7 @@
 package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class Bike {
@@ -37,7 +38,7 @@ public class Bike {
         BigDecimal deposit = new BigDecimal(0);
         deposit = this.type.getReplacementValue();
         deposit = deposit.multiply(this.provider.getDepositRate());
-        this.depositAmount.setDepositAmount(deposit);
+        this.depositAmount.setDepositAmount(deposit.setScale(2, RoundingMode.HALF_UP));
     }
 
     //adds a new booking date to bike - checker for overlap

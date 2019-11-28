@@ -23,13 +23,13 @@ public class SystemTests {
     private BikeType roadBike = new BikeType("Road Bike", new BigDecimal(100));
 
     // instantiate providers
-    private Provider providerA = new Provider("Bikes'R'Us", EdinburghA, new BigDecimal(50),
+    private Provider providerA = new Provider("Bikes'R'Us", EdinburghA,
             new BigDecimal(0.8), new DiscountPolicy());
-    private Provider providerAA = new Provider("Bikes'4'Everybody", EdinburghA, new BigDecimal(45),
+    private Provider providerAA = new Provider("Bikes'4'Everybody", EdinburghA,
             new BigDecimal(0.43), new NormalPricingPolicy());
-    private Provider providerB = new Provider("The Bike Station", EdinburghB, new BigDecimal(34.7),
+    private Provider providerB = new Provider("The Bike Station", EdinburghB,
             new BigDecimal(1.1), new DiscountPolicy());
-    private Provider providerC = new Provider("Dat Bike Place", GlasgowA, new BigDecimal(12.50),
+    private Provider providerC = new Provider("Dat Bike Place", GlasgowA,
             new BigDecimal(1), new NormalPricingPolicy());
 
     //addBike method adds bike to the list of bikes stored with a provider and returns that bike
@@ -64,7 +64,7 @@ public class SystemTests {
         bookingSystem.addProvider(providerB);
         bookingSystem.addProvider(providerC);
 
-        providerA.addPartner(providerAA);
+        providerA.addPartner(providerB);
 
         // set up the pricing policies for each provider
         providerA.getPricingPolicy().setDailyRentalPrice(mountainBike, new BigDecimal(50));
