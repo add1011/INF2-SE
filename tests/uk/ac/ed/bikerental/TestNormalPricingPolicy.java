@@ -16,14 +16,12 @@ import java.util.Collection;
 
 @DisplayName("Testing Normal Pricing Policy Class")
 class TestNormalPricingPolicy {
-    private NormalPricingPolicy normalPricingPolicy;
-    private Collection<Bike> bikes; // Use as argument for calculatePrice()
+    private PricingPolicy normalPricingPolicy = new NormalPricingPolicy();
+    private Collection<Bike> bikes = new ArrayList<>(); // Use as argument for calculatePrice()
 
     @DisplayName("Sets up daily rental prices for each normalPricingPolicy object")
     @BeforeEach
     void setup() throws Exception{
-        normalPricingPolicy = new NormalPricingPolicy();
-        bikes = new ArrayList<>(); // Use as argument for calculatePrice()
         // Instantiate bikeType and Bike objects to use to test
         BikeType bikeType1 = new BikeType("Mountain Bike", new BigDecimal(205.4));
         BikeType bikeType2 = new BikeType("Tricycle", new BigDecimal(33.3));
