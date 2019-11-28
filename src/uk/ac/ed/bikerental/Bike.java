@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Bike {
-    // initialize attributes
+    // attributes
     private Provider provider;
     private BikeType type;
     private NormalValuationPolicy depositAmount;
     private Location bikeLocation;
     private ArrayList<DateRange> bookedDates;
 
-
+    // constructors //
     // constructor to allow Bike to be initialized without provider for testing
     public Bike(BigDecimal depositAmount, Location bikeLocation,
                 ArrayList<DateRange> bookedDates, BikeType type) {
@@ -22,7 +22,7 @@ public class Bike {
         this.type = type;
     }
 
-    // actual Bike constructor
+    // actual Bike constructor used in practice
     public Bike(Provider provider, Location bikeLocation, BikeType type) {
         this.provider = provider;
         this.bikeLocation = bikeLocation;
@@ -32,6 +32,7 @@ public class Bike {
         calcDepositAmount();
     }
 
+    // methods //
     public void calcDepositAmount() {
         BigDecimal deposit = new BigDecimal(0);
         deposit = this.type.getReplacementValue();

@@ -11,8 +11,6 @@ public class BookingSystem {
     private List<Provider> listOfExistingProviders = new ArrayList<>();
     private Integer orderNumberTrack =0;
 
-
-
     public void addProvider(Provider prov){
         listOfExistingProviders.add(prov);
     }
@@ -52,6 +50,10 @@ public class BookingSystem {
         return orderNumberTrack;
     }
 
+    /*
+    * helper function for getQuotes() which checks if the given provider
+    * has the requested amount of bike types given within the date.
+    */
     private List<Bike> areBikesAvailable(Map<BikeType, Integer> noOfTypes, DateRange wantedDates, Provider provider) {
         Map<BikeType, Integer> wantedAmount = new HashMap<>();
         for (Map.Entry entry : noOfTypes.entrySet()) {
@@ -108,7 +110,9 @@ public class BookingSystem {
        //adds bikes that are available on the selected dates from the matching provides to the list bikesFromProviders
        for (Provider provider : matchingProviders){
            List<Bike> availableBikes = areBikesAvailable(noOfTypes, selectedDates, provider);
+           // if this provider has a set of bikes that fulfill the requested search
            if (availableBikes != null) {
+               // create a new Quote with those bikes and the provider, then add it to the output list
                quotes.add(new Quote(provider,availableBikes,selectedDates, provider.getShopLocation()));
            }
        }
@@ -121,15 +125,22 @@ public class BookingSystem {
         // create a customerDetails object
         CustomerDetails customer = new CustomerDetails(firstName,surName,address,postcode,phoneNumber);
 
+        // create an order number for the booking
         Integer newOrderNumber = generateOrderNumber();
+        // add the booking dates to all the bikes in the order
         List<Bike>listOfBikes = quote.getBikes();
-        // adds the booking dates to all the bikes in the order
         for(Bike bike : listOfBikes){
             bike.book(quote.getSelectedDates());
         }
+        // create a new Booking with the given details, then checkout with it
         Booking booking = new Booking(newOrderNumber, pickupMethod, quote, customer);
         booking.checkout();
 
+        /*
+         * if the customer is picking the bike up then the method is done, otherwise
+         * use the delivery service to schedule a delivery, using the booking as an identifier for
+         * the deliverable
+         */
         if (pickupMethod == collectionMethod.Delivery) {
             Location deliveryTarget = new Location(customer.getPostCode(), customer.getAddress());
             DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),

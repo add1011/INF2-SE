@@ -9,6 +9,7 @@ public class NormalValuationPolicy implements ValuationPolicy {
     private BigDecimal depositAmount;
 
     // methods //
+    // simply returns the depositAmount of the Bike that is already calculated as a valuation is not calculated
     public BigDecimal calculateValue(Bike bike, LocalDate date) { return this.depositAmount; }
 
     // getters and setters //

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class CustomerDetails {
+    // attributes //
     private String firstName;
     private String surName;
     private String address;
@@ -12,6 +13,7 @@ public class CustomerDetails {
     private String phoneNumber;
     private List<Integer> orderNumbersList;
 
+    // constructors //
     public CustomerDetails(String firstName, String surName, String address, String postCode, String phoneNumber) {
         this.firstName = firstName;
         this.surName = surName;
@@ -21,7 +23,8 @@ public class CustomerDetails {
         this.orderNumbersList = new ArrayList<>();
     }
 
-    //Assigns the order number to the information registered about the Customer
+    // methods //
+    // assigns the order number to the information registered about the Customer
     public void addOrderNumber(Booking booking){
         if(booking.getIsPaid()){
             this.getOrderNumbersList().add(booking.getOrderNumber());
@@ -31,6 +34,7 @@ public class CustomerDetails {
         }
     }
 
+    // override the equals method for this class to use in testing
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,7 +52,7 @@ public class CustomerDetails {
 
     }
 
-    // Getters and Setters
+    // getters and setters
     public String getFirstName() {
         return firstName;
     }

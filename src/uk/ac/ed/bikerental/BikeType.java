@@ -4,14 +4,17 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class BikeType {
+    // attributes //
     private String typeName;
     private BigDecimal replacementValue;
 
+    // constructors //
     public BikeType(String typeName, BigDecimal replacementValue){
         this.typeName= typeName;
         this.replacementValue = replacementValue;
     }
 
+    // getters and setters //
     public String getTypeName() {
         return typeName;
     }

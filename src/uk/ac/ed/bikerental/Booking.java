@@ -3,6 +3,7 @@ package uk.ac.ed.bikerental;
 import java.util.Objects;
 
 public class Booking {
+    // attributes //
     private Integer orderNumber;
     private collectionMethod pickupMethod;
     private Quote order;
@@ -18,9 +19,12 @@ public class Booking {
         this.isPaid = false;
         this.order = order;
         this.customer = customer;
+        // add this booking to the customer who registered with it
+        this.customer.addOrderNumber(this);
     }
 
     // methods //
+    // this method would include the full payment process in reality
     public void checkout() {
         System.out.println("Customer checking out and paying.");
         this.isPaid = true;
@@ -28,6 +32,7 @@ public class Booking {
         this.customer.getOrderNumbersList().add(this.orderNumber);
     }
 
+    // method would send the details to the phone number in reality
     public void sendBookingInfo() {
         if(isPaid){
             System.out.println("Booking Information sent to "+ customer.getFirstName()+"'s phone number: "
@@ -37,6 +42,7 @@ public class Booking {
         }
     }
 
+    // override the equals method for this class to use in testing
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
