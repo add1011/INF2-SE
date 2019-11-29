@@ -453,39 +453,32 @@ public class SystemTests {
 
         //Customer is now with the partner and has returned the bikes in the booking to the partner.
         //partnered provider will now attempt to get it back to original provider and records the return
-
+        providerB.recordReturn(bookingA1.getOrderNumber());
         //First ensure that bikeStatuses has changed to be inTransit instead of with customer
-        Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
-        bikesInBookingtoBeDelivered.onPickup();
-        bikesInBookingtoBeDelivered.onDropoff();
-        List<Bike> customerBikesThatAreReturned1 = bookingA1.getOrder().getBikes();
-        providerB.recordReturn(currentCustomerOrderNumber);
-        for (Bike bike : customerBikesThatAreReturned1) {
-            assertFalse(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
-        }
-        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
-        //Then, with the bikes in the booking now being with the PARTNERED provider, then:
-        MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
-        deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
-                providerB.getShopLocation(), providerA.getShopLocation(), dates1.getEnd()); //dates1 for customer1 Booking
+        //Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
 
-        //check if bikes are now in transit once we carryOutPickups
-        //this means that the driver should have successfully picked them up for transit
+        MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
+        //deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
+        //        providerB.getShopLocation(), providerA.getShopLocation(), dates1.getEnd()); //dates1 for customer1 Booking
+
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withCustomer);
         deliveryService.carryOutPickups(dates1.getEnd());
         assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
-        //check if bikes are now with Provider once we carryOutDropoffs
-        //this means that the driver should have successfully dropped off the bikes to the provider
         deliveryService.carryOutDropoffs();
-        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withProvider);
-        //make sure that all bikes are now with providerA by checking the locations of bikes
-        List<Bike> customerBikesThatAreReturned = bookingA1.getOrder().getBikes();
-        for (Bike bike : customerBikesThatAreReturned) {
+
+        List<Bike> deliveredBikes = bookingA1.getOrder().getBikes();
+        for (Bike bike : deliveredBikes) {
             assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
             // test to see if the booked dates are removed from each bike
             for (DateRange bookedDates : bike.getBookedDates()) {
                 assertNotEquals(dates1, bookedDates);
             }
         }
+
+        //check if bikes are now with Provider once we carryOutDropoffs
+        //this means that the driver should have successfully dropped off the bikes to the provider
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withProvider);
+
         //If customer hands in the bike, provider should record return
         //Make sure that the current customer bookings with providerA is destroyed
         //and is no longer in the system
