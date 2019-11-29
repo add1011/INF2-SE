@@ -3,7 +3,6 @@ package uk.ac.ed.bikerental;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-import java.util.function.BooleanSupplier;
 
 public class DateRange {
     private LocalDate start, end;
@@ -13,7 +12,7 @@ public class DateRange {
      * specifying a start and an end date
      *
      * @param start the start of a date period
-     * @param end the end of a date period
+     * @param end   the end of a date period
      */
     public DateRange(LocalDate start, LocalDate end) {
         this.start = start;
@@ -21,7 +20,7 @@ public class DateRange {
     }
 
     /**
-     *Getter method that returns start date of current DateRange object
+     * Getter method that returns start date of current DateRange object
      *
      * @return Returns the starting date of DateRange which is of type LocalDate
      */
@@ -31,7 +30,7 @@ public class DateRange {
 
 
     /**
-     *Getter method that returns end date of current DateRange object
+     * Getter method that returns end date of current DateRange object
      *
      * @return Returns the end date of DateRange which is of type LocalDate
      */
@@ -40,7 +39,7 @@ public class DateRange {
     }
 
     /**
-     *Returns the total number of years between the start date and the end date
+     * Returns the total number of years between the start date and the end date
      *
      * @return Returns the years between this.getStart() and this.getEnd()
      */
@@ -50,7 +49,7 @@ public class DateRange {
 
 
     /**
-     *Returns the total number of days between the start date and the end date
+     * Returns the total number of days between the start date and the end date
      *
      * @return Returns the days between this.getStart() and this.getEnd()
      */
@@ -66,10 +65,9 @@ public class DateRange {
      */
     public Boolean overlaps(DateRange other) {
         //If the end of date one intersects with the start date of the second
-        if (other.getEnd().equals(start) || other.getStart().equals(end)){
+        if (other.getEnd().equals(start) || other.getStart().equals(end)) {
             return true;
-        }
-        else return start.compareTo(other.getEnd()) < 0 && other.getStart().compareTo(end) < 0;
+        } else return start.compareTo(other.getEnd()) < 0 && other.getStart().compareTo(end) < 0;
     }
 
     /**
@@ -105,5 +103,5 @@ public class DateRange {
         DateRange other = (DateRange) obj;
         return Objects.equals(end, other.end) && Objects.equals(start, other.start);
     }
-    
+
 }

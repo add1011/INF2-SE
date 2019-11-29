@@ -1,12 +1,16 @@
 package uk.ac.ed.bikerental;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.awt.print.Book;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SystemTests {
     // You can add attributes here
@@ -46,7 +50,8 @@ public class SystemTests {
     private CustomerDetails customer1;
     private CustomerDetails customer2;
 
-    // we created the quotes in each test instead of before so it's easier to see which one belongs to which test
+    // we created the quotes in each test instead of in the setup so it's easier to see which quote
+    // belongs to which test
 
     @BeforeEach
     void setUp() throws Exception {
@@ -114,55 +119,55 @@ public class SystemTests {
 
         // add bikes to each provider and book them to random dates
         // book bikes with providerA
-        bikeA1.book(new DateRange(LocalDate.of(2019,3,2),
-                LocalDate.of(2019,3,6  )));
-        bikeA1.book(new DateRange(LocalDate.of(2019,3,11),
-                LocalDate.of(2019,3,12  )));
+        bikeA1.book(new DateRange(LocalDate.of(2019, 3, 2),
+                LocalDate.of(2019, 3, 6)));
+        bikeA1.book(new DateRange(LocalDate.of(2019, 3, 11),
+                LocalDate.of(2019, 3, 12)));
 
-        bikeA2.book(new DateRange(LocalDate.of(2019,3,5),
-                LocalDate.of(2019,3,7  )));
-        bikeA2.book(new DateRange(LocalDate.of(2019,3,11),
-                LocalDate.of(2019,3,17  )));
+        bikeA2.book(new DateRange(LocalDate.of(2019, 3, 5),
+                LocalDate.of(2019, 3, 7)));
+        bikeA2.book(new DateRange(LocalDate.of(2019, 3, 11),
+                LocalDate.of(2019, 3, 17)));
 
         // bikeA3 isn't currently booked
 
-        bikeA4.book(new DateRange(LocalDate.of(2019,2,20),
-                LocalDate.of(2019,2,27  )));
-        bikeA4.book(new DateRange(LocalDate.of(2019,3,18),
-                LocalDate.of(2019,3,19  )));
+        bikeA4.book(new DateRange(LocalDate.of(2019, 2, 20),
+                LocalDate.of(2019, 2, 27)));
+        bikeA4.book(new DateRange(LocalDate.of(2019, 3, 18),
+                LocalDate.of(2019, 3, 19)));
 
         // book bikes with providerB
-        bikeB1.book(new DateRange(LocalDate.of(2019,3,1),
-                LocalDate.of(2019,3,5  )));
-        bikeB1.book(new DateRange(LocalDate.of(2019,3,11),
-                LocalDate.of(2019,3,14  )));
+        bikeB1.book(new DateRange(LocalDate.of(2019, 3, 1),
+                LocalDate.of(2019, 3, 5)));
+        bikeB1.book(new DateRange(LocalDate.of(2019, 3, 11),
+                LocalDate.of(2019, 3, 14)));
 
-        bikeB2.book(new DateRange(LocalDate.of(2019,3,1),
-                LocalDate.of(2019,3,2  )));
+        bikeB2.book(new DateRange(LocalDate.of(2019, 3, 1),
+                LocalDate.of(2019, 3, 2)));
 
-        bikeB3.book(new DateRange(LocalDate.of(2019,3,2),
-                LocalDate.of(2019,3,4  )));
-        bikeB3.book(new DateRange(LocalDate.of(2019,3,16),
-                LocalDate.of(2019,3,18  )));
+        bikeB3.book(new DateRange(LocalDate.of(2019, 3, 2),
+                LocalDate.of(2019, 3, 4)));
+        bikeB3.book(new DateRange(LocalDate.of(2019, 3, 16),
+                LocalDate.of(2019, 3, 18)));
 
         // book bikes with providerC
-        bikeC1.book(new DateRange(LocalDate.of(2019,12,28),
-                LocalDate.of(2020,1,4  )));
+        bikeC1.book(new DateRange(LocalDate.of(2019, 12, 28),
+                LocalDate.of(2020, 1, 4)));
 
-        bikeC2.book(new DateRange(LocalDate.of(2019,12,25),
-                LocalDate.of(2019,12,25  )));
+        bikeC2.book(new DateRange(LocalDate.of(2019, 12, 25),
+                LocalDate.of(2019, 12, 25)));
 
-        bikeC3.book(new DateRange(LocalDate.of(2019,12,29),
-                LocalDate.of(2020,1,12  )));
-        bikeC3.book(new DateRange(LocalDate.of(2019,12,10),
-                LocalDate.of(2019,12,12  )));
+        bikeC3.book(new DateRange(LocalDate.of(2019, 12, 29),
+                LocalDate.of(2020, 1, 12)));
+        bikeC3.book(new DateRange(LocalDate.of(2019, 12, 10),
+                LocalDate.of(2019, 12, 12)));
 
-        bikeC4.book(new DateRange(LocalDate.of(2019,12,2),
-                LocalDate.of(2019,12,6  )));
-        bikeC4.book(new DateRange(LocalDate.of(2019,12,10),
-                LocalDate.of(2019,12,12  )));
+        bikeC4.book(new DateRange(LocalDate.of(2019, 12, 2),
+                LocalDate.of(2019, 12, 6)));
+        bikeC4.book(new DateRange(LocalDate.of(2019, 12, 10),
+                LocalDate.of(2019, 12, 12)));
     }
-    
+
     // use case: finding quotes//
     // test when customer wants to book bikes on a single day that is not available
     @Test
@@ -170,8 +175,8 @@ public class SystemTests {
         // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(Tricycle, 2);
-        DateRange dates = new DateRange(LocalDate.of(2019,12,26),
-                LocalDate.of(2019,12,26  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 12, 26),
+                LocalDate.of(2019, 12, 26));
         Location area = new Location("G588YE", "Downy Street");
 
         // get the output the system gives
@@ -196,8 +201,8 @@ public class SystemTests {
         // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(Tricycle, 2);
-        DateRange dates = new DateRange(LocalDate.of(2019,12,25),
-            LocalDate.of(2019,12,25  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 12, 25),
+                LocalDate.of(2019, 12, 25));
         Location area = new Location("G588YE", "Downy Street");
 
         List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
@@ -215,8 +220,8 @@ public class SystemTests {
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
         noOfeachType.put(roadBike, 1);
-        DateRange dates = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,10  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 3, 7),
+                LocalDate.of(2019, 3, 10));
         Location area = new Location("EH6942", "Earth");
 
         // get the output the system gives
@@ -245,8 +250,8 @@ public class SystemTests {
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
         noOfeachType.put(roadBike, 1);
-        DateRange dates = new DateRange(LocalDate.of(2019,3,3),
-                LocalDate.of(2019,3,6  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 3, 3),
+                LocalDate.of(2019, 3, 6));
         Location area = new Location("EH6942", "Earth");
 
         // get the output the system gives
@@ -263,8 +268,8 @@ public class SystemTests {
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
         noOfeachType.put(roadBike, 1);
-        DateRange dates = new DateRange(LocalDate.of(2019,12,28),
-                LocalDate.of(2020,1,2  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 12, 28),
+                LocalDate.of(2020, 1, 2));
         Location area = new Location("EH6942", "Earth");
 
         // get the output the system gives
@@ -291,8 +296,8 @@ public class SystemTests {
         // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(roadBike, 4);
-        DateRange dates = new DateRange(LocalDate.of(2019,12,28),
-                LocalDate.of(2020,1,2  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 12, 28),
+                LocalDate.of(2020, 1, 2));
         Location area = new Location("EH6942", "Earth");
 
         // get the output the system gives
@@ -310,8 +315,8 @@ public class SystemTests {
         List<Bike> bikes = new ArrayList<>();
         bikes.add(bikeA1);
         bikes.add(bikeA4);
-        DateRange dates = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,10  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 3, 7),
+                LocalDate.of(2019, 3, 10));
 
         // create Quote to book
         Quote quote = new Quote(providerA, bikes, dates);
@@ -320,7 +325,7 @@ public class SystemTests {
         collectionMethod pickupMethod = collectionMethod.PickUp;
 
         // call bookQuote() and save output to actualOutput
-        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, customer1.getFirstName(),
+        Booking actualOutput = bookingSystem.bookQuote(quote, pickupMethod, customer1.getFirstName(),
                 customer1.getSurName(), customer1.getAddress(), customer1.getPostCode(), customer1.getPhoneNumber());
 
         // create the expected output
@@ -338,8 +343,8 @@ public class SystemTests {
         List<Bike> bikes = new ArrayList<>();
         bikes.add(bikeA1);
         bikes.add(bikeA4);
-        DateRange dates = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,10  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 3, 7),
+                LocalDate.of(2019, 3, 10));
 
         // create Quote to book
         Quote quote = new Quote(providerA, bikes, dates);
@@ -348,7 +353,7 @@ public class SystemTests {
         collectionMethod pickupMethod = collectionMethod.Delivery;
 
         // call bookQuote() and save output to actualOutput
-        Booking actualOutput = bookingSystem.bookQuote(quote,pickupMethod, customer2.getFirstName(),
+        Booking actualOutput = bookingSystem.bookQuote(quote, pickupMethod, customer2.getFirstName(),
                 customer2.getSurName(), customer2.getAddress(), customer2.getPostCode(), customer2.getPhoneNumber());
 
         // create the expected output
@@ -358,7 +363,7 @@ public class SystemTests {
 
         // get the deliverable that bookQuote() adds to MockDeliveryService at the selected date
         MockDeliveryService testService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
-        Deliverable actualDeliverable =  testService.getPickupsOn(dates.getStart()).iterator().next();
+        Deliverable actualDeliverable = testService.getPickupsOn(dates.getStart()).iterator().next();
 
         // create a deliverable that the actual one should match
         Deliverable expectedDeliverable = new DeliverableImpl(expectedOutput);
@@ -373,25 +378,25 @@ public class SystemTests {
     //Current test is about the customer returning the bikes in their booking
     // themselves, and collectionMethod is Pickup
     @Test
-    void customerReturnsBikeToProvider(){
+    void customerReturnsBikeToProvider() {
         //Select pickUp as collectionMethod
         collectionMethod pickup = collectionMethod.PickUp;
         //Set this customer's order number for our testing purposes
-        int currentCustomerOrderNumber= 1;
+        int currentCustomerOrderNumber = 1;
 
         //Generate a mock Quote object
         List<Bike> bikes = new ArrayList<>();
         bikes.add(bikeA1);
         bikes.add(bikeA4);
-        DateRange dates1 = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,10  ));
-        DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
-                LocalDate.of(2019,3,15  ));
+        DateRange dates1 = new DateRange(LocalDate.of(2019, 3, 7),
+                LocalDate.of(2019, 3, 10));
+        DateRange dates2 = new DateRange(LocalDate.of(2019, 3, 12),
+                LocalDate.of(2019, 3, 15));
         Quote quoteA1 = new Quote(providerA, bikes, dates1); //quote1 for dates1
         Quote quoteA2 = new Quote(providerA, bikes, dates2); //quote2 for dates2
 
-        Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
-        Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
+        Booking bookingA1 = new Booking(1, pickup, quoteA1, customer1);
+        Booking bookingA2 = new Booking(2, pickup, quoteA2, customer2);
         List<Booking> listOfBookingswithProviderA = new ArrayList<>();
         listOfBookingswithProviderA.add(bookingA1);
         listOfBookingswithProviderA.add(bookingA2);
@@ -403,37 +408,40 @@ public class SystemTests {
         providerA.recordReturn(currentCustomerOrderNumber);
 
         // test to see if the booking is removed from the Provider
-        for (Booking booking:providerA.getBookings()){
+        for (Booking booking : providerA.getBookings()) {
             assertNotEquals(bookingA1, booking);
         }
-        System.out.println();
-        // test to see if the booked dates are removed from each bike
         for (Bike bike : bookingA1.getOrder().getBikes()) {
-            for (DateRange bookedDates : bike.getBookedDates())
+            // test to see if the bike location is the same as the provider's location
+            assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
+            // test to see if the booked dates are removed from each bike
+            for (DateRange bookedDates : bike.getBookedDates()) {
                 assertNotEquals(dates1, bookedDates);
+            }
         }
     }
+
     @Test
-    void customerReturnsBikeToPartneredProvider(){
+    void customerReturnsBikeToPartneredProvider() {
         //Select pickUp as collectionMethod
         collectionMethod pickup = collectionMethod.PickUp;
         //Set this customer's order number for our testing purposes
         //Assuming that Customer1 is the customer returning the bikes
-        int currentCustomerOrderNumber= 1;
+        int currentCustomerOrderNumber = 1;
 
         //Generate a mock Quote object
         List<Bike> bikes = new ArrayList<>();
         bikes.add(bikeA1);
         bikes.add(bikeA4);
-        DateRange dates1 = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,10  ));
-        DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
-                LocalDate.of(2019,3,15  ));
+        DateRange dates1 = new DateRange(LocalDate.of(2019, 3, 7),
+                LocalDate.of(2019, 3, 10));
+        DateRange dates2 = new DateRange(LocalDate.of(2019, 3, 12),
+                LocalDate.of(2019, 3, 15));
         Quote quoteA1 = new Quote(providerA, bikes, dates1); //quote1 for dates1
         Quote quoteA2 = new Quote(providerA, bikes, dates2); //quote2 for dates2
 
-        Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
-        Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
+        Booking bookingA1 = new Booking(1, pickup, quoteA1, customer1);
+        Booking bookingA2 = new Booking(2, pickup, quoteA2, customer2);
         List<Booking> listOfBookingsWithProviderA = new ArrayList<>();
         listOfBookingsWithProviderA.add(bookingA1);
         listOfBookingsWithProviderA.add(bookingA2);
@@ -448,30 +456,34 @@ public class SystemTests {
         //First ensure that bikeStatuses has changed to be inTransit instead of with customer
         Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
         bikesInBookingtoBeDelivered.onPickup();
-        assertEquals(bookingA1.getBikesStatus(),bikeStatuses.inTransit);
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
         //Then, with the bikes in the booking now being with the PARTNERED provider, then:
         MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
         deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
-                providerB.getShopLocation(),providerA.getShopLocation(),dates1.getEnd()); //dates1 for customer1 Booking
+                providerB.getShopLocation(), providerA.getShopLocation(), dates1.getEnd()); //dates1 for customer1 Booking
 
         //check if bikes are now in transit once we carryOutPickups
         //this means that the driver should have successfully picked them up for transit
         deliveryService.carryOutPickups(dates1.getEnd());
-        assertEquals(bookingA1.getBikesStatus(),bikeStatuses.inTransit);
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
         //check if bikes are now with Provider once we carryOutDropoffs
         //this means that the driver should have successfully dropped off the bikes to the provider
         deliveryService.carryOutDropoffs();
-        assertEquals(bookingA1.getBikesStatus(),bikeStatuses.withProvider);
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withProvider);
         //make sure that all bikes are now with providerA by checking the locations of bikes
-        List<Bike>customerBikesThatAreReturned= bookingA1.getOrder().getBikes();
-        for(Bike bike: customerBikesThatAreReturned){
+        List<Bike> customerBikesThatAreReturned = bookingA1.getOrder().getBikes();
+        for (Bike bike : customerBikesThatAreReturned) {
             assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
+            // test to see if the booked dates are removed from each bike
+            for (DateRange bookedDates : bike.getBookedDates()) {
+                assertNotEquals(dates1, bookedDates);
+            }
         }
         //If customer hands in the bike, provider should record return
         //Make sure that the current customer bookings with providerA is destroyed
         //and is no longer in the system
         providerA.recordReturn(currentCustomerOrderNumber);
-        for( Booking booking:providerA.getBookings()){
+        for (Booking booking : providerA.getBookings()) {
             assertNotEquals(bookingA1, booking);
         }
     }

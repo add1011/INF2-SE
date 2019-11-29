@@ -6,26 +6,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NormalPricingPolicy implements PricingPolicy{
+public class NormalPricingPolicy implements PricingPolicy {
     // attributes //
     private Map<BikeType, BigDecimal> dailyRentalPrice;
 
     // constructors //
-    public NormalPricingPolicy() { this.dailyRentalPrice = new HashMap<>(); }
+    public NormalPricingPolicy() {
+        this.dailyRentalPrice = new HashMap<>();
+    }
 
     // methods //
-    
+
     //Returns the total daily price by adding up all the rental prices.
     //Note that DateRange duration is unimportant here as it does not influence the total daily rental pricing for normal
     //policies.
     @Override
     // find the total price of the collection of bikes given
-    public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration){
+    public BigDecimal calculatePrice(Collection<Bike> bikes, DateRange duration) {
         // create the output variable and sum the dailyRentalPrices of each bike in the given collection
         BigDecimal totalDailyPrice = new BigDecimal(0);
-        for (Bike bike: bikes){
+        for (Bike bike : bikes) {
             // if the bikeType of the current bike is not in dailyRentalPrice throw an error
-            if(dailyRentalPrice.containsKey(bike.getType() ) ) {
+            if (dailyRentalPrice.containsKey(bike.getType())) {
                 BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
                 totalDailyPrice = totalDailyPrice.add(bikeTypeDailyRentalPrice);
             } else {
@@ -36,6 +38,7 @@ public class NormalPricingPolicy implements PricingPolicy{
         totalDailyPrice = totalDailyPrice.setScale(2, RoundingMode.HALF_UP);
         return totalDailyPrice;
     }
+
     // getters and setters //
     public Map<BikeType, BigDecimal> getDailyRentalPrice() {
         return dailyRentalPrice;

@@ -33,11 +33,11 @@ public class Booking {
 
     // method would send the details to the phone number in reality
     public void sendBookingInfo() {
-        if(isPaid){
-            System.out.println("Booking Information sent to "+ customer.getFirstName()+"'s phone number: "
-                               + this.getCustomer().getPhoneNumber());
+        if (isPaid) {
+            System.out.println("Booking Information sent to " + customer.getFirstName() + "'s phone number: "
+                    + this.getCustomer().getPhoneNumber());
             System.out.println("Total Rental Price: £" + order.getTotalPrice());
-            System.out.println("Total Deposit: £"+ order.getTotalDeposit());
+            System.out.println("Total Deposit: £" + order.getTotalDeposit());
         }
     }
 

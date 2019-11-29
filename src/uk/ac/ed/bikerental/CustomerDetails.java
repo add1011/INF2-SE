@@ -25,11 +25,10 @@ public class CustomerDetails {
 
     // methods //
     // assigns the order number to the information registered about the Customer
-    public void addOrderNumber(Booking booking){
-        if(booking.getIsPaid()){
+    public void addOrderNumber(Booking booking) {
+        if (booking.getIsPaid()) {
             this.getOrderNumbersList().add(booking.getOrderNumber());
-        }
-        else{
+        } else {
             System.out.println("This customer has not paid yet");
         }
     }

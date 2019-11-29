@@ -8,8 +8,8 @@ public class BikeType {
     private BigDecimal replacementValue;
 
     // constructors //
-    public BikeType(String typeName, BigDecimal replacementValue){
-        this.typeName= typeName;
+    public BikeType(String typeName, BigDecimal replacementValue) {
+        this.typeName = typeName;
         this.replacementValue = replacementValue;
     }
 

@@ -1,11 +1,11 @@
 package uk.ac.ed.bikerental;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TestDateRange {
     private DateRange dateRange1, dateRange2, dateRange3;
@@ -33,7 +33,7 @@ class TestDateRange {
     }
 
     @Test
-    void testToDays(){
+    void testToDays() {
         assertEquals(3, this.dateRange1.toDays());
     }
 
@@ -52,8 +52,6 @@ class TestDateRange {
         assertFalse(dateRange2.overlaps(dateRange3));
         assertFalse(dateRange3.overlaps(dateRange2));
     }
-
-
 
 
 }

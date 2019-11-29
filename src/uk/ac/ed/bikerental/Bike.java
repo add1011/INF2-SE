@@ -43,8 +43,8 @@ public class Bike {
     //adds a new booking date to bike - checker for overlap
     public void book(DateRange bookDates) {
         Boolean alreadyBooked = false;
-        for(DateRange date: this.bookedDates){
-            if (date.overlaps(bookDates)){
+        for (DateRange date : this.bookedDates) {
+            if (date.overlaps(bookDates)) {
                 alreadyBooked = true;
             }
         }
@@ -56,13 +56,17 @@ public class Bike {
     }
 
     // getters and setters
-    public BikeType getType() { return type; }
+    public BikeType getType() {
+        return type;
+    }
 
     public void setType(BikeType type) {
         this.type = type;
     }
 
-    public BigDecimal getDepositAmount() { return this.depositAmount.getDepositAmount(); }
+    public BigDecimal getDepositAmount() {
+        return this.depositAmount.getDepositAmount();
+    }
 
     public Location getBikeLocation() {
         return bikeLocation;

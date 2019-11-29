@@ -10,7 +10,7 @@ public class Location {
      * a start and an end date in the constructor call
      *
      * @param postcode String value that specifies the postcode of the location. Postcode must be of length<=6
-     * @param address String value that specifies the street address of the location
+     * @param address  String value that specifies the street address of the location
      */
     public Location(String postcode, String address) {
         assert postcode.length() <= 6;
@@ -19,17 +19,17 @@ public class Location {
     }
 
     /**
-     *Check that the two locations are near each other if the first two characters of the two postcode are equal
+     * Check that the two locations are near each other if the first two characters of the two postcode are equal
      *
      * @param other the location to be compared with
      * @return True if the first two characters from the postcodes are equal. Return False otherwise
      */
     public boolean isNearTo(Location other) {
-       return postcode.substring(0,2).equals( other.getPostcode().substring(0,2) );
+        return postcode.substring(0, 2).equals(other.getPostcode().substring(0, 2));
     }
 
     /**
-     *Getter method that returns the postcode of current Location object
+     * Getter method that returns the postcode of current Location object
      *
      * @return Returns postcode
      */
@@ -39,13 +39,13 @@ public class Location {
 
 
     /**
-     *Getter method that returns the address of current Location object
+     * Getter method that returns the address of current Location object
      *
      * @return Returns address
      */
     public String getAddress() {
         return address;
     }
-    
+
     // You can add your own methods here
 }

@@ -44,7 +44,7 @@ public class Provider {
     }
 
     public void recordReturn(int orderNumber) {
-        for (int i = 0; i< this.getBookings().size(); i++) {
+        for (int i = 0; i < this.getBookings().size(); i++) {
             //Check if we have an orderNumber == one of the orderNumbers in the list of bookings stored with the Provider
             if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
                 Booking booking = this.getBookings().get(i);
@@ -57,10 +57,14 @@ public class Provider {
                             this.getShopLocation(), booking.getOrder().getProvider().getShopLocation(),
                             booking.getOrder().getSelectedDates().getEnd());
                 }
+                //For each bike in booking, remove dates from booking and set bike location
+                //to be the same as the provider's location
                 for (Bike bike : booking.getOrder().getBikes()) {
                     bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
                     bike.setBikeLocation(this.getShopLocation());
                 }
+                //Finally remove the booking from the system as we no longer need it
+                //By this stage the bikes are successfully with the provider, and the provider has recorded the return.
                 this.getBookings().remove(i);
                 break;
             }
@@ -74,14 +78,22 @@ public class Provider {
     }
 
     // getters and setters //
-    public List<Booking> getBookings() { return bookings; }
+    public List<Booking> getBookings() {
+        return bookings;
+    }
 
-    public void setBookings(List<Booking> bookings) { this.bookings = bookings; }
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
 
-    public PricingPolicy getPricingPolicy() { return pricingPolicy; }
+    public PricingPolicy getPricingPolicy() {
+        return pricingPolicy;
+    }
 
     // not used but kept in case provider would want to change their pricing policy
-    public void setPricingPolicy(PricingPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
+    public void setPricingPolicy(PricingPolicy pricingPolicy) {
+        this.pricingPolicy = pricingPolicy;
+    }
 
     public String getProviderName() {
         return providerName;
@@ -104,5 +116,7 @@ public class Provider {
         return partners;
     }
 
-    public List<Bike> getBikes() { return bikes; }
+    public List<Bike> getBikes() {
+        return bikes;
+    }
 }

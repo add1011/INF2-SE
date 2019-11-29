@@ -2,7 +2,6 @@ package uk.ac.ed.bikerental;
 
 //import org.jetbrains.annotations.NotNull;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +32,7 @@ class TestQuote {
 
     @DisplayName("Sets up things needed to initialise Quote with")
     @BeforeEach
-    void setup() throws Exception{
+    void setup() throws Exception {
         // set up the pricing policies
         provider.getPricingPolicy().setDailyRentalPrice(mountainBike, new BigDecimal(50));
         provider.getPricingPolicy().setDailyRentalPrice(roadBike, new BigDecimal(45.50));
@@ -42,10 +40,10 @@ class TestQuote {
 
     // test hiring duration of 1-2 days
     @Test
-    void testQuote(){
+    void testQuote() {
         // create objects to use to instantiate Quote with
-        DateRange dates = new DateRange(LocalDate.of(2019,3,7),
-                LocalDate.of(2019,3,10  ));
+        DateRange dates = new DateRange(LocalDate.of(2019, 3, 7),
+                LocalDate.of(2019, 3, 10));
         List<Bike> bikes = new ArrayList<>();
         bikes.add(bike1);
         bikes.add(bike2);
@@ -58,7 +56,7 @@ class TestQuote {
         assertEquals(Edinburgh, actualOutput.getProvider().getShopLocation());
         assertEquals(dates, actualOutput.getSelectedDates());
         assertEquals(bikes, actualOutput.getBikes());
-        assertEquals(new BigDecimal(95.50*0.95).setScale(2, RoundingMode.HALF_UP), actualOutput.getTotalPrice());
-        assertEquals(new BigDecimal(305.4*0.8).setScale(2, RoundingMode.HALF_UP), actualOutput.getTotalDeposit());
+        assertEquals(new BigDecimal(95.50 * 0.95).setScale(2, RoundingMode.HALF_UP), actualOutput.getTotalPrice());
+        assertEquals(new BigDecimal(305.4 * 0.8).setScale(2, RoundingMode.HALF_UP), actualOutput.getTotalDeposit());
     }
 }

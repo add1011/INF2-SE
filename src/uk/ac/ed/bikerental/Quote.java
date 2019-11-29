@@ -1,8 +1,6 @@
 package uk.ac.ed.bikerental;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,7 +55,9 @@ public class Quote {
     }
 
     // getters and setters //
-    public Provider getProvider() { return provider; }
+    public Provider getProvider() {
+        return provider;
+    }
 
     public List<Bike> getBikes() {
         return bikes;
@@ -67,7 +67,9 @@ public class Quote {
         this.bikes = bikes;
     }
 
-    public DateRange getSelectedDates() { return selectedDates; }
+    public DateRange getSelectedDates() {
+        return selectedDates;
+    }
 
     /*public Location getProviderLocation() {
         return providerLocation;

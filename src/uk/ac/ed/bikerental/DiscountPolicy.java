@@ -23,7 +23,7 @@ public class DiscountPolicy implements PricingPolicy {
         BigDecimal totalDailyPrice = new BigDecimal(0);
         for (Bike bike : bikes) {
             // if the bikeType of the current bike is not in dailyRentalPrice throw an error
-            if(dailyRentalPrice.containsKey(bike.getType() ) ) {
+            if (dailyRentalPrice.containsKey(bike.getType())) {
                 BigDecimal bikeTypeDailyRentalPrice = dailyRentalPrice.get(bike.getType());
                 totalDailyPrice = totalDailyPrice.add(bikeTypeDailyRentalPrice);
             } else {
@@ -35,7 +35,7 @@ public class DiscountPolicy implements PricingPolicy {
         int rentalLength = (int) duration.toDays();
 
         // if the rental length is less than a day long throw an exception
-        if (rentalLength < 1 ) {
+        if (rentalLength < 1) {
             throw new IllegalArgumentException("You can only rent a bike forward in time...");
         }
 
