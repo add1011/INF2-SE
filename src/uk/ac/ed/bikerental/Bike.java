@@ -43,7 +43,6 @@ public class Bike {
 
     //adds a new booking date to bike - checker for overlap
     public void book(DateRange bookDates) {
-        //this.bookedDates.add(bookDates);
         Boolean alreadyBooked = false;
         for(DateRange date: this.bookedDates){
             if (date.overlaps(bookDates)){
