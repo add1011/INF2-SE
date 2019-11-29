@@ -152,7 +152,7 @@ public class SystemTests {
         bikeC2.book(new DateRange(LocalDate.of(2019,12,25),
                 LocalDate.of(2019,12,25  )));
 
-        bikeC3.book(new DateRange(LocalDate.of(2020,1,5),
+        bikeC3.book(new DateRange(LocalDate.of(2019,12,29),
                 LocalDate.of(2020,1,12  )));
         bikeC3.book(new DateRange(LocalDate.of(2019,12,10),
                 LocalDate.of(2019,12,12  )));
@@ -193,7 +193,7 @@ public class SystemTests {
 
     // test when customer wants to book bikes on a single day that is available
     @Test
-    void findQuotesDayisBooked() {
+    void findQuotesDayisNotAvailable() {
         // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(Tricycle, 2);
@@ -241,13 +241,59 @@ public class SystemTests {
 
     // test for a 3 day date range which is not available
     @Test
-    void findQuotesNormalCaseisBooked() {
+    void findQuotesNormalCaseisNotAvailable() {
         // create inputs that the user would select
         Map<BikeType, Integer> noOfeachType = new HashMap<>();
         noOfeachType.put(mountainBike, 1);
         noOfeachType.put(roadBike, 1);
         DateRange dates = new DateRange(LocalDate.of(2019,3,3),
                 LocalDate.of(2019,3,6  ));
+        Location area = new Location("EH6942", "Earth");
+
+        // get the output the system gives
+        List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
+
+        List<Quote> expectedOutput = new ArrayList<>();
+
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void findQuotesDateWraps() {
+        // create inputs that the user would select
+        Map<BikeType, Integer> noOfeachType = new HashMap<>();
+        noOfeachType.put(mountainBike, 1);
+        noOfeachType.put(roadBike, 1);
+        DateRange dates = new DateRange(LocalDate.of(2019,12,28),
+                LocalDate.of(2020,1,2  ));
+        Location area = new Location("EH6942", "Earth");
+
+        // get the output the system gives
+        List<Quote> actualOutput = bookingSystem.getQuotes(noOfeachType, dates, area);
+
+        // create a list of bikes for each Quote we expect to be returned
+        List<Bike> expectedBikes1 = new ArrayList<>();
+        expectedBikes1.add(bikeA1);
+        expectedBikes1.add(bikeA4);
+
+        List<Bike> expectedBikes2 = new ArrayList<>();
+        expectedBikes2.add(bikeB1);
+        expectedBikes2.add(bikeB3);
+
+        List<Quote> expectedOutput = new ArrayList<>();
+        expectedOutput.add(new Quote(providerA, expectedBikes1, dates, EdinburghA));
+        expectedOutput.add(new Quote(providerB, expectedBikes2, dates, EdinburghB));
+
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    void findQuotesDateWrapsisNotAvailable() {
+        // create inputs that the user would select
+        Map<BikeType, Integer> noOfeachType = new HashMap<>();
+        noOfeachType.put(roadBike, 4);
+        DateRange dates = new DateRange(LocalDate.of(2019,12,28),
+                LocalDate.of(2020,1,2  ));
         Location area = new Location("EH6942", "Earth");
 
         // get the output the system gives

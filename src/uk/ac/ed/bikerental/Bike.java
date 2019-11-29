@@ -47,7 +47,6 @@ public class Bike {
         for(DateRange date: this.bookedDates){
             if (date.overlaps(bookDates)){
                 alreadyBooked = true;
-                System.out.println("Current bike is booked for this date: " + bookDates.toString());
             }
         }
         if (alreadyBooked) {
