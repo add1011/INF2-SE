@@ -51,7 +51,7 @@ public class Provider {
                 //If the providerLocation is not the same as this shop's location, this means that this shop's location
                 //is that of a partner. Hence, we will notify Original Provider of the booking
                 // and we'll schedule a deliveryService
-                if (booking.getOrder().getProvider().getShopLocation() != this.getShopLocation()) {
+                if (!(booking.getOrder().getProvider().getShopLocation().equals(this.getShopLocation()))) {
                     notifyProvider(booking);
                     DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
                             this.getShopLocation(), booking.getOrder().getProvider().getShopLocation(),
