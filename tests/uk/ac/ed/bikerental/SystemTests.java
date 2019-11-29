@@ -91,9 +91,9 @@ public class SystemTests {
         bikeC4 = providerC.addBike(roadBike);
 
         customer1 = new CustomerDetails("Imaginary", "John",
-                "Somewhere in Scotland", "WA10BB", "02385738743");
+                "Somewhere in Scotland", "GA10BB", "02385738743");
         customer2 = new CustomerDetails("Santa", "Clause",
-                "Somewhere in Highlands", "XM00AS", "0295373879");
+                "Somewhere in Highlands", "EH00AS", "0295373879");
 
         bookingSystem.addProvider(providerA);
         bookingSystem.addProvider(providerB);
