@@ -450,12 +450,19 @@ public class SystemTests {
         providerA.setBookings(listOfBookingsWithProviderA);
         //Since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
         bookingA1.setBikesStatus(bikeStatuses.withCustomer);
-        //Customer is now with the partner and has returned the bikes in the booking.
-        //partnered provider will now attempt to get it back to original provider to record the return
+
+        //Customer is now with the partner and has returned the bikes in the booking to the partner.
+        //partnered provider will now attempt to get it back to original provider and records the return
 
         //First ensure that bikeStatuses has changed to be inTransit instead of with customer
         Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
         bikesInBookingtoBeDelivered.onPickup();
+        bikesInBookingtoBeDelivered.onDropoff();
+        List<Bike> customerBikesThatAreReturned1 = bookingA1.getOrder().getBikes();
+        providerB.recordReturn(currentCustomerOrderNumber);
+        for (Bike bike : customerBikesThatAreReturned1) {
+            assertFalse(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
+        }
         assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
         //Then, with the bikes in the booking now being with the PARTNERED provider, then:
         MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();

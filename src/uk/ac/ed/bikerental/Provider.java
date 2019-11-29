@@ -65,7 +65,7 @@ public class Provider {
                 }
                 //Finally remove the booking from the system as we no longer need it
                 //By this stage the bikes are successfully with the provider, and the provider has recorded the return.
-                this.getBookings().remove(i);
+                booking.getOrder().getProvider().getBookings().remove(i);
                 break;
             }
         }
