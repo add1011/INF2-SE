@@ -44,42 +44,56 @@ public class Provider {
     }
 
     public void recordReturn(int orderNumber) {
+        // check all the bookings of this provider for a match
+        for (int i = 0; i < this.getBookings().size(); i++) {
+            if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
+                Booking booking = this.getBookings().get(i);
+
+                // remove the dates of the booking returned from each bike and set bike location to
+                // this provider's location
+                for (Bike bike : booking.getOrder().getBikes()) {
+                    bike.setBikeLocation(this.getShopLocation());
+                    bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
+                }
+                // finally, remove the booking from the system as we no longer need it
+                // by this stage the bikes are successfully with a provider, and the provider has recorded the return.
+                booking.getOrder().getProvider().getBookings().remove(i);
+                return;
+            }
+        }
+
+        // else check each partner's booking for a match
         for (Provider provider : this.getPartners()) {
             for (int i = 0; i < provider.getBookings().size(); i++) {
-                // check if we have an orderNumber == one of the orderNumbers in the list of bookings stored with the Provider
                 if (provider.getBookings().get(i).getOrderNumber() == orderNumber) {
                     Booking booking = provider.getBookings().get(i);
-
-                    // if the providerLocation is not the same as this shop's location, this means that this shop's location
-                    // is that of a partner. Hence, we will notify Original Provider of the booking
-                    // and we'll schedule a deliveryService
-                    if (!(booking.getOrder().getProvider().getShopLocation().equals(this.getShopLocation()))) {
-                        notifyProvider(booking);
-                        // for each bike in booking, set bike location to be the same as the current provider's location for
-                        // deliverable to know where the bike is going
-                        for (Bike bike : booking.getOrder().getBikes()) {
-                            bike.setBikeLocation(this.getShopLocation());
-                        }
-
-                        DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
-                                this.getShopLocation(), booking.getOrder().getProvider().getShopLocation(),
-                                booking.getOrder().getSelectedDates().getEnd());
+                    // notify the original provider that the bikes have been returned
+                    notifyProvider(booking);
+                    // for each bike in booking, set bike location to be the same as the current provider's location for
+                    // deliverable to know where the bike is going
+                    for (Bike bike : booking.getOrder().getBikes()) {
+                        bike.setBikeLocation(this.getShopLocation());
                     }
+
+                    // schedule a delivery to the original provider
+                    DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
+                            this.getShopLocation(), booking.getOrder().getProvider().getShopLocation(),
+                            booking.getOrder().getSelectedDates().getEnd());
 
                     // remove the dates of the booking returned from each bike
                     for (Bike bike : booking.getOrder().getBikes()) {
-                        bike.setBikeLocation(this.getShopLocation());
                         bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
                     }
 
                     // finally, remove the booking from the system as we no longer need it
                     // by this stage the bikes are successfully with a provider, and the provider has recorded the return.
                     booking.getOrder().getProvider().getBookings().remove(i);
-                    break;
+                    return;
                 }
             }
         }
     }
+
 
     // would in practice send an actual message to the original provider
     private void notifyProvider(Booking booking) {
