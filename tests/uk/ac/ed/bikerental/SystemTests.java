@@ -91,7 +91,7 @@ public class SystemTests {
         bikeC4 = providerC.addBike(roadBike);
 
         customer1 = new CustomerDetails("Imaginary", "John",
-                "Somewhere in Scotland", "EH10BB", "02385738743");
+                "Somewhere in Scotland", "WA10BB", "02385738743");
         customer2 = new CustomerDetails("Santa", "Clause",
                 "Somewhere in Highlands", "XM00AS", "0295373879");
 
@@ -168,7 +168,7 @@ public class SystemTests {
                 LocalDate.of(2019, 12, 12)));
     }
 
-    // use case: finding quotes//
+    //use case: finding quotes//
     // test when customer wants to book bikes on a single day that is not available
     @Test
     void findQuotesforOneDay() {
@@ -262,6 +262,7 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    // test for a date range that wraps around to a new year
     @Test
     void findQuotesDateWraps() {
         // create inputs that the user would select
@@ -291,6 +292,7 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
+    // test for a date range that wraps around to a new year which is booked
     @Test
     void findQuotesDateWrapsisNotAvailable() {
         // create inputs that the user would select
@@ -308,7 +310,7 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
-    //use case: customer books a quote //
+    //customer books a selected quote//
     @Test
     void testBookQuotePickUp() {
         // create objects to initialise quote with
@@ -374,11 +376,13 @@ public class SystemTests {
         assertEquals(expectedOutput, actualOutput);
     }
 
-    //use case: customer returns the bike//
-    //Current test is about the customer returning the bikes in their booking
+    //customer returns the bike//
+    // current test is about the customer returning the bikes in their booking
     // themselves, and collectionMethod is Pickup
     @Test
     void customerReturnsBikeToProvider() {
+        /////////////////////////////////////////////SETUP////////////////////////////////////////////////////
+
         //Select pickUp as collectionMethod
         collectionMethod pickup = collectionMethod.PickUp;
         //Set this customer's order number for our testing purposes
@@ -401,6 +405,8 @@ public class SystemTests {
         listOfBookingswithProviderA.add(bookingA1);
         listOfBookingswithProviderA.add(bookingA2);
         providerA.setBookings(listOfBookingswithProviderA);
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         //Implementing test case
         //If customer hands in the bike, provider should record return.
@@ -423,6 +429,7 @@ public class SystemTests {
 
     @Test
     void customerReturnsBikeToPartneredProvider() {
+        /////////////////////////////////////////////SETUP////////////////////////////////////////////////////
         //Select pickUp as collectionMethod
         collectionMethod pickup = collectionMethod.PickUp;
         //Set this customer's order number for our testing purposes
@@ -446,32 +453,47 @@ public class SystemTests {
         listOfBookingsWithProviderA.add(bookingA1);
         listOfBookingsWithProviderA.add(bookingA2);
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////
         // we will now set all made bookings to a provider for testing purposes
         providerA.setBookings(listOfBookingsWithProviderA);
-        // since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
+        // since bikes are with the customer, for testing purposes, we will setBikeStatuses to be with Customer
         bookingA1.setBikesStatus(bikeStatuses.withCustomer);
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // customer is now with the partner and has returned the bikes in the booking to the partner.
-        // partnered provider will now attempt to get it back to original provider and records the return
+        // customer is now with the partner and has returned the bikes in the booking to the partner and
+        // the partnered provider will now record the return, which schedules the delivery to the original provider
         providerC.recordReturn(bookingA1.getOrderNumber());
-        // first ensure that bikeStatuses has changed to be inTransit instead of with customer
 
+        // check that the location of bikes are now with partnered provider after they record the return
+        // this is testing to see that recordReturn handles partner providers calling it as intended
         List<Bike> deliveredBikes = bookingA1.getOrder().getBikes();
         for (Bike bike : deliveredBikes) {
             assertTrue(bike.getBikeLocation().isNearTo(providerC.getShopLocation()));
         }
 
+        // the delivery will now be carried out
         MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
 
+        // check that the bikestatuses in booking show that they are with customer
         assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withCustomer);
-        deliveryService.carryOutPickups(dates1.getEnd());
-        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
-        deliveryService.carryOutDropoffs();
 
+        // driver now carries out the pickup
+        deliveryService.carryOutPickups(dates1.getEnd());
+        // test that carryOutPickups work and that the status is now inTransit
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
+
+        deliveryService.carryOutDropoffs();
+        // check the if bikes are now with Provider once we carryOutDropoffs
+        // this means that the driver should have successfully dropped off the bikes to the provider
+        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withProvider);
+
+
+        // after being dropped off to the provider, providerA will record the return
+        // now that the original provider is calling it, recordReturn() will remove the dates from the Bikes
+        // and delete the booking from the Provider
         providerA.recordReturn(bookingA1.getOrderNumber());
 
         for (Bike bike : deliveredBikes) {
+            // check that all the bikes are set to be at the original provider
             assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
             // test to see if the booked dates are removed from each bike
             for (DateRange bookedDates : bike.getBookedDates()) {
@@ -479,14 +501,7 @@ public class SystemTests {
             }
         }
 
-        //check if bikes are now with Provider once we carryOutDropoffs
-        //this means that the driver should have successfully dropped off the bikes to the provider
-        assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withProvider);
-
-        //If customer hands in the bike, provider should record return
-        //Make sure that the current customer bookings with providerA is destroyed
-        //and is no longer in the system
-        providerA.recordReturn(currentCustomerOrderNumber);
+        // check that the booking has been removed from the original provider
         for (Booking booking : providerA.getBookings()) {
             assertNotEquals(bookingA1, booking);
         }
