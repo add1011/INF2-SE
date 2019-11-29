@@ -63,7 +63,7 @@ public class BookingSystem {
         for (Bike bike : bikes) {
             // if the bike matches the type wanted, the number needed is not fulfilled and the bike has no booked dates
             if (bike.getBookedDates().size() == 0 && wantedAmount.containsKey(bike.getType()) &&
-                    wantedAmount.get(bike.getType()) != noOfTypes.get(bike.getType())) {
+                    !(wantedAmount.get(bike.getType()).equals(noOfTypes.get(bike.getType())))) {
                 // increment the amount of the type that are available by 1 and add the bike
                 Integer amountNeeded = wantedAmount.get(bike.getType());
                 wantedAmount.put(bike.getType(), amountNeeded+1);
@@ -78,8 +78,9 @@ public class BookingSystem {
                     }
                 }
                 // and if the bike is the type wanted and the number needed of that type is not fulfilled
-                if (wantedAmount.containsKey(bike.getType()) &&
-                        ! (wantedAmount.get(bike.getType()).equals(noOfTypes.get(bike.getType()) ) ) && !overlaps) {
+                if (wantedAmount.containsKey(bike.getType())
+                        && !(wantedAmount.get(bike.getType()).equals(noOfTypes.get(bike.getType())))
+                        && !overlaps) {
                     // increment the amount of the type that are available by 1 and add the bike
                     Integer amountNeeded = wantedAmount.get(bike.getType());
                     wantedAmount.put(bike.getType(), amountNeeded+1);
