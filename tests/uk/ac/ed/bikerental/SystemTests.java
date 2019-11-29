@@ -99,7 +99,7 @@ public class SystemTests {
         bookingSystem.addProvider(providerB);
         bookingSystem.addProvider(providerC);
 
-        providerA.addPartner(providerB);
+        providerA.addPartner(providerC);
 
         // set up the pricing policies for each provider
         providerA.getPricingPolicy().setDailyRentalPrice(mountainBike, new BigDecimal(50));
@@ -446,27 +446,31 @@ public class SystemTests {
         listOfBookingsWithProviderA.add(bookingA1);
         listOfBookingsWithProviderA.add(bookingA2);
 
-        //we will now set all made bookings to a provider for testing purposes
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+        // we will now set all made bookings to a provider for testing purposes
         providerA.setBookings(listOfBookingsWithProviderA);
-        //Since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
+        // since bikes are with customer, for testing purposes, we will setBikeStatuses to be with Customer
         bookingA1.setBikesStatus(bikeStatuses.withCustomer);
 
-        //Customer is now with the partner and has returned the bikes in the booking to the partner.
-        //partnered provider will now attempt to get it back to original provider and records the return
-        providerB.recordReturn(bookingA1.getOrderNumber());
-        //First ensure that bikeStatuses has changed to be inTransit instead of with customer
-        //Deliverable bikesInBookingtoBeDelivered = new DeliverableImpl(bookingA1);
+        // customer is now with the partner and has returned the bikes in the booking to the partner.
+        // partnered provider will now attempt to get it back to original provider and records the return
+        providerC.recordReturn(bookingA1.getOrderNumber());
+        // first ensure that bikeStatuses has changed to be inTransit instead of with customer
+
+        List<Bike> deliveredBikes = bookingA1.getOrder().getBikes();
+        for (Bike bike : deliveredBikes) {
+            assertTrue(bike.getBikeLocation().isNearTo(providerC.getShopLocation()));
+        }
 
         MockDeliveryService deliveryService = (MockDeliveryService) DeliveryServiceFactory.getDeliveryService();
-        //deliveryService.scheduleDelivery(bikesInBookingtoBeDelivered,
-        //        providerB.getShopLocation(), providerA.getShopLocation(), dates1.getEnd()); //dates1 for customer1 Booking
 
         assertEquals(bookingA1.getBikesStatus(), bikeStatuses.withCustomer);
         deliveryService.carryOutPickups(dates1.getEnd());
         assertEquals(bookingA1.getBikesStatus(), bikeStatuses.inTransit);
         deliveryService.carryOutDropoffs();
 
-        List<Bike> deliveredBikes = bookingA1.getOrder().getBikes();
+        providerA.recordReturn(bookingA1.getOrderNumber());
+
         for (Bike bike : deliveredBikes) {
             assertTrue(bike.getBikeLocation().isNearTo(providerA.getShopLocation()));
             // test to see if the booked dates are removed from each bike

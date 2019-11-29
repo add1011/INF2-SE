@@ -80,14 +80,7 @@ public class Provider {
                             this.getShopLocation(), booking.getOrder().getProvider().getShopLocation(),
                             booking.getOrder().getSelectedDates().getEnd());
 
-                    // remove the dates of the booking returned from each bike
-                    for (Bike bike : booking.getOrder().getBikes()) {
-                        bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
-                    }
-
-                    // finally, remove the booking from the system as we no longer need it
-                    // by this stage the bikes are successfully with a provider, and the provider has recorded the return.
-                    booking.getOrder().getProvider().getBookings().remove(i);
+                    // no need to remove booking and dates as original provider will do that when they record the return
                     return;
                 }
             }
