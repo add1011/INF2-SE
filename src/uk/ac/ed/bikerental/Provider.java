@@ -78,28 +78,22 @@ public class Provider {
 
     public PricingPolicy getPricingPolicy() { return pricingPolicy; }
 
+    // not used but kept in case provider would want to change their pricing policy
     public void setPricingPolicy(PricingPolicy pricingPolicy) { this.pricingPolicy = pricingPolicy; }
 
     public String getProviderName() {
         return providerName;
     }
 
-    public void setProviderName(String providerName) {
-        this.providerName = providerName;
-    }
-
     public Location getShopLocation() {
         return shopLocation;
-    }
-
-    public void setShopLocation(Location shopLocation) {
-        this.shopLocation = shopLocation;
     }
 
     public BigDecimal getDepositRate() {
         return depositRate;
     }
 
+    // not used but kept in case provider would want to change their deposit rate
     public void setDepositRate(BigDecimal depositRate) {
         this.depositRate = depositRate;
     }

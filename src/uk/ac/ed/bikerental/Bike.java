@@ -65,10 +65,6 @@ public class Bike {
 
     public BigDecimal getDepositAmount() { return this.depositAmount.getDepositAmount(); }
 
-    public void setDepositAmount(NormalValuationPolicy depositAmount) {
-        this.depositAmount = depositAmount;
-    }
-
     public Location getBikeLocation() {
         return bikeLocation;
     }

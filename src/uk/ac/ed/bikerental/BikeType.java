@@ -15,18 +15,11 @@ public class BikeType {
     }
 
     // getters and setters //
-    public String getTypeName() {
-        return typeName;
-    }
-
     public BigDecimal getReplacementValue() {
         return replacementValue;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
+    // not used but kept in case the replacement value needs to be changed
     public void setReplacementValue(BigDecimal replacementValue) {
         this.replacementValue = replacementValue;
     }

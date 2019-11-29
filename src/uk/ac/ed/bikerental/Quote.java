@@ -60,8 +60,6 @@ public class Quote {
     // getters and setters //
     public Provider getProvider() { return provider; }
 
-    public void setProvider(Provider provider) { this.provider = provider; }
-
     public List<Bike> getBikes() {
         return bikes;
     }
@@ -72,29 +70,15 @@ public class Quote {
 
     public DateRange getSelectedDates() { return selectedDates; }
 
-    public void setSelectedDates(DateRange selectedDates) { this.selectedDates = selectedDates; }
-
     public Location getProviderLocation() {
         return providerLocation;
-    }
-
-    public void setProviderLocation(Location providerLocation) {
-        this.providerLocation = providerLocation;
     }
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public BigDecimal getTotalDeposit() {
         return totalDeposit;
-    }
-
-    public void setTotalDeposit(BigDecimal totalDeposit) {
-        this.totalDeposit = totalDeposit;
     }
 }

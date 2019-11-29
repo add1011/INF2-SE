@@ -72,10 +72,6 @@ public class Booking {
         return pickupMethod;
     }
 
-    public void setPickupMethod(collectionMethod pickupMethod) {
-        this.pickupMethod = pickupMethod;
-    }
-
     public bikeStatuses getBikesStatus() {
         return bikesStatus;
     }
@@ -94,9 +90,5 @@ public class Booking {
 
     public Quote getOrder() {
         return order;
-    }
-
-    public void setOrder(Quote order) {
-        this.order = order;
     }
 }
