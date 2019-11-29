@@ -45,26 +45,34 @@ public class Provider {
 
     public void recordReturn(int orderNumber) {
         for (int i = 0; i < this.getBookings().size(); i++) {
-            //Check if we have an orderNumber == one of the orderNumbers in the list of bookings stored with the Provider
+            // check if we have an orderNumber == one of the orderNumbers in the list of bookings stored with the Provider
             if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
                 Booking booking = this.getBookings().get(i);
-                //If the providerLocation is not the same as this shop's location, this means that this shop's location
-                //is that of a partner. Hence, we will notify Original Provider of the booking
+
+                // if the providerLocation is not the same as this shop's location, this means that this shop's location
+                // is that of a partner. Hence, we will notify Original Provider of the booking
                 // and we'll schedule a deliveryService
                 if (!(booking.getOrder().getProvider().getShopLocation().equals(this.getShopLocation()))) {
                     notifyProvider(booking);
+                    // for each bike in booking, set bike location to be the same as the current provider's location for
+                    // deliverable to know where the bike is going
+                    for (Bike bike : booking.getOrder().getBikes()) {
+                        bike.setBikeLocation(this.getShopLocation());
+                    }
+
                     DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
                             this.getShopLocation(), booking.getOrder().getProvider().getShopLocation(),
                             booking.getOrder().getSelectedDates().getEnd());
                 }
-                //For each bike in booking, remove dates from booking and set bike location
-                //to be the same as the provider's location
+
+                // remove the dates of the booking returned from each bike
                 for (Bike bike : booking.getOrder().getBikes()) {
-                    bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
                     bike.setBikeLocation(this.getShopLocation());
+                    bike.getBookedDates().remove(booking.getOrder().getSelectedDates());
                 }
-                //Finally remove the booking from the system as we no longer need it
-                //By this stage the bikes are successfully with the provider, and the provider has recorded the return.
+
+                // finally, remove the booking from the system as we no longer need it
+                // by this stage the bikes are successfully with a provider, and the provider has recorded the return.
                 booking.getOrder().getProvider().getBookings().remove(i);
                 break;
             }
