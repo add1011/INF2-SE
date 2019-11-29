@@ -48,7 +48,9 @@ public class Provider {
             //Check if we have an orderNumber == one of the orderNumbers in the list of bookings stored with the Provider
             if (this.getBookings().get(i).getOrderNumber() == orderNumber) {
                 Booking booking = this.getBookings().get(i);
-                //If the providerLocation in order
+                //If the providerLocation is not the same as this shop's location, this means that this shop's location
+                //is that of a partner. Hence, we will notify Original Provider of the booking
+                // and we'll schedule a deliveryService
                 if (booking.getOrder().getProviderLocation() != this.getShopLocation()) {
                     notifyProvider(booking);
                     DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),

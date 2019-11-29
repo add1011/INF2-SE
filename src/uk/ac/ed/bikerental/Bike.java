@@ -35,8 +35,7 @@ public class Bike {
 
     // methods //
     public void calcDepositAmount() {
-        BigDecimal deposit = new BigDecimal(0);
-        deposit = this.type.getReplacementValue();
+        BigDecimal deposit = this.type.getReplacementValue();
         deposit = deposit.multiply(this.provider.getDepositRate());
         this.depositAmount.setDepositAmount(deposit.setScale(2, RoundingMode.HALF_UP));
     }
