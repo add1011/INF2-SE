@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 //Behaviour is unimportant, hence calculatevalue returns the depositAmount already set
+//this is simply a mock
 public class NormalValuationPolicy implements ValuationPolicy {
     // attributes //
     private BigDecimal depositAmount;
