@@ -34,7 +34,7 @@ public class Provider {
     // adds the partners to each other's partners attribute
     public void addPartner(Provider partner) {
         this.getPartners().add(partner);
-        partner.getPartners().add(partner);
+        partner.getPartners().add(this);
     }
 
     // removes providers from each others partners list
