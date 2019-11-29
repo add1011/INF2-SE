@@ -30,7 +30,7 @@ public class DeliverableImpl implements Deliverable{
         boolean isStillWithProvider= false;
 
         while(bikesBookingIterator.hasNext()){
-        if(bikesBookingIterator.next().equals(booking.getOrder().getProviderLocation()))
+        if(bikesBookingIterator.next().equals(booking.getOrder().getProvider().getShopLocation()))
             isStillWithProvider = true;
         }
         //if all bikes in booking are still with provider

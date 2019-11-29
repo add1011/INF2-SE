@@ -163,7 +163,6 @@ public class SystemTests {
                 LocalDate.of(2019,12,12  )));
     }
     
-    // TODO: Write system tests covering the three main use cases
     // use case: finding quotes//
     // test when customer wants to book bikes on a single day that is not available
     @Test
@@ -185,7 +184,7 @@ public class SystemTests {
 
         // create the expected list of Quotes
         List<Quote> expectedOutput = new ArrayList<>();
-        expectedOutput.add(new Quote(providerC, expectedBikes, dates, GlasgowA));
+        expectedOutput.add(new Quote(providerC, expectedBikes, dates));
 
         // compare the outputs using the equals function with is overridden in Quote
         assertEquals(expectedOutput, actualOutput);
@@ -233,8 +232,8 @@ public class SystemTests {
         expectedBikes2.add(bikeB3);
 
         List<Quote> expectedOutput = new ArrayList<>();
-        expectedOutput.add(new Quote(providerA, expectedBikes1, dates, EdinburghA));
-        expectedOutput.add(new Quote(providerB, expectedBikes2, dates, EdinburghB));
+        expectedOutput.add(new Quote(providerA, expectedBikes1, dates));
+        expectedOutput.add(new Quote(providerB, expectedBikes2, dates));
 
         assertEquals(expectedOutput, actualOutput);
     }
@@ -281,8 +280,8 @@ public class SystemTests {
         expectedBikes2.add(bikeB3);
 
         List<Quote> expectedOutput = new ArrayList<>();
-        expectedOutput.add(new Quote(providerA, expectedBikes1, dates, EdinburghA));
-        expectedOutput.add(new Quote(providerB, expectedBikes2, dates, EdinburghB));
+        expectedOutput.add(new Quote(providerA, expectedBikes1, dates));
+        expectedOutput.add(new Quote(providerB, expectedBikes2, dates));
 
         assertEquals(expectedOutput, actualOutput);
     }
@@ -315,7 +314,7 @@ public class SystemTests {
                 LocalDate.of(2019,3,10  ));
 
         // create Quote to book
-        Quote quote = new Quote(providerA, bikes, dates, EdinburghA);
+        Quote quote = new Quote(providerA, bikes, dates);
 
         // create values that the customer would input
         collectionMethod pickupMethod = collectionMethod.PickUp;
@@ -343,7 +342,7 @@ public class SystemTests {
                 LocalDate.of(2019,3,10  ));
 
         // create Quote to book
-        Quote quote = new Quote(providerA, bikes, dates, EdinburghA);
+        Quote quote = new Quote(providerA, bikes, dates);
 
         // create values that the customer would input
         collectionMethod pickupMethod = collectionMethod.Delivery;
@@ -388,8 +387,8 @@ public class SystemTests {
                 LocalDate.of(2019,3,10  ));
         DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
                 LocalDate.of(2019,3,15  ));
-        Quote quoteA1 = new Quote(providerA, bikes, dates1, EdinburghA); //quote1 for dates1
-        Quote quoteA2 = new Quote(providerA, bikes, dates2, EdinburghA); //quote2 for dates2
+        Quote quoteA1 = new Quote(providerA, bikes, dates1); //quote1 for dates1
+        Quote quoteA2 = new Quote(providerA, bikes, dates2); //quote2 for dates2
 
         Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
         Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);
@@ -430,8 +429,8 @@ public class SystemTests {
                 LocalDate.of(2019,3,10  ));
         DateRange dates2 = new DateRange(LocalDate.of(2019,3,12),
                 LocalDate.of(2019,3,15  ));
-        Quote quoteA1 = new Quote(providerA, bikes, dates1, EdinburghA); //quote1 for dates1
-        Quote quoteA2 = new Quote(providerA, bikes, dates2, EdinburghA); //quote2 for dates2
+        Quote quoteA1 = new Quote(providerA, bikes, dates1); //quote1 for dates1
+        Quote quoteA2 = new Quote(providerA, bikes, dates2); //quote2 for dates2
 
         Booking bookingA1 = new Booking(1,pickup,quoteA1, customer1);
         Booking bookingA2 = new Booking(2,pickup,quoteA2, customer2);

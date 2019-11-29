@@ -51,11 +51,11 @@ class TestQuote {
         bikes.add(bike2);
 
         // get the Quote the system generates
-        Quote actualOutput = new Quote(provider, bikes, dates, Edinburgh);
+        Quote actualOutput = new Quote(provider, bikes, dates);
 
         //test that the Quote generated has all the right values (and so also check that the methods work)
         assertEquals(provider, actualOutput.getProvider());
-        assertEquals(Edinburgh, actualOutput.getProviderLocation());
+        assertEquals(Edinburgh, actualOutput.getProvider().getShopLocation());
         assertEquals(dates, actualOutput.getSelectedDates());
         assertEquals(bikes, actualOutput.getBikes());
         assertEquals(new BigDecimal(95.50*0.95).setScale(2, RoundingMode.HALF_UP), actualOutput.getTotalPrice());

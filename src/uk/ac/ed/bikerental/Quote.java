@@ -11,17 +11,16 @@ public class Quote {
     private Provider provider;
     private List<Bike> bikes;
     private DateRange selectedDates;
-    private Location providerLocation;
+    //private Location providerLocation;
     private BigDecimal totalPrice;
     private BigDecimal totalDeposit;
 
     // constructors //
-    public Quote(Provider provider, List<Bike> bikes, DateRange selectedDates,
-                 Location providerLocation) {
+    public Quote(Provider provider, List<Bike> bikes, DateRange selectedDates) {
         this.provider = provider;
         this.bikes = bikes;
         this.selectedDates = selectedDates;
-        this.providerLocation = providerLocation;
+        //this.providerLocation = providerLocation;
         calcTotalPrice();
         calcTotalDeposit();
     }
@@ -52,7 +51,7 @@ public class Quote {
 
         return Objects.equals(bikes, q.bikes) &&
                 Objects.equals(provider, q.provider) &&
-                Objects.equals(providerLocation, q.providerLocation) &&
+                //Objects.equals(providerLocation, q.providerLocation) &&
                 Objects.equals(totalPrice, q.totalPrice) &&
                 Objects.equals(totalDeposit, q.totalDeposit);
     }
@@ -70,9 +69,9 @@ public class Quote {
 
     public DateRange getSelectedDates() { return selectedDates; }
 
-    public Location getProviderLocation() {
+    /*public Location getProviderLocation() {
         return providerLocation;
-    }
+    }*/
 
     public BigDecimal getTotalPrice() {
         return totalPrice;

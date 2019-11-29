@@ -111,7 +111,7 @@ public class BookingSystem {
            // if this provider has a set of bikes that fulfill the requested search
            if (availableBikes != null) {
                // create a new Quote with those bikes and the provider, then add it to the output list
-               quotes.add(new Quote(provider,availableBikes,selectedDates, provider.getShopLocation()));
+               quotes.add(new Quote(provider,availableBikes,selectedDates));
            }
        }
        return quotes;
@@ -143,7 +143,7 @@ public class BookingSystem {
         if (pickupMethod == collectionMethod.Delivery) {
             Location deliveryTarget = new Location(customer.getPostCode(), customer.getAddress());
             DeliveryServiceFactory.getDeliveryService().scheduleDelivery(new DeliverableImpl(booking),
-                    quote.getProviderLocation(), deliveryTarget, quote.getSelectedDates().getStart());
+                    quote.getProvider().getShopLocation(), deliveryTarget, quote.getSelectedDates().getStart());
         }
 
         return booking;
